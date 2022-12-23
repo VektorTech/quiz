@@ -35,8 +35,8 @@ app.use(
 );
 app.use(passport.authenticate("session"));
 
-app.use("/api", authRouter);
-app.use("/api", quizRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/quizzes", quizRouter);
 
 if (process.env.NODE_ENV != "test") {
   app.listen(PORT, () => {

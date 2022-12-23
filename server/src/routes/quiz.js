@@ -4,9 +4,9 @@ import Quiz from "../models/quiz.js";
 
 const quizRouter = Router();
 
-quizRouter.get("/quizzes", (req, res) => {});
+quizRouter.get("/", (req, res) => {});
 
-quizRouter.post("/quizzes", ensureLoggedIn(), async (req, res) => {
+quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
   const { title, description, surveySchema, category } = req.body;
 
   const newQuiz = new Quiz({

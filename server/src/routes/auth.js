@@ -63,10 +63,10 @@ passport.deserializeUser(function (user, cb) {
 
 const authRouter = Router();
 
-authRouter.get("/auth/login", passport.authenticate("openidconnect"));
+authRouter.get("/login", passport.authenticate("openidconnect"));
 
 authRouter.get(
-  "/auth/redirect",
+  "/redirect",
   passport.authenticate("openidconnect", {
     successRedirect: "/",
     failureRedirect: "/api/auth/login",
@@ -74,7 +74,7 @@ authRouter.get(
   })
 );
 
-authRouter.get("/auth/logout", function (req, res, next) {
+authRouter.get("/logout", function (req, res, next) {
   req.logout(function (err) {
     if (err) {
       return next(err);

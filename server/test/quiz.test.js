@@ -4,7 +4,12 @@ import supertest from "supertest";
 import app, { sessionStore } from "../src/index.js";
 import Quiz from "../src/models/quiz.js";
 import User from "../src/models/user.js";
-import { createTestUser, QuizSamples, SessionModel, USER_ID } from "./helper.js";
+import {
+  createTestUser,
+  QuizSamples,
+  SessionModel,
+  USER_ID,
+} from "./helper.js";
 
 const api = supertest(app);
 let SESSION_COOKIE = "";
@@ -17,7 +22,7 @@ beforeAll(async () => {
 describe("POST /api/quizzes", () => {
   it("should create a quiz for auth users", async () => {
     const payload = {
-      title: "Test Quiz",
+      title: "Test Quiz Final",
       description: "A test quiz to check if things are working properly.",
       surveySchema: JSON.stringify({
         type: "survey.js schema type",
@@ -35,11 +40,37 @@ describe("POST /api/quizzes", () => {
     expect(response.body.description).toBe(payload.description);
     expect(response.body.surveySchema).toBe(payload.surveySchema);
     expect(response.body.category).toBe(payload.category);
+
+    const user = await User.findById(USER_ID);
+    expect(user.quizzes).toHaveLength(1);
   });
 
   it("blocks unauthenticated users", async () => {
     const response = await api.post("/api/quizzes");
     expect(response.statusCode).toBe(302);
+  });
+});
+
+describe("GET /api/quizzes", () => {
+  it("should retrieve all quizzes", async () => {
+    const response = await api.get("/api/quizzes");
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data).toHaveLength(4);
+
+    response.body.data.forEach((quiz) => {
+      expect(quiz.title).toMatch(new RegExp("^Test Quiz"));
+    });
+  });
+
+  it("should retrieve all quizzes within limits", async () => {
+    const response1 = await api.get("/api/quizzes?limit=2");
+    expect(response1.statusCode).toBe(200);
+    expect(response1.body.data).toHaveLength(2);
+
+    const response2 = await api.get("/api/quizzes?skip=2&limit=2");
+    expect(response2.body.data).toHaveLength(2);
+    expect(response2.body.data[0].title).toBe("Test Quiz 2");
   });
 });
 

@@ -5,7 +5,15 @@ import User from "../models/user.js";
 
 const quizRouter = Router();
 
-quizRouter.get("/", (req, res) => {});
+quizRouter.get("/", async (req, res) => {
+  const { limit, skip } = req.query;
+  const quizzes = await Quiz.find(null, null, {
+    skip: parseInt(skip ?? 0) || 0,
+    limit: parseInt(limit) || undefined,
+    sort: { createdAt: "desc" }
+  });
+  res.json({ data: quizzes });
+});
 
 quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
   const { title, description, surveySchema, category } = req.body;

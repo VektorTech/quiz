@@ -1,8 +1,16 @@
 import mongoose from "mongoose";
 import supertest from "supertest";
+
 import app, { sessionStore } from "../src/index.js";
+import Quiz from "../src/models/quiz.js";
+import User from "../src/models/user.js";
+import { QuizSamples, SESSION_COOKIE, SESSION_ID } from "./helper.js";
 
 const api = supertest(app);
+
+beforeAll(async () => {
+  await Quiz.create(QuizSamples);
+});
 
 describe("POST /api/quizzes", () => {
   it("should create a quiz for auth users", async () => {
@@ -14,7 +22,8 @@ describe("POST /api/quizzes", () => {
       }),
       category: "misc",
     };
-    const response = await api.post("/api/quizzes")
+    const response = await api
+      .post("/api/quizzes")
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
       .send(payload);
 
@@ -32,9 +41,12 @@ describe("POST /api/quizzes", () => {
   });
 });
 
-afterAll(() => {
+afterAll(async () => {
+  await Quiz.deleteMany();
+  const user = await User.findById(SESSION_ID);
+  user.quizzes = [];
+  await user.save();
+
   sessionStore.close();
   mongoose.connection.close();
 });
-
-

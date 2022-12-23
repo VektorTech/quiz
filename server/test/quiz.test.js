@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import supertest from "supertest";
-import app from "../src/index.js";
+import app, { sessionStore } from "../src/index.js";
 
 const api = supertest(app);
 
@@ -33,6 +33,7 @@ describe("POST /api/quizzes", () => {
 });
 
 afterAll(() => {
+  sessionStore.close();
   mongoose.connection.close();
 });
 

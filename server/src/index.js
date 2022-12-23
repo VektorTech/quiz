@@ -23,12 +23,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+export const sessionStore = MongoStore.create({ mongoUrl: process.env.MONGODB_URL });
+
 app.use(
   session({
     secret: "some-secret",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL }),
+    store: sessionStore,
   })
 );
 app.use(passport.authenticate("session"));

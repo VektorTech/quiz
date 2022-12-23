@@ -23,17 +23,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-if (process.env.NODE_ENV != "test") {
-  app.use(
-    session({
-      secret: "some-secret",
-      resave: false,
-      saveUninitialized: false,
-      store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL }),
-    })
-  );
-  app.use(passport.authenticate("session"));
-}
+app.use(
+  session({
+    secret: "some-secret",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL }),
+  })
+);
+app.use(passport.authenticate("session"));
 
 app.use("/api", authRouter);
 app.use("/api", quizRouter);

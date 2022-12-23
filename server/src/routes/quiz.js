@@ -15,14 +15,18 @@ quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
     description,
     surveySchema,
     category,
-    createdBy: req.user.id
+    createdBy: req.user.id,
   });
   const quiz = await newQuiz.save();
-  const user = await User.findByIdAndUpdate(req.user.id, {
-    $push: {
-      quizzes: data._id
-    }
-  }, { new: true });
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $push: {
+        quizzes: quiz._id,
+      },
+    },
+    { new: true }
+  );
 
   if (user && user.quizzes.includes(quiz.id)) {
     return res.status(201).json(quiz);

@@ -23,7 +23,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-export const sessionStore = MongoStore.create({ mongoUrl: process.env.MONGODB_URL });
+export const sessionStore = MongoStore.create({
+  mongoUrl: process.env.MONGODB_URL,
+});
 
 app.use(
   session({

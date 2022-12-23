@@ -29,7 +29,6 @@ const UserSchema = new Schema(
       default: null,
       enum: ["male", "female", "other", null],
     },
-    quizzes: { type: [Types.ObjectId], ref: "Quiz" },
     likedQuizzes: { type: [Types.ObjectId], ref: "Quiz" },
     isBanned: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },

@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { ensureLoggedIn } from "connect-ensure-login";
 import Quiz from "../models/quiz.js";
-import User from "../models/user.js";
 
 const quizRouter = Router();
 
@@ -17,14 +16,8 @@ quizRouter.post("/quizzes", ensureLoggedIn(), async (req, res) => {
     category,
     createdBy: req.user.id
   });
-  const data = await newQuiz.save();
-  await User.findByIdAndUpdate(req.user.id, {
-    $push: {
-      quizzes: data._id
-    }
-  });
-
-  res.status(201).json(data);
+  const quiz = await newQuiz.save();
+  res.status(201).json(quiz);
 });
 
 export default quizRouter;

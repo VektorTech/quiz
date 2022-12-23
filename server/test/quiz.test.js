@@ -5,7 +5,7 @@ import app from "../src/index.js";
 const api = supertest(app);
 
 describe("POST /api/quizzes", () => {
-  it("should create a quiz", async () => {
+  it("should create a quiz for auth users", async () => {
     const payload = {
       title: "Test Quiz",
       description: "A test quiz to check if things are working properly.",
@@ -14,7 +14,9 @@ describe("POST /api/quizzes", () => {
       }),
       category: "misc",
     };
-    const response = await api.post("/api/quizzes").send(payload);
+    const response = await api.post("/api/quizzes")
+      .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
+      .send(payload);
 
     expect(response.statusCode).toBe(201);
 
@@ -23,8 +25,15 @@ describe("POST /api/quizzes", () => {
     expect(response.body.surveySchema).toBe(payload.surveySchema);
     expect(response.body.category).toBe(payload.category);
   });
+
+  it("blocks unauthenticated users", async () => {
+    const response = await api.post("/api/quizzes");
+    expect(response.statusCode).toBe(302);
+  });
 });
 
 afterAll(() => {
   mongoose.connection.close();
 });
+
+

@@ -6,22 +6,18 @@ const UserSchema = new Schema(
     name: {
       type: String,
       minlength: [3, "Name should be at least 3 characters long"],
-      maxlength: [15, "Name should not be more than 15 characters long"],
+      maxlength: [128, "Name should not be more than 128 characters long"],
     },
+    user_id: { type: String, required: true },
     email: {
       type: String,
       required: [true, "Please enter your email"],
       validate: [validator.isEmail, "Please enter a valid email"],
       unique: true,
     },
-    password: {
-      type: String,
-      required: [true, "Please enter your password"],
-      select: false,
-    },
     avatar: {
       username: { type: String, required: [true, "Please enter a username"] },
-      url: {
+      image_url: {
         type: String,
         validate: [validator.isURL, "Image must point to a valid URL"],
       },

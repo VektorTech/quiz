@@ -29,7 +29,7 @@ export const sessionStore = MongoStore.create({
 
 app.use(
   session({
-    secret: "some-secret",
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
     store: sessionStore,

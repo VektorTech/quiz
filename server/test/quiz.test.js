@@ -4,12 +4,14 @@ import supertest from "supertest";
 import app, { sessionStore } from "../src/index.js";
 import Quiz from "../src/models/quiz.js";
 import User from "../src/models/user.js";
-import { QuizSamples, SESSION_COOKIE, SESSION_ID } from "./helper.js";
+import { createTestUser, QuizSamples, SessionModel, USER_ID } from "./helper.js";
 
 const api = supertest(app);
+let SESSION_COOKIE = "";
 
 beforeAll(async () => {
   await Quiz.create(QuizSamples);
+  SESSION_COOKIE = await createTestUser();
 });
 
 describe("POST /api/quizzes", () => {
@@ -24,7 +26,7 @@ describe("POST /api/quizzes", () => {
     };
     const response = await api
       .post("/api/quizzes")
-      .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
+      .set("Cookie", `connect.sid=${encodeURIComponent(SESSION_COOKIE)}`)
       .send(payload);
 
     expect(response.statusCode).toBe(201);
@@ -43,9 +45,10 @@ describe("POST /api/quizzes", () => {
 
 afterAll(async () => {
   await Quiz.deleteMany();
-  const user = await User.findById(SESSION_ID);
+  const user = await User.findById(USER_ID);
   user.quizzes = [];
   await user.save();
+  await SessionModel.deleteMany();
 
   sessionStore.close();
   mongoose.connection.close();

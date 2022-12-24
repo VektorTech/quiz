@@ -10,20 +10,26 @@ import {
   QuizSamples,
   SessionModel,
   USER_ID,
-} from "./helper.js";
+} from "./testHelpers.js";
 
 const api = supertest(app);
 let SESSION_COOKIE = "";
 
-before(async () => {
+beforeEach(async () => {
   SESSION_COOKIE = encodeURIComponent(await createTestUser());
+  await Quiz.deleteMany();
   const quizzes = await Quiz.create(QuizSamples);
   await User.findByIdAndUpdate(USER_ID, {
-    $set: { quizzes: quizzes.map((quiz) => quiz.id) },
+    $set: { quizzes: quizzes.filter(quiz => quiz.createdBy == USER_ID).map((quiz) => quiz.id) },
   });
 });
 
 describe("POST /api/quizzes", () => {
+  it("blocks unauthenticated users", async () => {
+    const response = await api.post("/api/quizzes");
+    assert.strictEqual(response.statusCode, 302);
+  });
+
   it("should create a quiz for auth users", async () => {
     const payload = {
       title: "Test Quiz Final",
@@ -31,6 +37,7 @@ describe("POST /api/quizzes", () => {
       surveySchema: JSON.stringify({
         type: "survey.js schema type",
       }),
+      status: "active",
       category: "misc",
     };
     const response = await api
@@ -49,15 +56,10 @@ describe("POST /api/quizzes", () => {
     assert.strictEqual(user.quizzes.length, 4);
     assert.ok(user.quizzes.includes(response.body.data.id));
   });
-
-  it("blocks unauthenticated users", async () => {
-    const response = await api.post("/api/quizzes");
-    assert.strictEqual(response.statusCode, 302);
-  });
 });
 
 describe("GET /api/quizzes", () => {
-  it("should retrieve all quizzes", async () => {
+  it("should retrieve all active quizzes", async () => {
     const response = await api.get("/api/quizzes");
 
     assert.strictEqual(response.statusCode, 200);
@@ -68,7 +70,7 @@ describe("GET /api/quizzes", () => {
     });
   });
 
-  it("should retrieve all quizzes within limits", async () => {
+  it("should retrieve all active quizzes within limits", async () => {
     const response1 = await api.get("/api/quizzes?limit=2");
     assert.strictEqual(response1.statusCode, 200);
     assert.strictEqual(response1.body.data.length, 2);
@@ -90,11 +92,12 @@ describe("GET /api/quizzes/user", () => {
 });
 
 describe("GET /api/quizzes/:id", () => {
-  it("should retrieve a single quiz corresponding to :id", async () => {
+  it("should retrieve a single active quiz corresponding to :id", async () => {
     const response = await api.get("/api/quizzes");
 
     response.body.data.forEach(async (quiz) => {
       const quizInfo = await api.get(`/api/quizzes/${quiz.id}`);
+
       assert.strictEqual(quizInfo.statusCode, 200);
       assert.strictEqual(quizInfo.body.data.title, quiz.title);
       assert.strictEqual(quizInfo.body.data.description, quiz.description);
@@ -109,7 +112,7 @@ describe("PATCH /api/quizzes/:id", () => {
   it("should modify a quiz with related :id", async () => {
     let quiz = await Quiz.findOne({ title: QuizSamples[0].title });
     const payload = {
-      title: "Test Quiz Ultimate",
+      title: "Test Quiz The First",
       image: "https://site.com/logo.png",
       surveySchema: "{ elements: [ radio: [{label: 'Name', value: 'name'}] ] }",
     };
@@ -126,33 +129,32 @@ describe("PATCH /api/quizzes/:id", () => {
     assert.strictEqual(quiz.image, payload.image);
     assert.strictEqual(response.body.data.surveySchema, payload.surveySchema);
     assert.strictEqual(quiz.surveySchema, payload.surveySchema);
+
+    assert.strictEqual(quiz.status, "active");
+    assert.strictEqual(quiz.category, "misc");
   });
 });
 
 describe("POST /api/quizzes/:id/like", () => {
-  it("should add a quiz to user liked quizzes", async () => {
+  it("should add/remove a quiz in user liked quizzes", async () => {
     let quiz = await Quiz.findOne({ title: QuizSamples[1].title });
-    const response = await api
+    let response = await api
       .post(`/api/quizzes/${quiz.id}/like`)
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
 
     quiz = await Quiz.findOne({ _id: response.body.data.id });
     assert.strictEqual(response.statusCode, 200);
     assert.strictEqual(quiz.likes, 1);
-    const user = await User.findById(USER_ID);
+    let user = await User.findById(USER_ID);
     assert.ok(user.likedQuizzes.includes(quiz.id));
-  });
 
-  it("should remove a quiz from user liked quizzes", async () => {
-    let quiz = await Quiz.findOne({ title: QuizSamples[1].title });
-    const response = await api
+    response = await api
       .post(`/api/quizzes/${quiz.id}/like`)
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
 
     quiz = await Quiz.findOne({ _id: response.body.data.id });
-    assert.strictEqual(response.statusCode, 200);
     assert.strictEqual(quiz.likes, 0);
-    const user = await User.findById(USER_ID);
+    user = await User.findById(USER_ID);
     assert.ok(!user.likedQuizzes.includes(quiz.id));
   });
 });

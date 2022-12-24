@@ -20,7 +20,11 @@ beforeEach(async () => {
   await Quiz.deleteMany();
   const quizzes = await Quiz.create(QuizSamples);
   await User.findByIdAndUpdate(USER_ID, {
-    $set: { quizzes: quizzes.filter(quiz => quiz.createdBy == USER_ID).map((quiz) => quiz.id) },
+    $set: {
+      quizzes: quizzes
+        .filter((quiz) => quiz.createdBy == USER_ID)
+        .map((quiz) => quiz.id),
+    },
   });
 });
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ensureLoggedIn } from "connect-ensure-login";
+
 import Quiz from "../models/quiz.js";
 import User from "../models/user.js";
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
@@ -65,16 +66,14 @@ quizRouter.patch("/:id", ensureLoggedIn(), async (req, res) => {
     _id: req.params.id,
     createdBy: user.id,
   });
-  Object.keys(props).forEach(
-    (prop) => {
-      if (props[prop]) {
-        if (prop == "category" && !CATEGORIES.includes(props[prop])) return;
-        if (prop == "status" && !QUIZ_STATUSES.includes(props[prop])) return;
+  Object.keys(props).forEach((prop) => {
+    if (props[prop]) {
+      if (prop == "category" && !CATEGORIES.includes(props[prop])) return;
+      if (prop == "status" && !QUIZ_STATUSES.includes(props[prop])) return;
 
-        quiz[prop] = props[prop];
-      }
+      quiz[prop] = props[prop];
     }
-  );
+  });
   await quiz.save();
 
   res.status(200).json({ data: quiz });
@@ -103,8 +102,7 @@ quizRouter.post("/:id/like", ensureLoggedIn(), async (req, res) => {
 });
 
 quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
-  let { title, description, surveySchema, category, image, status } =
-    req.body;
+  let { title, description, surveySchema, category, image, status } = req.body;
 
   if (!CATEGORIES.includes(category)) category = "misc";
   if (!QUIZ_STATUSES.includes(status)) status = "drafted";

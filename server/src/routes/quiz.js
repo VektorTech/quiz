@@ -2,9 +2,9 @@ import { Router } from "express";
 import { ensureLoggedIn } from "connect-ensure-login";
 
 import Quiz from "../models/quiz.js";
+import QuizResponse from "../models/quizResponse.js";
 import User from "../models/user.js";
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
-import QuizResponse from "../models/quizResponse.js";
 
 const quizRouter = Router();
 

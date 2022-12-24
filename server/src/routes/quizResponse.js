@@ -11,7 +11,7 @@ quizResponseRouter.post("/", async (req, res) => {
   if (quiz && quiz.status == "active") {
     const quizResponse = new QuizResponse({
       quiz: quiz.id,
-      answers
+      answers,
     });
     await quizResponse.save();
 
@@ -24,9 +24,11 @@ quizResponseRouter.post("/", async (req, res) => {
 quizResponseRouter.get("/:quizID", async (req, res) => {
   const quiz = await Quiz.findById(req.params.quizID);
 
-  const responses = await QuizResponse.find({ quiz: quiz.id });
-
-  res.status(201).json({ data: responses });
+  if (quiz) {
+    const responses = await QuizResponse.find({ quiz: quiz.id });
+    return res.json({ data: responses });
+  }
+  res.status(404).send("Quiz Not Found");
 });
 
 export default quizResponseRouter;

@@ -30,24 +30,22 @@ describe("POST /api/responses", () => {
 });
 
 describe("GET /api/responses/:quizID", async () => {
-  const quiz = await Quiz.findOne({ title: QuizSamples[0].title });
-
-  before(async () => {
-    await QuizResponse.create({
-      quiz: quiz.id,
-      answers: "[{1}]"
-    });
-    await QuizResponse.create({
-      quiz: quiz.id,
-      answers: "[{2}]"
-    });
-    await QuizResponse.create({
-      quiz: quiz.id,
-      answers: "[{3}]"
-    });
-  });
-
   it("should get all responses for a quiz", async () => {
+    const quiz = await Quiz.findOne({ title: QuizSamples[0].title });
+
+    await QuizResponse.create({
+      quiz: quiz.id,
+      answers: "[{1}]",
+    });
+    await QuizResponse.create({
+      quiz: quiz.id,
+      answers: "[{2}]",
+    });
+    await QuizResponse.create({
+      quiz: quiz.id,
+      answers: "[{3}]",
+    });
+
     const responses = await api.get(`/api/responses/${quiz.id}`);
 
     assert.strictEqual(responses.statusCode, 200);

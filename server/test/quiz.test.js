@@ -78,6 +78,17 @@ describe("GET /api/quizzes", () => {
   });
 });
 
+describe("GET /api/quizzes/user", () => {
+  it("retrieves all quizzes for a specific user", async () => {
+    const response = await api
+      .get("/api/quizzes/user")
+      .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
+
+    assert.strictEqual(response.statusCode, 200);
+    assert.strictEqual(response.body.data.length, 3);
+  });
+});
+
 describe("GET /api/quizzes/:id", () => {
   it("should retrieve a single quiz corresponding to :id", async () => {
     const response = await api.get("/api/quizzes");

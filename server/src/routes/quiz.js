@@ -15,6 +15,13 @@ quizRouter.get("/", async (req, res) => {
   res.json({ data: quizzes });
 });
 
+quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
+  const quizzes = await Quiz.find({ createdBy: req.user.id }, null, {
+    sort: { createdAt: "desc" },
+  });
+  res.json({ data: quizzes });
+});
+
 quizRouter.get("/:id", async (req, res) => {
   const quiz = await Quiz.findById(req.params.id).exec();
 

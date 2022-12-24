@@ -4,7 +4,12 @@ import supertest from "supertest";
 import app from "../src/index.js";
 import Quiz from "../src/models/quiz.js";
 import User from "../src/models/user.js";
-import { createTestUser, QuizSamples, setupTestData, USER_ID } from "./testHelpers.js";
+import {
+  createTestUser,
+  QuizSamples,
+  setupTestData,
+  USER_ID,
+} from "./testHelpers.js";
 
 const api = supertest(app);
 let SESSION_COOKIE = "";

@@ -32,7 +32,7 @@ quizRouter.delete("/:id", ensureLoggedIn(), async (req, res) => {
 
   if (quiz) {
     const user = await User.findById(req.user.id);
-    user.quizzes = user.quizzes.filter(_quiz => _quiz.id == quiz.id);
+    user.quizzes = user.quizzes.filter((_quiz) => _quiz.id == quiz.id);
     await user.save();
   }
   res.status(204).send("Successfully Deleted");

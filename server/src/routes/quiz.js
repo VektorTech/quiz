@@ -7,7 +7,7 @@ const quizRouter = Router();
 
 quizRouter.get("/", async (req, res) => {
   const { limit, skip } = req.query;
-  const quizzes = await Quiz.find(null, null, {
+  const quizzes = await Quiz.find({ status: "active" }, null, {
     skip: parseInt(skip ?? 0) || 0,
     limit: parseInt(limit) || undefined,
     sort: { createdAt: "desc" },
@@ -23,7 +23,7 @@ quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
 });
 
 quizRouter.get("/:id", async (req, res) => {
-  const quiz = await Quiz.findById(req.params.id).exec();
+  const quiz = await Quiz.findById(req.params.id, { status: "active" }).exec();
 
   if (quiz) {
     return res.json({ data: quiz });
@@ -82,7 +82,8 @@ quizRouter.post("/:id/like", ensureLoggedIn(), async (req, res) => {
 });
 
 quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
-  const { title, description, surveySchema, category, image } = req.body;
+  const { title, description, surveySchema, category, image, status } =
+    req.body;
 
   const newQuiz = new Quiz({
     title,
@@ -90,6 +91,7 @@ quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
     surveySchema,
     category,
     image,
+    status,
     createdBy: req.user.id,
   });
   const quiz = await newQuiz.save();

@@ -33,7 +33,7 @@ const QuizSchema = new Schema(
     status: {
       type: String,
       enum: QUIZ_STATUSES,
-      default: "drafted",
+      default: "DRAFTED",
     },
     category: {
       type: String,

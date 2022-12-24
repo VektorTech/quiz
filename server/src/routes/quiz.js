@@ -114,7 +114,7 @@ quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
     description,
     surveySchema,
     image,
-    status,
+    status: status.toUpperCase(),
     category,
     createdBy: req.user.id,
   });

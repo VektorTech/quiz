@@ -1,38 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 import validator from "validator";
-
-export const CATEGORIES = [
-  "animal",
-  "anime",
-  "art",
-  "book",
-  "business",
-  "celebrity",
-  "education",
-  "entertainment",
-  "food",
-  "fun",
-  "gaming",
-  "geography",
-  "health",
-  "history",
-  "holiday",
-  "kids",
-  "language",
-  "literature",
-  "love",
-  "math",
-  "misc",
-  "movies",
-  "music",
-  "personality",
-  "politics",
-  "religion",
-  "science",
-  "sports",
-  "tech",
-  "television",
-];
+import { CATEGORIES } from "../utils/constants.js";
 
 const QuizSchema = new Schema(
   {
@@ -62,6 +30,11 @@ const QuizSchema = new Schema(
       required: true,
     },
     likes: { type: Number, default: 0 },
+    status: {
+      type: String,
+      enum: ["drafted", "active", "closed"],
+      default: "drafted",
+    },
     category: {
       type: String,
       enum: CATEGORIES,

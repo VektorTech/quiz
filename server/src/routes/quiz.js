@@ -32,7 +32,7 @@ quizRouter.delete("/:id", ensureLoggedIn(), async (req, res) => {
 
   if (quiz) {
     const user = await User.findById(req.user.id);
-    user.quizzes = user.quizzes.filter((_quiz) => _quiz.id == quiz.id);
+    user.quizzes = user.quizzes.filter((_id) => quiz.id != _id);
     await user.save();
   }
   res.status(204).send("Successfully Deleted");
@@ -49,6 +49,26 @@ quizRouter.patch("/:id", ensureLoggedIn(), async (req, res) => {
   Object.keys(props).forEach(
     (prop) => props[prop] && (quiz[prop] = props[prop])
   );
+  await quiz.save();
+
+  res.status(200).json({ data: quiz });
+});
+
+quizRouter.post("/:id/like", ensureLoggedIn(), async (req, res) => {
+  const user = await User.findById(req.user.id);
+  const quiz = await Quiz.findOne({
+    _id: req.params.id,
+  });
+
+  if (user.likedQuizzes.includes(req.params.id)) {
+    user.likedQuizzes = user.likedQuizzes.filter((_id) => quiz.id != _id);
+    quiz.likes -= 1;
+  } else {
+    user.likedQuizzes.push(quiz.id);
+    quiz.likes += 1;
+  }
+
+  await user.save();
   await quiz.save();
 
   res.status(200).json({ data: quiz });

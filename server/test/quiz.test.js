@@ -47,6 +47,7 @@ describe("POST /api/quizzes", () => {
 
     const user = await User.findById(USER_ID);
     assert.strictEqual(user.quizzes.length, 4);
+    assert.ok(user.quizzes.includes(response.body.data.id));
   });
 
   it("blocks unauthenticated users", async () => {
@@ -114,6 +115,30 @@ describe("PATCH /api/quizzes/:id", () => {
     assert.strictEqual(quiz.image, payload.image);
     assert.strictEqual(response.body.data.surveySchema, payload.surveySchema);
     assert.strictEqual(quiz.surveySchema, payload.surveySchema);
+  });
+});
+
+describe("POST /api/quizzes/:id/like", () => {
+  it("should add a quiz to user liked quizzes", async () => {
+    let quiz = await Quiz.findOne({ title: QuizSamples[1].title });
+    const response = await api
+      .post(`/api/quizzes/${quiz.id}/like`)
+      .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
+
+    quiz = await Quiz.findOne({ _id: response.body.data.id });
+    assert.strictEqual(response.statusCode, 200);
+    assert.strictEqual(quiz.likes, 1);
+  });
+
+  it("should remove a quiz from user liked quizzes", async () => {
+    let quiz = await Quiz.findOne({ title: QuizSamples[1].title });
+    const response = await api
+      .post(`/api/quizzes/${quiz.id}/like`)
+      .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
+
+    quiz = await Quiz.findOne({ _id: response.body.data.id });
+    assert.strictEqual(response.statusCode, 200);
+    assert.strictEqual(quiz.likes, 0);
   });
 });
 

@@ -10,7 +10,7 @@ quizRouter.get("/", async (req, res) => {
   const quizzes = await Quiz.find(null, null, {
     skip: parseInt(skip ?? 0) || 0,
     limit: parseInt(limit) || undefined,
-    sort: { createdAt: "desc" }
+    sort: { createdAt: "desc" },
   });
   res.json({ data: quizzes });
 });
@@ -24,6 +24,20 @@ quizRouter.get("/:id", async (req, res) => {
   res.status(404).send("Nothing Found");
 });
 
+quizRouter.delete("/:id", ensureLoggedIn(), async (req, res) => {
+  const quiz = await Quiz.findOneAndDelete({
+    _id: req.params.id,
+    createdBy: req.user.id,
+  }).exec();
+
+  if (quiz) {
+    const user = await User.findById(req.user.id);
+    user.quizzes = user.quizzes.filter(_quiz => _quiz.id == quiz.id);
+    await user.save();
+  }
+  res.status(204).send("Successfully Deleted");
+});
+
 quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
   const { title, description, surveySchema, category } = req.body;
 
@@ -35,17 +49,11 @@ quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
     createdBy: req.user.id,
   });
   const quiz = await newQuiz.save();
-  const user = await User.findByIdAndUpdate(
-    req.user.id,
-    {
-      $push: {
-        quizzes: quiz.id,
-      },
-    },
-    { new: true }
-  );
+  const user = await User.findById(req.user.id);
 
-  if (user && user.quizzes.includes(quiz.id)) {
+  if (user) {
+    user.quizzes.push(quiz.id);
+    await user.save();
     return res.status(201).json({ data: quiz });
   }
 

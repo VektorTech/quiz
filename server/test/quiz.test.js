@@ -15,8 +15,11 @@ const api = supertest(app);
 let SESSION_COOKIE = "";
 
 beforeAll(async () => {
-  await Quiz.create(QuizSamples);
-  SESSION_COOKIE = await createTestUser();
+  const quizzes = await Quiz.create(QuizSamples);
+  await User.findByIdAndUpdate(USER_ID, {
+    $set: { quizzes: quizzes.map((quiz) => quiz.id) },
+  });
+  SESSION_COOKIE = encodeURIComponent(await createTestUser());
 });
 
 describe("POST /api/quizzes", () => {
@@ -31,7 +34,7 @@ describe("POST /api/quizzes", () => {
     };
     const response = await api
       .post("/api/quizzes")
-      .set("Cookie", `connect.sid=${encodeURIComponent(SESSION_COOKIE)}`)
+      .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
       .send(payload);
 
     expect(response.statusCode).toBe(201);
@@ -42,7 +45,7 @@ describe("POST /api/quizzes", () => {
     expect(response.body.data.category).toBe(payload.category);
 
     const user = await User.findById(USER_ID);
-    expect(user.quizzes).toHaveLength(1);
+    expect(user.quizzes).toHaveLength(4);
   });
 
   it("blocks unauthenticated users", async () => {
@@ -90,13 +93,30 @@ describe("GET /api/quizzes/:id", () => {
   });
 });
 
+describe("DELETE /api/quizzes/:id", () => {
+  it("should delete a specific quiz with corresponding :id", async () => {
+    const response = await api.get("/api/quizzes");
+
+    response.body.data.forEach(async (quiz) => {
+      const res = await api
+        .delete(`/api/quizzes/${quiz.id}`)
+        .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
+
+      const user = await User.findById(USER_ID);
+
+      expect(user.quizzes.includes(quiz.id)).toBeFalsy();
+      expect(res.statusCode).toBe(204);
+    });
+  });
+});
+
 afterAll(async () => {
-  // await Quiz.deleteMany();
+  await Quiz.deleteMany();
   const user = await User.findById(USER_ID);
   user.quizzes = [];
   await user.save();
   await SessionModel.deleteMany();
 
-  sessionStore.close();
-  mongoose.connection.close();
+  await sessionStore.close();
+  await mongoose.connection.close();
 });

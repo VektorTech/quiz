@@ -65,6 +65,7 @@ export const QuizSamples = [
       type: "survey.js schema type",
     }),
     createdBy: USER_ID,
+    status: "active",
     category: "misc",
   },
   {
@@ -74,6 +75,7 @@ export const QuizSamples = [
       type: "survey.js schema type",
     }),
     createdBy: USER_ID,
+    status: "active",
     category: "misc",
   },
   {
@@ -83,6 +85,26 @@ export const QuizSamples = [
       type: "survey.js schema type",
     }),
     createdBy: USER_ID,
+    status: "active",
+    category: "misc",
+  },
+  {
+    title: "Test Quiz 200",
+    description: "A test quiz to check if things are working properly.",
+    surveySchema: JSON.stringify({
+      type: "survey.js schema type",
+    }),
+    createdBy: "63a733511fea2c21ed3d3715",
+    category: "misc",
+  },
+  {
+    title: "Test Quiz 200",
+    description: "A test quiz to check if things are working properly.",
+    surveySchema: JSON.stringify({
+      type: "survey.js schema type",
+    }),
+    createdBy: "63a733511fea2c21ed3d3715",
+    status: "active",
     category: "misc",
   },
 ];

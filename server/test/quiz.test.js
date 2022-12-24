@@ -3,6 +3,7 @@ import supertest from "supertest";
 
 import app from "../src/index.js";
 import Quiz from "../src/models/quiz.js";
+import QuizResponse from "../src/models/quizResponse.js";
 import User from "../src/models/user.js";
 import { createTestUser, QuizSamples, USER_ID } from "./testHelpers.js";
 
@@ -12,6 +13,7 @@ let SESSION_COOKIE = "";
 beforeEach(async () => {
   SESSION_COOKIE = encodeURIComponent(await createTestUser());
   await Quiz.deleteMany();
+  await QuizResponse.deleteMany();
   const quizzes = await Quiz.create(QuizSamples);
   await User.findByIdAndUpdate(USER_ID, {
     $set: {
@@ -46,9 +48,9 @@ describe("GET /api/quizzes", () => {
 
 describe("GET /api/quizzes/:id", () => {
   it("should retrieve a single active quiz corresponding to :id", async () => {
-    const response = await api.get("/api/quizzes");
+    const quizzes = await Quiz.find({ status: "active" });
 
-    response.body.data.forEach(async (quiz) => {
+    quizzes.forEach(async (quiz) => {
       const quizInfo = await api.get(`/api/quizzes/${quiz.id}`);
 
       assert.strictEqual(quizInfo.statusCode, 200);
@@ -159,9 +161,9 @@ describe("PATCH /api/quizzes/:id", () => {
 
 describe("DELETE /api/quizzes/:id", () => {
   it("should delete a specific quiz with corresponding :id", async () => {
-    const response = await api.get("/api/quizzes");
+    const quizzes = await Quiz.find({ status: "active" });
 
-    for (let quiz of response.body.data) {
+    for (let quiz of quizzes) {
       const res = await api
         .delete(`/api/quizzes/${quiz.id}`)
         .set("Cookie", `connect.sid=${SESSION_COOKIE}`);

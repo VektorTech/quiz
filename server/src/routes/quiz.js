@@ -37,7 +37,7 @@ quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
   );
 
   if (user && user.quizzes.includes(quiz.id)) {
-    return res.status(201).json(quiz);
+    return res.status(201).json({ data: quiz });
   }
 
   res.status(404).send("User Not Found");

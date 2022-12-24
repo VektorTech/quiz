@@ -36,10 +36,10 @@ describe("POST /api/quizzes", () => {
 
     expect(response.statusCode).toBe(201);
 
-    expect(response.body.title).toBe(payload.title);
-    expect(response.body.description).toBe(payload.description);
-    expect(response.body.surveySchema).toBe(payload.surveySchema);
-    expect(response.body.category).toBe(payload.category);
+    expect(response.body.data.title).toBe(payload.title);
+    expect(response.body.data.description).toBe(payload.description);
+    expect(response.body.data.surveySchema).toBe(payload.surveySchema);
+    expect(response.body.data.category).toBe(payload.category);
 
     const user = await User.findById(USER_ID);
     expect(user.quizzes).toHaveLength(1);

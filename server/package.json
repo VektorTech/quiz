@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
-    "test": "mocha ./test --exit"
+    "test": "cross-env NODE_ENV=test mocha ./test --exit"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.1",

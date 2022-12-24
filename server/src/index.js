@@ -11,6 +11,7 @@ import cors from "cors";
 
 import authRouter from "./routes/auth.js";
 import quizRouter from "./routes/quiz.js";
+import quizResponseRouter from "./routes/quizResponse.js";
 
 const PORT = process.env.PORT || 3001;
 const MONGODB_URL =
@@ -49,6 +50,7 @@ app.use(passport.authenticate("session"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/quizzes", quizRouter);
+app.use("/api/responses", quizResponseRouter);
 
 if (process.env.NODE_ENV != "test") {
   app.listen(PORT, () => {

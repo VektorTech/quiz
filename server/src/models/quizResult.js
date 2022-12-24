@@ -13,8 +13,8 @@ const QuizResultSchema = new Schema(
         obj.id = obj._id.toString();
         delete obj._id;
         delete obj.__v;
-      }
-    }
+      },
+    },
   }
 );
 

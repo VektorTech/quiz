@@ -93,6 +93,30 @@ describe("GET /api/quizzes/:id", () => {
   });
 });
 
+describe("PATCH /api/quizzes/:id", () => {
+  it("should modify a quiz with related :id", async () => {
+    let quiz = await Quiz.findOne({ title: QuizSamples[0].title });
+    const payload = {
+      title: "Test Quiz Ultimate",
+      image: "https://site.com/logo.png",
+      surveySchema: "{ elements: [ radio: [{label: 'Name', value: 'name'}] ] }",
+    };
+    const response = await api
+      .patch(`/api/quizzes/${quiz.id}`)
+      .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
+      .send(payload);
+    quiz = await Quiz.findOne({ _id: quiz.id });
+
+    assert.strictEqual(response.statusCode, 200);
+    assert.strictEqual(response.body.data.title, payload.title);
+    assert.strictEqual(quiz.title, payload.title);
+    assert.strictEqual(response.body.data.image, payload.image);
+    assert.strictEqual(quiz.image, payload.image);
+    assert.strictEqual(response.body.data.surveySchema, payload.surveySchema);
+    assert.strictEqual(quiz.surveySchema, payload.surveySchema);
+  });
+});
+
 describe("DELETE /api/quizzes/:id", () => {
   it("should delete a specific quiz with corresponding :id", async () => {
     const response = await api.get("/api/quizzes");

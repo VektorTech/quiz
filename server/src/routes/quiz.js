@@ -38,14 +38,31 @@ quizRouter.delete("/:id", ensureLoggedIn(), async (req, res) => {
   res.status(204).send("Successfully Deleted");
 });
 
+quizRouter.patch("/:id", ensureLoggedIn(), async (req, res) => {
+  const { title, description, surveySchema, category, image } = req.body;
+  const props = { title, description, surveySchema, category, image };
+
+  const quiz = await Quiz.findOne({
+    _id: req.params.id,
+    createdBy: req.user.id,
+  });
+  Object.keys(props).forEach(
+    (prop) => props[prop] && (quiz[prop] = props[prop])
+  );
+  await quiz.save();
+
+  res.status(200).json({ data: quiz });
+});
+
 quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
-  const { title, description, surveySchema, category } = req.body;
+  const { title, description, surveySchema, category, image } = req.body;
 
   const newQuiz = new Quiz({
     title,
     description,
     surveySchema,
     category,
+    image,
     createdBy: req.user.id,
   });
   const quiz = await newQuiz.save();

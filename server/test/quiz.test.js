@@ -1,16 +1,10 @@
 import assert from "assert";
 import supertest from "supertest";
-import mongoose from "mongoose";
 
-import app, { sessionStore } from "../src/index.js";
+import app from "../src/index.js";
 import Quiz from "../src/models/quiz.js";
 import User from "../src/models/user.js";
-import {
-  createTestUser,
-  QuizSamples,
-  SessionModel,
-  USER_ID,
-} from "./testHelpers.js";
+import { createTestUser, QuizSamples, USER_ID } from "./testHelpers.js";
 
 const api = supertest(app);
 let SESSION_COOKIE = "";
@@ -177,13 +171,4 @@ describe("DELETE /api/quizzes/:id", () => {
       assert.ok(!user.quizzes.includes(quiz.id));
     }
   });
-});
-
-after(async () => {
-  await SessionModel.deleteMany();
-  await User.deleteMany();
-  await Quiz.deleteMany();
-
-  await sessionStore.close();
-  await mongoose.connection.close();
 });

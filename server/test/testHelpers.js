@@ -1,6 +1,8 @@
 import { model, Schema } from "mongoose";
 import signature from "cookie-signature";
 
+import Quiz from "../src/models/quiz.js";
+import QuizResponse from "../src/models/quizResponse.js";
 import User from "../src/models/user.js";
 
 export const SessionModel = model(
@@ -108,3 +110,16 @@ export const QuizSamples = [
     category: "misc",
   },
 ];
+
+export async function setupTestData() {
+  await Quiz.deleteMany();
+  await QuizResponse.deleteMany();
+  const quizzes = await Quiz.create(QuizSamples);
+  await User.findByIdAndUpdate(USER_ID, {
+    $set: {
+      quizzes: quizzes
+        .filter((quiz) => quiz.createdBy == USER_ID)
+        .map((quiz) => quiz.id),
+    },
+  });
+}

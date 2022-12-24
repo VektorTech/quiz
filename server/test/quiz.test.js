@@ -3,25 +3,15 @@ import supertest from "supertest";
 
 import app from "../src/index.js";
 import Quiz from "../src/models/quiz.js";
-import QuizResponse from "../src/models/quizResponse.js";
 import User from "../src/models/user.js";
-import { createTestUser, QuizSamples, USER_ID } from "./testHelpers.js";
+import { createTestUser, QuizSamples, setupTestData, USER_ID } from "./testHelpers.js";
 
 const api = supertest(app);
 let SESSION_COOKIE = "";
 
 beforeEach(async () => {
   SESSION_COOKIE = encodeURIComponent(await createTestUser());
-  await Quiz.deleteMany();
-  await QuizResponse.deleteMany();
-  const quizzes = await Quiz.create(QuizSamples);
-  await User.findByIdAndUpdate(USER_ID, {
-    $set: {
-      quizzes: quizzes
-        .filter((quiz) => quiz.createdBy == USER_ID)
-        .map((quiz) => quiz.id),
-    },
-  });
+  await setupTestData();
 });
 
 describe("GET /api/quizzes", () => {

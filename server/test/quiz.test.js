@@ -74,8 +74,24 @@ describe("GET /api/quizzes", () => {
   });
 });
 
+describe("GET /api/quizzes/:id", () => {
+  it("should retrieve a single quiz corresponding to :id", async () => {
+    const response = await api.get("/api/quizzes");
+
+    response.body.data.forEach(async (quiz) => {
+      const quizInfo = await api.get(`/api/quizzes/${quiz.id}`);
+      expect(quizInfo.statusCode).toBe(200);
+      expect(quizInfo.body.data.title).toBe(quiz.title);
+      expect(quizInfo.body.data.description).toBe(quiz.description);
+      expect(quizInfo.body.data.surveySchema).toBe(quiz.surveySchema);
+      expect(quizInfo.body.data.category).toBe(quiz.category);
+      expect(quizInfo.body.data.createdBy).toBe(quiz.createdBy);
+    });
+  });
+});
+
 afterAll(async () => {
-  await Quiz.deleteMany();
+  // await Quiz.deleteMany();
   const user = await User.findById(USER_ID);
   user.quizzes = [];
   await user.save();

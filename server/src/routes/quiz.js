@@ -15,6 +15,15 @@ quizRouter.get("/", async (req, res) => {
   res.json({ data: quizzes });
 });
 
+quizRouter.get("/:id", async (req, res) => {
+  const quiz = await Quiz.findById(req.params.id).exec();
+
+  if (quiz) {
+    return res.json({ data: quiz });
+  }
+  res.status(404).send("Nothing Found");
+});
+
 quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
   const { title, description, surveySchema, category } = req.body;
 
@@ -30,7 +39,7 @@ quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
     req.user.id,
     {
       $push: {
-        quizzes: quiz._id,
+        quizzes: quiz.id,
       },
     },
     { new: true }

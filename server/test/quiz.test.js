@@ -128,6 +128,8 @@ describe("POST /api/quizzes/:id/like", () => {
     quiz = await Quiz.findOne({ _id: response.body.data.id });
     assert.strictEqual(response.statusCode, 200);
     assert.strictEqual(quiz.likes, 1);
+    const user = await User.findById(USER_ID);
+    assert.ok(user.likedQuizzes.includes(quiz.id));
   });
 
   it("should remove a quiz from user liked quizzes", async () => {
@@ -139,6 +141,8 @@ describe("POST /api/quizzes/:id/like", () => {
     quiz = await Quiz.findOne({ _id: response.body.data.id });
     assert.strictEqual(response.statusCode, 200);
     assert.strictEqual(quiz.likes, 0);
+    const user = await User.findById(USER_ID);
+    assert.ok(!user.likedQuizzes.includes(quiz.id));
   });
 });
 

@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 import validator from "validator";
-import { CATEGORIES } from "../utils/constants.js";
+import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
 
 const QuizSchema = new Schema(
   {
@@ -32,7 +32,7 @@ const QuizSchema = new Schema(
     likes: { type: Number, default: 0 },
     status: {
       type: String,
-      enum: ["drafted", "active", "closed"],
+      enum: QUIZ_STATUSES,
       default: "drafted",
     },
     category: {

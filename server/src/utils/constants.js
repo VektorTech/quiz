@@ -30,3 +30,5 @@ export const CATEGORIES = [
   "tech",
   "television",
 ];
+
+export const QUIZ_STATUSES = ["drafted", "active", "closed"];

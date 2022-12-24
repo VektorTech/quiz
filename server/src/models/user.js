@@ -17,9 +17,9 @@ const UserSchema = new Schema(
     },
     avatar: {
       username: { type: String, required: [true, "Please enter a username"] },
-      image_url: {
+      picture_url: {
         type: String,
-        validate: [validator.isURL, "Image must point to a valid URL"],
+        validate: [validator.isURL, "Picture must point to a valid URL"],
       },
       bio: { type: String, maxlength: 300 },
     },
@@ -33,7 +33,7 @@ const UserSchema = new Schema(
     likedQuizzes: { type: [Types.ObjectId], ref: "Quiz" },
     isBanned: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
-    role: { type: String, default: "user" },
+    role: { type: String, default: "USER" },
     followers: { type: [Types.ObjectId], ref: "User" },
   },
   {

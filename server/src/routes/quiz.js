@@ -81,7 +81,7 @@ quizRouter.patch("/:id", ensureLoggedIn(), async (req, res) => {
   res.status(200).json({ data: quiz });
 });
 
-quizRouter.post("/:id/like", ensureLoggedIn(), async (req, res) => {
+quizRouter.post("/:id/likes", ensureLoggedIn(), async (req, res) => {
   const user = await User.findById(req.user.id);
   if (!user) return res.status(404).send("No user found with that ID");
 

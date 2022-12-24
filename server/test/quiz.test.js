@@ -103,11 +103,11 @@ describe("POST /api/quizzes", () => {
   });
 });
 
-describe("POST /api/quizzes/:id/like", () => {
+describe("POST /api/quizzes/:id/likes", () => {
   it("should add/remove a quiz in user liked quizzes", async () => {
     let quiz = await Quiz.findOne({ title: QuizSamples[1].title });
     let response = await api
-      .post(`/api/quizzes/${quiz.id}/like`)
+      .post(`/api/quizzes/${quiz.id}/likes`)
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
 
     quiz = await Quiz.findOne({ _id: response.body.data.id });
@@ -117,7 +117,7 @@ describe("POST /api/quizzes/:id/like", () => {
     assert.ok(user.likedQuizzes.includes(quiz.id));
 
     response = await api
-      .post(`/api/quizzes/${quiz.id}/like`)
+      .post(`/api/quizzes/${quiz.id}/likes`)
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
 
     quiz = await Quiz.findOne({ _id: response.body.data.id });

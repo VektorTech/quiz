@@ -19,7 +19,6 @@ describe("GET /api/users/:id", () => {
 
     assert.strictEqual(userRes.statusCode, 200);
     assert.strictEqual(userRes.body.data._id, USER_ID);
-    console.log(userRes.body.data.user_id);
     assert.ok(!userRes.body.data.user_id);
   });
 });

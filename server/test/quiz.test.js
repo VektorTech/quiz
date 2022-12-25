@@ -43,7 +43,7 @@ describe("GET /api/quizzes", () => {
 
 describe("GET /api/quizzes/:id", () => {
   it("should retrieve a single active quiz corresponding to :id", async () => {
-    const quizzes = await Quiz.find({ status: "active" });
+    const quizzes = await Quiz.find({ status: "ACTIVE" });
 
     quizzes.forEach(async (quiz) => {
       const quizInfo = await api.get(`/api/quizzes/${quiz.id}`);
@@ -82,7 +82,7 @@ describe("POST /api/quizzes", () => {
       surveySchema: JSON.stringify({
         type: "survey.js schema type",
       }),
-      status: "active",
+      status: "ACTIVE",
       category: "misc",
     };
     const response = await api
@@ -149,14 +149,14 @@ describe("PATCH /api/quizzes/:id", () => {
     assert.strictEqual(response.body.data.surveySchema, payload.surveySchema);
     assert.strictEqual(quiz.surveySchema, payload.surveySchema);
 
-    assert.strictEqual(quiz.status, "active");
+    assert.strictEqual(quiz.status, "ACTIVE");
     assert.strictEqual(quiz.category, "misc");
   });
 });
 
 describe("DELETE /api/quizzes/:id", () => {
   it("should delete a specific quiz with corresponding :id", async () => {
-    const quizzes = await Quiz.find({ status: "active" });
+    const quizzes = await Quiz.find({ status: "ACTIVE" });
 
     for (let quiz of quizzes) {
       const res = await api

@@ -10,7 +10,7 @@ const quizRouter = Router();
 
 quizRouter.get("/", async (req, res) => {
   const { limit, skip } = req.query;
-  const quizzes = await Quiz.find({ status: "active" }, null, {
+  const quizzes = await Quiz.find({ status: "ACTIVE" }, null, {
     skip: parseInt(skip ?? 0) || 0,
     limit: parseInt(limit) || undefined,
     sort: { createdAt: "desc" },
@@ -32,7 +32,7 @@ quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
 });
 
 quizRouter.get("/:id", async (req, res) => {
-  const quiz = await Quiz.findById(req.params.id, { status: "active" }).exec();
+  const quiz = await Quiz.findById(req.params.id, { status: "ACTIVE" }).exec();
 
   if (quiz) {
     return res.json({ data: quiz });

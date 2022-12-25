@@ -67,7 +67,7 @@ export const QuizSamples = [
       type: "survey.js schema type",
     }),
     createdBy: USER_ID,
-    status: "active",
+    status: "ACTIVE",
     category: "misc",
   },
   {
@@ -77,7 +77,7 @@ export const QuizSamples = [
       type: "survey.js schema type",
     }),
     createdBy: USER_ID,
-    status: "active",
+    status: "ACTIVE",
     category: "misc",
   },
   {
@@ -87,7 +87,7 @@ export const QuizSamples = [
       type: "survey.js schema type",
     }),
     createdBy: USER_ID,
-    status: "active",
+    status: "ACTIVE",
     category: "misc",
   },
   {
@@ -106,7 +106,7 @@ export const QuizSamples = [
       type: "survey.js schema type",
     }),
     createdBy: "63a733511fea2c21ed3d3715",
-    status: "active",
+    status: "ACTIVE",
     category: "misc",
   },
 ];

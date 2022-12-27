@@ -1,3 +1,3 @@
-export default function QuizStats() {
+export default function Dashboard() {
   return <div>Quiz Statistics</div>;
 }

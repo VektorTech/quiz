@@ -1,5 +1,3 @@
 export default function QuizStats() {
-  return (
-	<div>Quiz Statistics</div>
-  )
+  return <div>Quiz Statistics</div>;
 }

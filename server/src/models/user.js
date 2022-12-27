@@ -38,6 +38,19 @@ const UserSchema = new Schema(
   },
   {
     timestamps: true,
+
+    methods: {
+      getUserDetails: function() {
+        return {
+          ...this._doc,
+          id: this._doc._id,
+          user_id: undefined,
+          _id: undefined,
+          __v: undefined,
+          role: undefined
+        }
+      }
+    }
   }
 );
 

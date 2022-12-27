@@ -24,6 +24,7 @@ const BrowserRouter = createBrowserRouter(
       <Route path="browse" element={<Browse />} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="create" element={<CreateQuiz />} />
+      <Route path="me" element={<User />} />
       <Route path="user/:userID" element={<User />} />
       <Route
         path=":quizID"

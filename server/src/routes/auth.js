@@ -68,7 +68,7 @@ authRouter.get("/login", passport.authenticate("openidconnect"));
 authRouter.get(
   "/redirect",
   passport.authenticate("openidconnect", {
-    successRedirect: "/",
+    successRedirect: "http://localhost:3000/me",
     failureRedirect: "/api/auth/login",
     failureMessage: true,
   })
@@ -81,7 +81,7 @@ authRouter.get("/logout", function (req, res, next) {
     }
     const params = {
       client_id: process.env.AUTH0_CLIENT_ID,
-      returnTo: DOMAIN_URL,
+      returnTo: "http://localhost:3000/",
     };
     res.redirect(
       `${process.env.AUTH0_ISSUER_BASE_URL}/v2/logout?${qs.stringify(params)}`

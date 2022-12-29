@@ -1,17 +1,24 @@
-import { Navigate } from "react-router-dom";
-import useUser from "@/hooks/useUser";
+import { useGetAuthUserQuery } from "@/services/user";
+
+const logout = () => {
+  window.location.href = "http://localhost:3001/api/auth/logout";
+};
 
 export default function User() {
-  const { user, isAuth, isLoading, logout } = useUser();
-  // isAuthenticated, isLoading
+  const { data, isLoading } = useGetAuthUserQuery();
 
-  // console.log(user);
-  if (isLoading) return <div>Loading...</div>
-  return isAuth ? (
-  <div>
-    <span>My Profile: {user?.avatar.username}</span>
-    <br />
-    <button onClick={logout}>Logout</button>
-  </div>
-  ) : <div>Login</div>;
+  if (isLoading) return <div>Loading...</div>;
+  return data?.isAuth ? (
+    <div>
+      <span>My Profile: {data?.avatar.username}</span>
+      <br />
+      <button
+        onClick={logout}
+      >
+        Logout
+      </button>
+    </div>
+  ) : (
+    <div>Login</div>
+  );
 }

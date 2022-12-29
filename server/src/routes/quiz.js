@@ -9,13 +9,26 @@ import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
 const quizRouter = Router();
 
 quizRouter.get("/", async (req, res) => {
-  const { limit, skip } = req.query;
-  const quizzes = await Quiz.find({ status: "ACTIVE" }, null, {
-    skip: parseInt(skip ?? 0) || 0,
-    limit: parseInt(limit) || undefined,
-    sort: { createdAt: "desc" },
+  const LIMIT = 3;
+  const { page = 1 } = req.query;
+
+  const index = (Number(page) - 1) * LIMIT;
+  const filter = { status: "ACTIVE" };
+  const total = await Quiz.count(filter);
+  const pages = Math.ceil(total / LIMIT);
+
+  const quizzes = await Quiz.find(filter)
+    .sort({ createdAt: -1 })
+    .skip(index || 0)
+    .limit(LIMIT)
+    .populate("createdBy", "avatar");
+
+  res.json({
+    data: quizzes,
+    count: total,
+    numPages: pages,
+    currentPage: Number(page)
   });
-  res.json({ data: quizzes });
 });
 
 quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
@@ -23,7 +36,7 @@ quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
 
   if (user) {
     const quizzes = await Quiz.find({ createdBy: user.id }, null, {
-      sort: { createdAt: "desc" },
+      sort: { createdAt: -1 },
     });
     return res.json({ data: quizzes });
   }

@@ -26,8 +26,10 @@ quizRouter.get("/", async (req, res) => {
   res.json({
     data: quizzes,
     count: total,
+    perPage: LIMIT,
     numPages: pages,
-    currentPage: Number(page)
+    currentPage: Number(page),
+    currentPageCount: quizzes.length,
   });
 });
 
@@ -45,7 +47,10 @@ quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
 });
 
 quizRouter.get("/:id", async (req, res) => {
-  const quiz = await Quiz.findById(req.params.id, { status: "ACTIVE" }).exec();
+  const quiz = await Quiz
+    .findOne({ _id: req.params.id, status: "ACTIVE" })
+    .populate("createdBy", "avatar")
+    .exec();
 
   if (quiz) {
     return res.json({ data: quiz });

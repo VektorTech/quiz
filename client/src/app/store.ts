@@ -10,6 +10,7 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(userApi.middleware, quizApi.middleware),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 setupListeners(store.dispatch);

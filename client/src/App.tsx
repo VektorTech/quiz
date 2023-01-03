@@ -17,11 +17,18 @@ import ErrorPage from "@/pages/ErrorPage";
 import Layout from "@/components/Layout";
 import quizLoader from "@/loaders/quiz.loader";
 
-const BrowserRouter = createBrowserRouter(
+export const BrowserRouter = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
       <Route index element={<Home />} />
-      <Route path="browse" element={<Browse />} />
+      <Route path="browse">
+        <Route index element={<Browse />} />
+        <Route
+          errorElement={<NotFound />}
+          path=":categoryID"
+          element={<Browse />}
+        />
+      </Route>
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="create" element={<CreateQuiz />} />
       <Route path="me" element={<User />} />

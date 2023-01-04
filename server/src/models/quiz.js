@@ -1,6 +1,9 @@
 import { Schema, model, Types } from "mongoose";
 import validator from "validator";
+
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
+import { encode } from "base62/lib/ascii.js";
+import { toSlug } from "../utils/index.js";
 
 const QuizSchema = new Schema(
   {
@@ -40,6 +43,8 @@ const QuizSchema = new Schema(
       enum: CATEGORIES,
       required: [true, "Please select a category"],
     },
+    tags: [String],
+    slug: String
   },
   {
     timestamps: true,
@@ -53,5 +58,10 @@ const QuizSchema = new Schema(
     },
   }
 );
+
+QuizSchema.pre("save", function (next) {
+  this.set({ slug: `${encode(this.surveySchema).substring(0, 7)}-${toSlug(this.title)}` });
+  next();
+});
 
 export default model("Quiz", QuizSchema);

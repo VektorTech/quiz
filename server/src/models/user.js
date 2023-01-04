@@ -40,7 +40,7 @@ const UserSchema = new Schema(
     timestamps: true,
 
     methods: {
-      getUserDetails: function() {
+      getUserDetails() {
         return {
           ...this._doc,
           id: this._doc._id,

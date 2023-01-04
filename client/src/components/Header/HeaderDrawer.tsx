@@ -76,7 +76,9 @@ const HeaderDrawer = () => {
                   size="sm"
                   bg="purple.500"
                 >
-                  <AvatarBadge boxSize="1.1em" bg="green.300" />
+                  {data?.isAuth ? (
+                    <AvatarBadge boxSize="1.1em" bg="green.300" />
+                  ) : null}
                 </Avatar>
 
                 <Text>{data?.avatar.username}</Text>
@@ -86,7 +88,12 @@ const HeaderDrawer = () => {
 
           <DrawerBody>
             <VStack alignItems={"flex-start"}>
-              <Button as={RLink} to={"/create"} colorScheme="purple">
+              <Button
+                width="100%"
+                as={RLink}
+                to={"/create"}
+                colorScheme="purple"
+              >
                 Create A Quiz
               </Button>
             </VStack>
@@ -99,7 +106,7 @@ const HeaderDrawer = () => {
               <AccordionItem>
                 <h2>
                   <AccordionButton>
-                    <Box as="span" flex="1" textAlign="left">
+                    <Box fontWeight="500" as="span" flex="1" textAlign="left">
                       Profile
                     </Box>
                     <AccordionIcon />
@@ -142,7 +149,7 @@ const HeaderDrawer = () => {
               <AccordionItem>
                 <h2>
                   <AccordionButton>
-                    <Box as="span" flex="1" textAlign="left">
+                    <Box fontWeight="500" as="span" flex="1" textAlign="left">
                       Categories
                     </Box>
                     <AccordionIcon />
@@ -169,11 +176,11 @@ const HeaderDrawer = () => {
           </DrawerBody>
 
           <DrawerFooter justifyContent={"start"}>
-            <Stack spacing={0}>
+            <Stack color="gray.400" spacing={0}>
               <Text fontSize="sm">
                 &copy; {new Date().getFullYear()} QuizWrld. All Rights Reserved.
               </Text>
-              <Text fontSize="sm">Developed by Kenny Sutherland</Text>
+              <Text fontSize="sm">Developed by Kenny Sutherland.</Text>
             </Stack>
           </DrawerFooter>
         </DrawerContent>

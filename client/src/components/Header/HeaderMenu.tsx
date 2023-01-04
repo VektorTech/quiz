@@ -30,7 +30,7 @@ const HeaderMenu = () => {
         as={IconButton}
         icon={<HamburgerIcon />}
       />
-      <MenuList onClick={console.log}>
+      <MenuList minW={"auto"} maxW="100vw">
         <Flex columnGap="2">
           {columns.map((column, i) => (
             <Box key={"menu:" + i} width={"33.333%"}>

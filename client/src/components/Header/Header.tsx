@@ -86,7 +86,9 @@ const Header = () => {
                       size="sm"
                       bg="purple.500"
                     >
-                      <AvatarBadge boxSize="1.1em" bg="green.300" />
+                      {data?.isAuth ? (
+                        <AvatarBadge boxSize="1.1em" bg="green.300" />
+                      ) : null}
                     </Avatar>
                   </MenuButton>
                   <MenuList>

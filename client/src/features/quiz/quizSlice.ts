@@ -1,7 +1,6 @@
 import { RootState } from "@/app/store";
 import { CATEGORIES } from "@/libs/constants";
-import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
 
 export interface QuestionType {
   type: "radio";
@@ -30,34 +29,20 @@ const quizSlice = createSlice({
   name: "quiz",
   initialState,
   reducers: {
-    quizCreated: (state, action: PayloadAction<string>) => {
-      quizAdapter.addOne(state, {
-        id: action.payload,
-        name: "",
-        description: "",
-        image: "",
-        time: 0,
-        category: "",
-        questions: [],
-      });
+    quizAdded: {
+      reducer: quizAdapter.addOne,
+      prepare: (payload) => ({ payload: { id: nanoid(5), ...payload } }),
     },
-    quizAdded: quizAdapter.addOne,
     quizUpdated: quizAdapter.updateOne,
     quizDeleted: quizAdapter.removeOne,
     quizzesReceived: quizAdapter.setAll,
   },
 });
 
-export const {
-  quizCreated,
-  quizAdded,
-  quizUpdated,
-  quizDeleted,
-  quizzesReceived,
-} = quizSlice.actions;
+export const { quizAdded, quizUpdated, quizDeleted, quizzesReceived } =
+  quizSlice.actions;
 
-export const { selectById: selectQuizById, selectAll } = quizAdapter.getSelectors<RootState>(
-  (state) => state.quizzes
-);
+export const { selectById: selectQuizById, selectAll } =
+  quizAdapter.getSelectors<RootState>((state) => state.quizzes);
 
 export default quizSlice.reducer;

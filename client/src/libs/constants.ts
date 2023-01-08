@@ -1,4 +1,4 @@
-export const CATEGORIES = [
+export const CATEGORIES = Object.freeze([
   "animal",
   "anime",
   "art",
@@ -29,4 +29,4 @@ export const CATEGORIES = [
   "sports",
   "tech",
   "television",
-];
+] as const);

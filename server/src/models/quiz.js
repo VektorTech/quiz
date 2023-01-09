@@ -2,7 +2,7 @@ import { Schema, model, Types } from "mongoose";
 import validator from "validator";
 
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
-import { encode } from "base62/lib/ascii.js";
+import { nanoid } from "nanoid";
 import { toSlug } from "../utils/index.js";
 
 const QuizSchema = new Schema(
@@ -60,7 +60,7 @@ const QuizSchema = new Schema(
 );
 
 QuizSchema.pre("save", function (next) {
-  this.set({ slug: `${encode(this.surveySchema).substring(0, 7)}-${toSlug(this.title)}` });
+  this.set({ slug: `${nanoid(7)}-${toSlug(this.title)}` });
   next();
 });
 

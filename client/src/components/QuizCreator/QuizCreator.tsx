@@ -9,27 +9,31 @@ import {
   TabPanels,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-import { useAppDispatch } from "@/app/hooks";
+import { QuestionType, QuizSchemaType } from "@/features/quiz/quizSlice";
+import { useAddQuizMutation } from "@/services/quiz";
 
-import {
-  QuestionType,
-  quizAdded,
-  QuizSchemaType,
-} from "@/features/quiz/quizSlice";
 import InfoPanel from "./TabPanels/InfoPanel";
 import QuestionPanel from "./TabPanels/QuestionsPanel";
 
 export default function CreateQuiz() {
-  const dispatch = useAppDispatch();
+  const [addQuiz] = useAddQuizMutation();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } =
     useForm<Omit<QuizSchemaType, "questions">>();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
 
-  const saveHandler = handleSubmit((data) => {
+  const saveHandler = handleSubmit(async (data) => {
     const quizSchema = { ...data, questions, time: data.time || 0 };
-    dispatch(quizAdded(quizSchema));
+
+    try {
+      await addQuiz(quizSchema).unwrap();
+      navigate("/me");
+    } catch (err) {
+      console.log("Error", err);
+    }
   });
 
   return (

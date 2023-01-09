@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useRef } from "react";
 import {
   Accordion,
   AccordionButton,
@@ -27,7 +27,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Link as RLink } from "react-router-dom";
+import { Link as RLink, useLocation } from "react-router-dom";
 
 import SearchBox from "./SearchBox";
 
@@ -37,7 +37,12 @@ import { CATEGORIES } from "@/libs/constants";
 const HeaderDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading } = useGetAuthUserQuery();
-  const toggleBtn = React.useRef(null);
+  const toggleBtn = useRef(null);
+
+  const location = useLocation();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(onClose, [location]);
 
   return (
     <>

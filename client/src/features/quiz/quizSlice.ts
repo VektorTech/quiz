@@ -1,5 +1,6 @@
-import { RootState } from "@/app/store";
+import store, { RootState } from "@/app/store";
 import { CATEGORIES } from "@/libs/constants";
+import { quizApi } from "@/services/quiz";
 import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
 
 export interface QuestionType {
@@ -36,6 +37,15 @@ const quizSlice = createSlice({
     quizUpdated: quizAdapter.updateOne,
     quizDeleted: quizAdapter.removeOne,
     quizzesReceived: quizAdapter.setAll,
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      quizApi.endpoints.addQuiz.matchFulfilled,
+      (state, { payload }) => {
+        const schema = JSON.parse(payload.data.surveySchema);
+        quizAdapter.addOne(state, { id: nanoid(5), ...schema });
+      }
+    );
   },
 });
 

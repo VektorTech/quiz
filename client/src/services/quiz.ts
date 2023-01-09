@@ -1,4 +1,5 @@
 import { RootState } from "@/app/store";
+import { QuizSchemaType } from "@/features/quiz/quizSlice";
 import {
   createEntityAdapter,
   createSelector,
@@ -39,6 +40,7 @@ export const quizApi = createApi({
   reducerPath: "quizApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3001/api/",
+    credentials: "include"
   }),
   endpoints: (builder) => ({
     getQuizzes: builder.query<QuizListResponse, number | void>({
@@ -57,10 +59,23 @@ export const quizApi = createApi({
     getQuizById: builder.query<QuizType, string>({
       query: (id) => `quizzes/${id}`,
     }),
+    addQuiz: builder.mutation<{ data: QuizType }, QuizSchemaType>({
+      query: (quizSchema) => ({
+        url: "quizzes",
+        method: "POST",
+        body: {
+          title: quizSchema.name,
+          description: quizSchema.description,
+          image: quizSchema.image,
+          category: quizSchema.category,
+          surveySchema: JSON.stringify(quizSchema),
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetQuizzesQuery } = quizApi;
+export const { useGetQuizzesQuery, useAddQuizMutation } = quizApi;
 
 export const selectQuizzesFromCurrentUser =
   quizApi.endpoints.getQuizzesFromCurrentUser.select();

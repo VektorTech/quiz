@@ -73,7 +73,7 @@ const HeaderDrawer = () => {
                 color="purple.300"
               />
             ) : (
-              <>
+              <RLink to="/me">
                 <Avatar
                   name={data?.name}
                   src={data?.avatar.picture_url}
@@ -87,7 +87,7 @@ const HeaderDrawer = () => {
                 </Avatar>
 
                 <Text>{data?.avatar.username}</Text>
-              </>
+              </RLink>
             )}
           </DrawerHeader>
 
@@ -129,7 +129,7 @@ const HeaderDrawer = () => {
                         <ListItem>
                           <Link
                             as={RLink}
-                            to="http://localhost:3001/api/auth/logout"
+                            to="//localhost:3001/api/auth/logout"
                           >
                             Logout
                           </Link>
@@ -141,7 +141,7 @@ const HeaderDrawer = () => {
                       <ListItem>
                         <Link
                           as={RLink}
-                          to="http://localhost:3001/api/auth/login"
+                          to="//localhost:3001/api/auth/login"
                         >
                           Login
                         </Link>

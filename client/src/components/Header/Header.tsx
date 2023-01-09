@@ -100,7 +100,7 @@ const Header = () => {
                         <MenuItem
                           onClick={() =>
                             (window.location.href =
-                              "http://localhost:3001/api/auth/logout")
+                              "//localhost:3001/api/auth/logout")
                           }
                         >
                           Logout
@@ -110,7 +110,7 @@ const Header = () => {
                       <MenuItem
                         onClick={() =>
                           (window.location.href =
-                            "http://localhost:3001/api/auth/login")
+                            "//localhost:3001/api/auth/login")
                         }
                       >
                         Login

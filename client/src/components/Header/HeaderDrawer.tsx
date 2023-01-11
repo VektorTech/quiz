@@ -31,8 +31,8 @@ import { Link as RLink, useLocation } from "react-router-dom";
 
 import SearchBox from "./SearchBox";
 
-import { useGetAuthUserQuery } from "@/services/user";
 import { CATEGORIES } from "@/libs/constants";
+import { useGetAuthUserQuery } from "@/services/api";
 
 const HeaderDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

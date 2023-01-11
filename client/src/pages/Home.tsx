@@ -9,10 +9,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { useGetQuizzesQuery } from "@/services/quiz";
 import { Container, Grid, GridItem } from "@chakra-ui/react";
 
 import PlaceholderImage from "@/assets/quiz-img-placeholder.png";
+import { useGetQuizzesQuery } from "@/services/api";
 
 export default function Home() {
   const { data } = useGetQuizzesQuery();

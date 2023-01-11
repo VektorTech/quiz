@@ -1,18 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { quizApi } from "@/services/quiz";
-import { userApi } from "@/services/user";
+
 import quizReducer from "@/features/quiz/quizSlice";
+import baseAPI from "@/services/api";
 
 const store = configureStore({
   reducer: {
-    [userApi.reducerPath]: userApi.reducer,
-    [quizApi.reducerPath]: quizApi.reducer,
-    quizzes: quizReducer
+    [baseAPI.reducerPath]: baseAPI.reducer,
+    quizzes: quizReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware, quizApi.middleware),
-  devTools: process.env.NODE_ENV !== 'production',
+    getDefaultMiddleware().concat(baseAPI.middleware),
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 setupListeners(store.dispatch);

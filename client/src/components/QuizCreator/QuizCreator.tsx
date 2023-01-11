@@ -12,10 +12,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { QuestionType, QuizSchemaType } from "@/features/quiz/quizSlice";
-import { useAddQuizMutation } from "@/services/quiz";
 
 import InfoPanel from "./TabPanels/InfoPanel";
 import QuestionPanel from "./TabPanels/QuestionsPanel";
+import { useAddQuizMutation } from "@/services/api";
 
 export default function CreateQuiz() {
   const [addQuiz] = useAddQuizMutation();

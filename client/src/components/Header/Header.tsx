@@ -16,12 +16,13 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { Link as RLink, useNavigate } from "react-router-dom";
-import { useGetAuthUserQuery } from "@/services/user";
 import Logo from "@/assets/Logo.svg";
 
 import HeaderDrawer from "./HeaderDrawer";
 import SearchBox from "./SearchBox";
 import HeaderMenu from "./HeaderMenu";
+
+import { useGetAuthUserQuery } from "@/services/api";
 
 const HeaderElement = styled.header`
   height: 80px;

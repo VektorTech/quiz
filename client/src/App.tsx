@@ -16,6 +16,7 @@ import ErrorPage from "@/pages/ErrorPage";
 
 import Layout from "@/components/Layout";
 import quizLoader from "@/loaders/quiz.loader";
+import { useGetAuthQuizzesQuery } from "./services/api";
 
 export const BrowserRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -44,6 +45,8 @@ export const BrowserRouter = createBrowserRouter(
 );
 
 function App() {
+  useGetAuthQuizzesQuery();
+
   return (
     <div className="App">
       <RouterProvider router={BrowserRouter} />

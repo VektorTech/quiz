@@ -5,7 +5,6 @@ const MoreVerticalIcon: CustomIcon  = ({ fillColor, ...props }) => {
   return (
     <Icon {...props}>
       <line
-        id="primary-upstroke"
         x1="12"
         y1="5.95"
         x2="12"
@@ -13,8 +12,6 @@ const MoreVerticalIcon: CustomIcon  = ({ fillColor, ...props }) => {
         style={lineStyles}
       ></line>
       <line
-        id="primary-upstroke-2"
-        data-name="primary-upstroke"
         x1="12"
         y1="11.95"
         x2="12"
@@ -22,8 +19,6 @@ const MoreVerticalIcon: CustomIcon  = ({ fillColor, ...props }) => {
         style={lineStyles}
       ></line>
       <line
-        id="primary-upstroke-3"
-        data-name="primary-upstroke"
         x1="12"
         y1="17.95"
         x2="12"

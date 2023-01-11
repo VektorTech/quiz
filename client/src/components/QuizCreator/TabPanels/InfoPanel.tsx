@@ -45,7 +45,7 @@ const InfoPanel = (
             <Textarea
               {...register("description")}
               maxLength={1000}
-              placeholder="About Quiz"
+              placeholder="About Quiz (at least 30 characters)"
             />
           </FormControl>
 

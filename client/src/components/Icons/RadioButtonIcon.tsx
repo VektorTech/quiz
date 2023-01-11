@@ -1,8 +1,8 @@
 import { Icon } from "@chakra-ui/react";
 
-const RadioButtonIcon = ({ size = 6 }) => {
+const RadioButtonIcon: CustomIcon = ({ fillColor, ...props }) => {
   return (
-    <Icon boxSize={size}>
+    <Icon {...props}>
       <path
         fill="currentColor"
         fillRule="evenodd"

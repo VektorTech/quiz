@@ -26,7 +26,6 @@ import { useGetAuthUserQuery } from "@/services/api";
 
 const HeaderElement = styled.header`
   height: 80px;
-  border-bottom: 1px solid var(--chakra-colors-gray-300);
 `;
 
 const Header = () => {
@@ -35,29 +34,44 @@ const Header = () => {
 
   return (
     <HeaderElement>
-      <Container width="100%" maxW="100%" padding="0">
+      <Container
+        width="100%"
+        maxW="100%"
+        padding="0"
+        position="fixed"
+        zIndex="10"
+        borderBottom="1px solid"
+        borderColor="gray.300"
+        background="#fff"
+      >
         <Container maxW="container.lg">
           <Box
-            maxH={"80px"}
+            maxH="80px"
             padding="20px 0"
             display="flex"
-            justifyContent={"space-between"}
+            justifyContent="space-between"
           >
             <HeaderMenu />
             <HeaderDrawer />
 
-            <Center
-              margin={{ base: "0 auto", md: "0 0 0 var(--chakra-space-5)" }}
-            >
+            <Center ml={{ base: "auto", md: "5" }} mr="auto">
               <Link as={RLink} to="/">
-                <Image width="130px" src={Logo} alt="QuizWrld.co Logo" />
+                <Image
+                  width="130px"
+                  transform={{
+                    base: "translateX(-24px)",
+                    md: "translateX(0px)",
+                  }}
+                  src={Logo}
+                  alt="QuizWrld.co Logo"
+                />
               </Link>
             </Center>
 
             <Button
               as={RLink}
-              to={"/create"}
-              marginLeft={"auto"}
+              to="/create"
+              marginLeft="auto"
               marginRight="5"
               colorScheme="purple"
               display={{ base: "none", md: "inline-flex" }}

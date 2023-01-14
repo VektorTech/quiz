@@ -15,6 +15,7 @@ import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 import QuestionEditBox from "../QuestionEditBox";
 import { nanoid } from "@reduxjs/toolkit";
+import { toBase62 } from "@/libs/utils";
 
 const Radiogroup = ({
   preset,
@@ -63,10 +64,11 @@ const Radiogroup = ({
       onClose={onClose}
       onConfirm={() =>
         onConfirm({
+          type: "radio",
           answer,
           choices,
           question: questionText,
-          id: questionText,
+          id: toBase62(questionText),
         })
       }
     >

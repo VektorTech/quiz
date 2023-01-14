@@ -37,7 +37,7 @@ const baseAPI = createApi({
       query: (id) => `quizzes/${id}`,
     }),
     findQuizBySlug: builder.query<QuizType, string>({
-      query: (slug) => `quizzes/slug/${slug}`
+      query: (slug) => `quizzes/slug/${slug}`,
     }),
     addQuiz: builder.mutation<{ data: QuizType }, QuizSchemaType>({
       query: (quizSchema) => ({
@@ -58,10 +58,31 @@ const baseAPI = createApi({
       query: () => "users/me",
       providesTags: ["User"],
     }),
+
+    addQuizResponse: builder.mutation<
+      { data: QuizUserResponse },
+      QuizUserResponse
+    >({
+      query: ({ quizID, answers, meta }) => ({
+        url: "responses",
+        method: "POST",
+        body: {
+          quiz: quizID,
+          answers,
+          meta,
+        },
+      }),
+    }),
   }),
 });
 
 export default baseAPI;
+
+interface QuizUserResponse {
+  quizID: string;
+  answers: string;
+  meta: string;
+}
 
 export interface UserType {
   avatar: {
@@ -91,7 +112,7 @@ export interface QuizType {
   surveySchema: string;
   createdBy: UserType;
   likes: number;
-  status: string;
+  status: "DRAFTED" | "ACTIVE" | "CLOSED";
   slug: string;
   category: string;
   tags: string[];
@@ -112,10 +133,12 @@ type NormalizedQuizListResponse = EntityState<QuizType> &
 
 export const {
   useGetQuizzesQuery,
-  useAddQuizMutation,
   useGetAuthQuizzesQuery,
   useGetAuthUserQuery,
   useGetQuizByIdQuery,
+
+  useAddQuizMutation,
+  useAddQuizResponseMutation,
 } = baseAPI;
 
 export const selectQuizzesFromCurrentUser =

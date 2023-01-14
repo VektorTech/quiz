@@ -1,5 +1,5 @@
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
-import { QuizType } from "@/services/api";
+import { QuizType, useAddQuizResponseMutation } from "@/services/api";
 import {
   Button,
   Container,
@@ -34,6 +34,7 @@ export default function Quiz() {
   const [nextActive, setNextActive] = useState(false);
   // console.log(schema, data);
   const { handleSubmit, control } = useForm();
+  const [addResponse] = useAddQuizResponseMutation();
 
   return (
     <Container maxW="container.lg" pt="40px">
@@ -102,24 +103,35 @@ export default function Quiz() {
         infinite={false}
         draggable={false}
         afterChange={() => setNextActive(false)}
-        prevArrow={<button hidden />}
+        prevArrow={<HiddenButton />}
         nextArrow={
           <NextArrow
             disabled={!nextActive}
-            onSubmit={handleSubmit((data) => {
+            onSubmit={handleSubmit((formData) => {
               let points = 0;
               schema.questions.forEach((question) => {
-                points += Number(data[question.id] === question.answer);
+                points += Number(formData[question.id] === question.answer);
               });
-              console.log(data, points);
+              const responses = schema.questions.reduce<Record<string, string>>(
+                (obj, current) => {
+                  obj[current.question] = formData[current.id];
+                  return obj;
+                },
+                {}
+              );
+              addResponse({
+                quizID: data.id,
+                answers: JSON.stringify(responses),
+                meta: JSON.stringify({ score: points }),
+              });
             })}
           />
         }
       >
-        {schema.questions.map((question) => (
+        {schema.questions.map((question, i) => (
           <Stack key={question.id}>
             <Heading fontSize="lg" as="h3">
-              {question.question}
+              {i+1}.&nbsp;{question.question}
             </Heading>
             <Controller
               name={question.question}
@@ -148,6 +160,8 @@ export default function Quiz() {
     </Container>
   );
 }
+
+const HiddenButton = (props: unknown) => <button hidden />;
 
 function NextArrow(
   props: Partial<{

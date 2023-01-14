@@ -35,7 +35,7 @@ export const BrowserRouter = createBrowserRouter(
       <Route path="me" element={<User />} />
       <Route path="user/:userID" element={<User />} />
       <Route
-        path=":quizID"
+        path=":slug"
         element={<Quiz />}
         errorElement={<NotFound />}
         loader={quizLoader}

@@ -7,7 +7,7 @@ import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
 export interface QuestionType {
   type: "radio";
   answer: string;
-  choices: any[];
+  choices: { id: string; text: string }[];
   question: string;
   id: string;
 }

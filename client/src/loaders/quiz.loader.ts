@@ -4,7 +4,7 @@ import { LoaderFunction } from "react-router-dom";
 
 const quizLoader: LoaderFunction = async ({ params }) => {
   const response = await store.dispatch(
-    baseAPI.endpoints.getQuizById.initiate(params.quizID || "")
+    baseAPI.endpoints.findQuizBySlug.initiate(params.slug || "")
   );
 
   if (!response.data || response.isError) {

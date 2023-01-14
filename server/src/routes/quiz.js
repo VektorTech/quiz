@@ -48,7 +48,19 @@ quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
 
 quizRouter.get("/:id", async (req, res) => {
   const quiz = await Quiz
-    .findOne({ _id: req.params.id, status: "ACTIVE" })
+    .findOne({ _id: req.params.id })
+    .populate("createdBy", "avatar")
+    .exec();
+
+  if (quiz) {
+    return res.json({ data: quiz });
+  }
+  res.status(404).send("Nothing Found");
+});
+
+quizRouter.get("/slug/:slug", async (req, res) => {
+  const quiz = await Quiz
+    .findOne({ slug: req.params.slug })
     .populate("createdBy", "avatar")
     .exec();
 

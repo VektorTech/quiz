@@ -36,6 +36,9 @@ const baseAPI = createApi({
     getQuizById: builder.query<QuizType, string>({
       query: (id) => `quizzes/${id}`,
     }),
+    findQuizBySlug: builder.query<QuizType, string>({
+      query: (slug) => `quizzes/slug/${slug}`
+    }),
     addQuiz: builder.mutation<{ data: QuizType }, QuizSchemaType>({
       query: (quizSchema) => ({
         url: "quizzes",
@@ -89,6 +92,7 @@ export interface QuizType {
   createdBy: UserType;
   likes: number;
   status: string;
+  slug: string;
   category: string;
   tags: string[];
   createdAt: string;

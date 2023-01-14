@@ -30,20 +30,13 @@ import { useGetAuthUserQuery } from "@/services/api";
 import { Link as RLink } from "react-router-dom";
 import PlaceholderImage from "@/assets/quiz-img-placeholder.png";
 import MoreVerticalIcon from "@/components/Icons/MoreVerticalIcon";
-import {
-  AtSignIcon,
-  DeleteIcon,
-  EditIcon,
-  TimeIcon,
-} from "@chakra-ui/icons";
+import { AtSignIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import LocationIcon from "@/components/Icons/LocationIcon";
 import VerifiedIcon from "@/components/Icons/VerifiedIcon";
 import PublishIcon from "@/components/Icons/PublishIcon";
 
 export default function User() {
   const { data, isLoading } = useGetAuthUserQuery();
-
-  console.log(data);
 
   if (isLoading) return <Container textAlign="center">Loading...</Container>;
 
@@ -146,7 +139,9 @@ export default function User() {
                     </Link>
                   </Td>
                   <Td>
-                    <Badge colorScheme="green">{status}</Badge>
+                    <Badge colorScheme={BadgeColor[status]}>
+                      {status}
+                    </Badge>
                   </Td>
                   <Td>
                     <Badge>{category.toUpperCase()}</Badge>
@@ -194,3 +189,9 @@ const dateFormatOptions: Intl.DateTimeFormatOptions = {
   month: "short",
   day: "numeric",
 };
+
+const BadgeColor = {
+  DRAFTED: "gray",
+  ACTIVE: "green",
+  CLOSED: "red"
+}

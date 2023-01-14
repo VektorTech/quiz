@@ -2,7 +2,12 @@ import { RootState } from "@/app/store";
 import { CATEGORIES } from "@/libs/constants";
 import baseAPI from "@/services/api";
 
-import { createEntityAdapter, createSlice, nanoid } from "@reduxjs/toolkit";
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityId,
+  nanoid,
+} from "@reduxjs/toolkit";
 
 export interface QuestionType {
   type: "radio";
@@ -13,7 +18,7 @@ export interface QuestionType {
 }
 
 export interface QuizSchemaType {
-  id: string;
+  id: string | EntityId;
   name: string;
   description: string;
   image?: string;
@@ -43,8 +48,8 @@ const quizSlice = createSlice({
     builder.addMatcher(
       baseAPI.endpoints.addQuiz.matchFulfilled,
       (state, { payload }) => {
-        const schema = JSON.parse(payload.data.surveySchema);
-        quizAdapter.addOne(state, { id: nanoid(5), ...schema });
+        const schema = payload.data.surveySchema;
+        quizAdapter.addOne(state, { ...schema, id: nanoid(5) });
       }
     );
     builder.addMatcher(
@@ -53,8 +58,8 @@ const quizSlice = createSlice({
         quizAdapter.setAll(
           state,
           payload.ids.map((id) => ({
+            ...(payload.entities[id]?.surveySchema ?? ({} as QuizSchemaType)),
             id,
-            ...JSON.parse(payload.entities[id]?.surveySchema ?? ""),
           }))
         );
       }

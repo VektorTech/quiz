@@ -24,7 +24,7 @@ const QuizSchema = new Schema(
       validate: [validator.isURL, "Image must point to a valid URL"],
     },
     surveySchema: {
-      type: String,
+      type: Object,
       require: [true, "Please define the shape of your survey"],
     },
     createdBy: {

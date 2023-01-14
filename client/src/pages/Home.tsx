@@ -35,7 +35,7 @@ export default function Home() {
       <Grid mt="10" templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={5}>
         {data.data.map((quiz) => (
           <GridItem key={quiz.id}>
-            <Link to={{ pathname: quiz.id }}>
+            <Link to={{ pathname: quiz.slug }}>
               <Card maxW="sm">
                 <Stack direction={"row"} justifyContent={"flex-end"}>
                   <Badge colorScheme="purple">{quiz.category}</Badge>

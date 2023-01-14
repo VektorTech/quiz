@@ -48,7 +48,7 @@ const baseAPI = createApi({
           description: quizSchema.description,
           image: quizSchema.image,
           category: quizSchema.category,
-          surveySchema: JSON.stringify(quizSchema),
+          surveySchema: quizSchema,
         },
       }),
       invalidatesTags: ["User"],
@@ -80,8 +80,8 @@ export default baseAPI;
 
 interface QuizUserResponse {
   quizID: string;
-  answers: string;
-  meta: string;
+  answers: object;
+  meta: object;
 }
 
 export interface UserType {
@@ -102,6 +102,8 @@ export interface UserType {
   updatedAt: string;
   isVerified: boolean;
   isAuth: boolean;
+  id: string;
+  _id: string;
 }
 
 export interface QuizType {
@@ -109,7 +111,7 @@ export interface QuizType {
   id: string;
   description: string;
   image: string;
-  surveySchema: string;
+  surveySchema: QuizSchemaType;
   createdBy: UserType;
   likes: number;
   status: "DRAFTED" | "ACTIVE" | "CLOSED";

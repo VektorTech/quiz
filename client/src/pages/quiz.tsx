@@ -29,7 +29,7 @@ import { Controller, useForm } from "react-hook-form";
 export default function Quiz() {
   const { data } = useLoaderData() as { data: QuizType };
 
-  const schema: QuizSchemaType = JSON.parse(data.surveySchema);
+  const schema = data.surveySchema;
 
   const [nextActive, setNextActive] = useState(false);
   // console.log(schema, data);
@@ -52,7 +52,7 @@ export default function Quiz() {
           </Heading>
           <Text>
             By&nbsp;
-            <Link as={RLink} to={`/user/${data.createdBy.avatar.username}`}>
+            <Link as={RLink} to={`/user/${data.createdBy._id}`}>
               <strong>{data.createdBy.avatar.username}</strong>
             </Link>
           </Text>
@@ -121,8 +121,8 @@ export default function Quiz() {
               );
               addResponse({
                 quizID: data.id,
-                answers: JSON.stringify(responses),
-                meta: JSON.stringify({ score: points }),
+                answers: responses,
+                meta: { score: points },
               });
             })}
           />

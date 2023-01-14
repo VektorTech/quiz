@@ -23,14 +23,19 @@ import {
   Menu,
   MenuButton,
   MenuItem,
-  MenuList
+  MenuList,
 } from "@chakra-ui/react";
 
 import { useGetAuthUserQuery } from "@/services/api";
 import { Link as RLink } from "react-router-dom";
 import PlaceholderImage from "@/assets/quiz-img-placeholder.png";
 import MoreVerticalIcon from "@/components/Icons/MoreVerticalIcon";
-import { AtSignIcon, CheckIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
+import {
+  AtSignIcon,
+  DeleteIcon,
+  EditIcon,
+  TimeIcon,
+} from "@chakra-ui/icons";
 import LocationIcon from "@/components/Icons/LocationIcon";
 import VerifiedIcon from "@/components/Icons/VerifiedIcon";
 import PublishIcon from "@/components/Icons/PublishIcon";
@@ -56,7 +61,9 @@ export default function User() {
           <Heading as="h1" size="md">
             <AtSignIcon mr="0.5" verticalAlign="bottom" />
             {data.avatar.username}
-            {data.isVerified ? <VerifiedIcon boxSize={6} verticalAlign="bottom" /> : null}
+            {data.isVerified ? (
+              <VerifiedIcon boxSize={6} verticalAlign="bottom" />
+            ) : null}
           </Heading>
         </Stack>
 
@@ -118,13 +125,13 @@ export default function User() {
           </Thead>
           <Tbody>
             {data.quizzes.map(
-              ({ title, description, image, category, id, status, likes }) => (
+              ({ title, image, category, id, status, likes, slug }) => (
                 <Tr key={id}>
                   <Td>
                     <Checkbox />
                   </Td>
                   <Td title={title} minW="120px">
-                    <Link as={RLink} to="/edit">
+                    <Link as={RLink} to={`/${slug}`}>
                       <HStack>
                         <Image
                           src={image ?? PlaceholderImage}
@@ -147,11 +154,21 @@ export default function User() {
                   <Td isNumeric>{likes}</Td>
                   <Td>
                     <Menu>
-                      <MenuButton as={IconButton} icon={<MoreVerticalIcon boxSize={5} />} aria-label="more actions" />
+                      <MenuButton
+                        as={IconButton}
+                        icon={<MoreVerticalIcon boxSize={5} />}
+                        aria-label="more actions"
+                      />
                       <MenuList>
-                        <MenuItem icon={<EditIcon boxSize={4} />}>Edit</MenuItem>
-                        <MenuItem icon={<PublishIcon boxSize={4} />}>Publish</MenuItem>
-                        <MenuItem icon={<DeleteIcon boxSize={4} />}>Delete</MenuItem>
+                        <MenuItem icon={<EditIcon boxSize={4} />}>
+                          Edit
+                        </MenuItem>
+                        <MenuItem icon={<PublishIcon boxSize={4} />}>
+                          Publish
+                        </MenuItem>
+                        <MenuItem icon={<DeleteIcon boxSize={4} />}>
+                          Delete
+                        </MenuItem>
                       </MenuList>
                     </Menu>
                   </Td>

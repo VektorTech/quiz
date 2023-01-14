@@ -5,12 +5,12 @@ const QuizResponseSchema = new Schema(
     quiz: { type: Types.ObjectId, ref: "Quiz", required: true },
     answers: {
       type: Map,
-      of: string,
+      of: String,
       required: [true, "No answers provided in response"],
     },
     meta: {
       type: Map,
-      of: string
+      of: String
     }
   },
   {

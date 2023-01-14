@@ -5,13 +5,14 @@ import QuizResponse from "../models/quizResponse.js";
 const quizResponseRouter = Router();
 
 quizResponseRouter.post("/", async (req, res) => {
-  const { quiz: quizID, answers } = req.body;
+  const { quiz: quizID, answers, meta } = req.body;
   const quiz = await Quiz.findById(quizID);
 
   if (quiz && quiz.status == "ACTIVE") {
     const quizResponse = new QuizResponse({
       quiz: quiz.id,
       answers,
+      meta
     });
     await quizResponse.save();
 

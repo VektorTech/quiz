@@ -7,6 +7,7 @@ const QuizResponseSchema = new Schema(
       type: String,
       required: [true, "No answers provided in response"],
     },
+    meta: String
   },
   {
     timestamps: true,

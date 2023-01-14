@@ -1,5 +1,9 @@
-export default function CreateQuiz() {
+import { QuizCreator } from "@/components/QuizCreator";
+
+export default function CreateQuizPage() {
   return (
-	<div>Create Quiz</div>
+    <div>
+      <QuizCreator />
+    </div>
   );
 }

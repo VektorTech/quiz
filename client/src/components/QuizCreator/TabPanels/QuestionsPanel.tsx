@@ -100,7 +100,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
                 setActiveQuestion(-1);
                 setCurrentControl("radiogroup");
               }}
-              icon={<RadioButtonIcon />}
+              icon={<RadioButtonIcon boxSize="5" />}
             />
           </Tooltip>
         </VStack>

@@ -17,6 +17,11 @@ import QuestionEditBox from "../QuestionEditBox";
 import { nanoid } from "@reduxjs/toolkit";
 import { toBase62 } from "@/libs/utils";
 
+const getChoiceObj = () => ({
+  id: nanoid(5),
+  text: "",
+});
+
 const Radiogroup = ({
   preset,
   isOpen = false,
@@ -43,16 +48,7 @@ const Radiogroup = ({
       setAnswer(preset.answer);
       setQuestionText(preset.question);
     } else {
-      setChoices([
-        {
-          id: nanoid(5),
-          text: "",
-        },
-        {
-          id: nanoid(5),
-          text: "",
-        },
-      ]);
+      setChoices([getChoiceObj(), getChoiceObj()]);
       setAnswer("");
       setQuestionText("");
     }
@@ -97,10 +93,7 @@ const Radiogroup = ({
                     icon={<SmallAddIcon />}
                     onClick={() => {
                       const newChoices = [...choices];
-                      newChoices.splice(index + 1, 0, {
-                        id: nanoid(5),
-                        text: "",
-                      });
+                      newChoices.splice(index + 1, 0, getChoiceObj());
                       setChoices(newChoices);
                     }}
                   />

@@ -26,7 +26,11 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 
-import { useGetAuthUserQuery } from "@/services/api";
+import {
+  useDeleteQuizMutation,
+  useGetAuthUserQuery,
+  useUpdateQuizMutation,
+} from "@/services/api";
 import { Link as RLink } from "react-router-dom";
 import PlaceholderImage from "@/assets/quiz-img-placeholder.png";
 import MoreVerticalIcon from "@/components/Icons/MoreVerticalIcon";
@@ -37,6 +41,8 @@ import PublishIcon from "@/components/Icons/PublishIcon";
 
 export default function User() {
   const { data, isLoading } = useGetAuthUserQuery();
+  const [updateQuiz] = useUpdateQuizMutation();
+  const [deleteQuiz] = useDeleteQuizMutation();
 
   if (isLoading) return <Container textAlign="center">Loading...</Container>;
 
@@ -139,9 +145,7 @@ export default function User() {
                     </Link>
                   </Td>
                   <Td>
-                    <Badge colorScheme={BadgeColor[status]}>
-                      {status}
-                    </Badge>
+                    <Badge colorScheme={BadgeColor[status]}>{status}</Badge>
                   </Td>
                   <Td>
                     <Badge>{category.toUpperCase()}</Badge>
@@ -158,10 +162,22 @@ export default function User() {
                         <MenuItem icon={<EditIcon boxSize={4} />}>
                           Edit
                         </MenuItem>
-                        <MenuItem icon={<PublishIcon boxSize={4} />}>
-                          Publish
+                        <MenuItem
+                          onClick={() =>
+                            updateQuiz({
+                              status:
+                                status === "ACTIVE" ? "DRAFTED" : "ACTIVE",
+                              id,
+                            })
+                          }
+                          icon={<PublishIcon boxSize={4} />}
+                        >
+                          {status === "DRAFTED" ? "Publish" : "Pause"}
                         </MenuItem>
-                        <MenuItem icon={<DeleteIcon boxSize={4} />}>
+                        <MenuItem
+                          onClick={() => deleteQuiz(id)}
+                          icon={<DeleteIcon boxSize={4} />}
+                        >
                           Delete
                         </MenuItem>
                       </MenuList>
@@ -193,5 +209,5 @@ const dateFormatOptions: Intl.DateTimeFormatOptions = {
 const BadgeColor = {
   DRAFTED: "gray",
   ACTIVE: "green",
-  CLOSED: "red"
-}
+  CLOSED: "red",
+};

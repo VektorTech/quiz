@@ -53,6 +53,21 @@ const baseAPI = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    updateQuiz: builder.mutation<
+      { data: QuizType },
+      Partial<QuizType> & { id: string }
+    >({
+      query: (field) => ({
+        url: `quizzes/${field.id}`,
+        method: "PATCH",
+        body: field,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    deleteQuiz: builder.mutation<string, string>({
+      query: (id) => ({ url: `quizzes/${id}`, method: "DELETE" }),
+      invalidatesTags: ["User"],
+    }),
 
     getAuthUser: builder.query<UserType, void>({
       query: () => "users/me",
@@ -141,6 +156,8 @@ export const {
 
   useAddQuizMutation,
   useAddQuizResponseMutation,
+  useUpdateQuizMutation,
+  useDeleteQuizMutation,
 } = baseAPI;
 
 export const selectQuizzesFromCurrentUser =

@@ -88,8 +88,8 @@ quizRouter.delete("/:id", ensureLoggedIn(), async (req, res) => {
 });
 
 quizRouter.patch("/:id", ensureLoggedIn(), async (req, res) => {
-  const { title, description, surveySchema, category, image } = req.body;
-  const props = { title, description, surveySchema, category, image };
+  const { title, description, surveySchema, category, image, status } = req.body;
+  const props = { title, description, surveySchema, category, image, status };
 
   const user = await User.findById(req.user.id);
   if (!user) return res.status(404).send("No user found with that ID");

@@ -10,3 +10,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+
+.slick-slider {
+  overflow: auto;
+}

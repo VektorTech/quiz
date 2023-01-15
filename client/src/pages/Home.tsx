@@ -11,7 +11,7 @@ import {
 
 import { Container, Grid, GridItem } from "@chakra-ui/react";
 
-import PlaceholderImage from "@/assets/quiz-img-placeholder.png";
+import PlaceholderImage from "@/assets/quiz-img-placeholder.jpg";
 import { useGetQuizzesQuery } from "@/services/api";
 
 export default function Home() {
@@ -36,7 +36,7 @@ export default function Home() {
         {data.data.map((quiz) => (
           <GridItem key={quiz.id}>
             <Link to={{ pathname: quiz.slug }}>
-              <Card maxW="sm">
+              <Card maxW="sm" float="left">
                 <Stack direction={"row"} justifyContent={"flex-end"}>
                   <Badge colorScheme="purple">{quiz.category}</Badge>
                 </Stack>

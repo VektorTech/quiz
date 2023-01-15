@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as RLink, useLoaderData } from "react-router-dom";
 
-import PlaceholderImage from "@/assets/quiz-img-placeholder.png";
+import PlaceholderImage from "@/assets/quiz-img-placeholder.jpg";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -38,7 +38,7 @@ export default function Quiz() {
 
   return (
     <Container maxW="container.lg" pt="40px">
-      <HStack>
+      <HStack gap="2">
         <Image
           alt={data.title}
           objectFit="cover"

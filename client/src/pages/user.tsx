@@ -32,7 +32,7 @@ import {
   useUpdateQuizMutation,
 } from "@/services/api";
 import { Link as RLink } from "react-router-dom";
-import PlaceholderImage from "@/assets/quiz-img-placeholder.png";
+import PlaceholderImage from "@/assets/quiz-img-placeholder.jpg";
 import MoreVerticalIcon from "@/components/Icons/MoreVerticalIcon";
 import { AtSignIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import LocationIcon from "@/components/Icons/LocationIcon";

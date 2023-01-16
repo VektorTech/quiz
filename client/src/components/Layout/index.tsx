@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Box as="main" mb="10">
+      <Box as="main" mb="10" minH="100vh">
         <Outlet />
       </Box>
       <Footer />

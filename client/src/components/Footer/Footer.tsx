@@ -2,7 +2,7 @@ import { Box, Container, Stack, Text } from "@chakra-ui/react";
 
 export default function Footer() {
   return (
-    <Box as="footer" bgColor="gray.900" pt="3" pb="3">
+    <Box as="footer" bgColor="gray.800" pt="3" pb="3">
       <Container maxW="container.lg" textAlign="center">
         <Stack color="gray.400" spacing={0}>
           <Text fontSize="sm">

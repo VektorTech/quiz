@@ -129,13 +129,13 @@ export default function User() {
                   <Td>
                     <Checkbox />
                   </Td>
-                  <Td title={title} minW="120px">
+                  <Td title={title} minW="200px">
                     <Link as={RLink} to={`/${slug}`}>
                       <HStack>
                         <Image
                           src={image ?? PlaceholderImage}
-                          width="40px"
-                          height="40px"
+                          width="45px"
+                          height="45px"
                           objectFit="cover"
                           borderRadius={5}
                           alt=""

@@ -38,7 +38,9 @@ const quizSlice = createSlice({
   reducers: {
     quizAdded: {
       reducer: quizAdapter.addOne,
-      prepare: (payload) => ({ payload: { id: nanoid(5), ...payload } }),
+      prepare: (payload: Omit<QuizSchemaType, "id">) => ({
+        payload: { ...payload, id: nanoid(5) },
+      }),
     },
     quizUpdated: quizAdapter.updateOne,
     quizDeleted: quizAdapter.removeOne,

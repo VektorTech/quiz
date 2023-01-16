@@ -46,25 +46,24 @@ const Header = () => {
       >
         <Container maxW="container.lg">
           <Box
-            maxH="80px"
-            padding="20px 0"
+            maxH="70px"
+            padding="15px 0"
             display="flex"
             justifyContent="space-between"
           >
             <HeaderMenu />
             <HeaderDrawer />
 
-            <Center ml={{ base: "auto", md: "5" }} mr="auto">
+            <Center
+              ml={{ base: "auto", md: "5" }}
+              transform={{
+                base: "translateX(-24px)",
+                md: "translateX(0px)",
+              }}
+              mr="auto"
+            >
               <Link as={RLink} to="/">
-                <Image
-                  width="130px"
-                  transform={{
-                    base: "translateX(-24px)",
-                    md: "translateX(0px)",
-                  }}
-                  src={Logo}
-                  alt="QuizWrld.co Logo"
-                />
+                <Image width="130px" src={Logo} alt="QuizWrld.co Logo" />
               </Link>
             </Center>
 

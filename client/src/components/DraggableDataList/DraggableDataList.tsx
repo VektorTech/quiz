@@ -38,8 +38,12 @@ const DraggableDataList = <T extends unknown>({
       (index) => index !== currentIndex
     );
 
-    const moveHandler = ({ clientY }: MouseEvent) => {
-      const posY = clientY - topPos - height / 2;
+    const moveHandler = (event: MouseEvent | TouchEvent) => {
+      const isMouse = event instanceof MouseEvent;
+      const posY =
+        (isMouse ? event.clientY : event.touches[0].clientY) -
+        topPos -
+        height / 2;
       const to = Math.round(posY / height) + currentIndex;
 
       if (to > -1 && to < listItemNodes.current.length) {
@@ -61,8 +65,12 @@ const DraggableDataList = <T extends unknown>({
       }
     };
 
-    const mouseUpHandler = ({ clientY }: MouseEvent) => {
-      const posY = clientY - topPos - height / 2;
+    const mouseUpHandler = (event: MouseEvent | TouchEvent) => {
+      const isMouse = event instanceof MouseEvent;
+      const posY =
+        (isMouse ? event.clientY : event.changedTouches[0].clientY) -
+        topPos -
+        height / 2;
       let to = Math.round(posY / height) + currentIndex;
 
       if (to !== currentIndex) {
@@ -71,17 +79,21 @@ const DraggableDataList = <T extends unknown>({
         const [temp] = newChoices.splice(currentIndex, 1);
         newChoices.splice(to, 0, temp);
 
-        onDragEnd(newChoices, to);
         setCurrentIndex(null);
+        onDragEnd(newChoices, to);
       }
     };
 
     window.addEventListener("mousemove", moveHandler);
+    window.addEventListener("touchmove", moveHandler);
     window.addEventListener("mouseup", mouseUpHandler);
+    window.addEventListener("touchend", mouseUpHandler);
 
     return () => {
       window.removeEventListener("mousemove", moveHandler);
+      window.removeEventListener("touchmove", moveHandler);
       window.removeEventListener("mouseup", mouseUpHandler);
+      window.removeEventListener("touchend", mouseUpHandler);
     };
   }, [currentIndex, data, onDragEnd]);
 
@@ -96,7 +108,10 @@ const DraggableDataList = <T extends unknown>({
           bgColor="white"
           position="relative"
         >
-          <DragHandle onMouseDown={() => setCurrentIndex(i)}>
+          <DragHandle
+            onMouseDown={() => setCurrentIndex(i)}
+            onTouchStart={() => setCurrentIndex(i)}
+          >
             <DragHandleIcon color="gray.400" />
           </DragHandle>
           <Box flexGrow="1">{renderItem(item, i)}</Box>

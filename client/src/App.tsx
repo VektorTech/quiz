@@ -5,14 +5,14 @@ import {
   Route,
 } from "react-router-dom";
 
-import Home from "@/pages/Home";
-import Browse from "@/pages/Browse";
-import NotFound from "@/pages/NotFound";
-import Quiz from "@/pages/Quiz";
-import Dashboard from "@/pages/Dashboard";
-import User from "@/pages/User";
-import CreateQuiz from "@/pages/CreateQuiz";
-import ErrorPage from "@/pages/ErrorPage";
+import Home from "@/routes/Home";
+import Browse from "@/routes/Browse";
+import NotFound from "@/routes/NotFound";
+import Quiz from "@/routes/Quiz";
+import Dashboard from "@/routes/Dashboard";
+import User from "@/routes/User";
+import CreateQuiz from "@/routes/CreateQuiz";
+import ErrorPage from "@/routes/ErrorPage";
 
 import Layout from "@/components/Layout";
 import quizLoader from "@/loaders/quiz.loader";

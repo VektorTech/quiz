@@ -33,6 +33,7 @@ import SearchBox from "./SearchBox";
 
 import { CATEGORIES } from "@/libs/constants";
 import { useGetAuthUserQuery } from "@/services/api";
+import CreateIcon from "../Icons/CreateIcon";
 
 const HeaderDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -95,6 +96,7 @@ const HeaderDrawer = () => {
             <VStack alignItems={"flex-start"}>
               <Button
                 width="100%"
+                leftIcon={<CreateIcon />}
                 as={RLink}
                 to={"/create"}
                 colorScheme="purple"

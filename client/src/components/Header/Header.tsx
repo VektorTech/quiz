@@ -23,6 +23,7 @@ import SearchBox from "./SearchBox";
 import HeaderMenu from "./HeaderMenu";
 
 import { useGetAuthUserQuery } from "@/services/api";
+import CreateIcon from "../Icons/CreateIcon";
 
 const HeaderElement = styled.header`
   height: 80px;
@@ -69,6 +70,7 @@ const Header = () => {
 
             <Button
               as={RLink}
+              leftIcon={<CreateIcon />}
               to="/create"
               marginLeft="auto"
               marginRight="5"

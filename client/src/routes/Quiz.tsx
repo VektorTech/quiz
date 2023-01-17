@@ -22,7 +22,7 @@ import {
   Badge,
 } from "@chakra-ui/react";
 import { Link as RLink, useLoaderData, useParams } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 
 import Slider from "react-slick";
@@ -54,6 +54,7 @@ export default function Quiz() {
 
   const [slideIndex, setSlideIndex] = useState(0);
   const formValues = watch();
+  const sliderRef = useRef<Slider>(null);
 
   return (
     <Container maxW="container.lg" pt="40px">
@@ -154,20 +155,54 @@ export default function Quiz() {
           ))}
         </Stack>
       ) : (
-        <Slider
-          infinite={false}
-          draggable={false}
-          afterChange={setSlideIndex}
-          prevArrow={<PrevArrow />}
-          nextArrow={
-            <NextArrow
-              disabled={!formValues[schema.questions[slideIndex].id]}
-              onSubmit={handleSubmit((formData) => {
-                let score = 0;
-                let corrections: Record<string, string>[] = [];
-                const responses = schema.questions.reduce<
-                  Record<string, string>
-                >((obj, current) => {
+        <>
+          <Slider
+            infinite={false}
+            draggable={false}
+            afterChange={setSlideIndex}
+            prevArrow={<PrevArrow />}
+            nextArrow={<button hidden />}
+            ref={sliderRef}
+          >
+            {schema.questions.map((question, i) => (
+              <Stack key={question.id}>
+                <Heading fontSize="lg" as="h2">
+                  {i + 1}.&nbsp;{question.question}
+                </Heading>
+                <Controller
+                  name={question.id}
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <RadioGroup
+                      value={value}
+                      onChange={(nextValue) => {
+                        onChange(nextValue);
+                      }}
+                    >
+                      <VStack alignItems="flex-start" pl="2">
+                        {question.choices.map((choice) => (
+                          <Radio value={choice.text} key={choice.id}>
+                            {choice.text}
+                          </Radio>
+                        ))}
+                      </VStack>
+                    </RadioGroup>
+                  )}
+                />
+              </Stack>
+            ))}
+          </Slider>
+
+          <NextArrow
+            onClick={sliderRef.current?.slickNext}
+            currentSlide={slideIndex}
+            slideCount={schema.questions.length}
+            disabled={!formValues[schema.questions[slideIndex].id]}
+            onSubmit={handleSubmit((formData) => {
+              let score = 0;
+              let corrections: Record<string, string>[] = [];
+              const responses = schema.questions.reduce<Record<string, string>>(
+                (obj, current) => {
                   obj[current.question] = formData[current.id];
                   const correct = Number(
                     formData[current.id] === current.answer
@@ -181,47 +216,20 @@ export default function Quiz() {
                     });
                   }
                   return obj;
-                }, {});
-                if (data.status === "ACTIVE") {
-                  addResponse({
-                    quizID: data.id,
-                    answers: responses,
-                    meta: { score },
-                  });
-                }
-                setResults({ answers: corrections, meta: { score } });
-              })}
-            />
-          }
-        >
-          {schema.questions.map((question, i) => (
-            <Stack key={question.id}>
-              <Heading fontSize="lg" as="h2">
-                {i + 1}.&nbsp;{question.question}
-              </Heading>
-              <Controller
-                name={question.id}
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <RadioGroup
-                    value={value}
-                    onChange={(nextValue) => {
-                      onChange(nextValue);
-                    }}
-                  >
-                    <VStack alignItems="flex-start" pl="2">
-                      {question.choices.map((choice) => (
-                        <Radio value={choice.text} key={choice.id}>
-                          {choice.text}
-                        </Radio>
-                      ))}
-                    </VStack>
-                  </RadioGroup>
-                )}
-              />
-            </Stack>
-          ))}
-        </Slider>
+                },
+                {}
+              );
+              if (data.status === "ACTIVE") {
+                addResponse({
+                  quizID: data.id,
+                  answers: responses,
+                  meta: { score },
+                });
+              }
+              setResults({ answers: corrections, meta: { score } });
+            })}
+          />
+        </>
       )}
     </Container>
   );

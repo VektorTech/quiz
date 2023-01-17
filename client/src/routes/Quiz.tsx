@@ -1,4 +1,10 @@
-import { QuizType, useAddQuizResponseMutation } from "@/services/api";
+import {
+  QuizType,
+  useAddQuizResponseMutation,
+  useFindQuizBySlugQuery,
+  useGetAuthUserQuery,
+  useLikeQuizMutation,
+} from "@/services/api";
 import {
   Button,
   Container,
@@ -14,10 +20,9 @@ import {
   Image,
   Box,
   Badge,
-  IconButton,
 } from "@chakra-ui/react";
-import { Link as RLink, useLoaderData } from "react-router-dom";
-
+import { Link as RLink, useLoaderData, useParams } from "react-router-dom";
+import { Fragment } from "react";
 import PlaceholderImage from "@/assets/quiz-img-placeholder.jpg";
 
 import Slider from "react-slick";
@@ -27,7 +32,15 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 export default function Quiz() {
-  const { data } = useLoaderData() as { data: QuizType };
+  // const { data } = useLoaderData() as { data: QuizType };
+  const { slug } = useParams();
+  const { data: quiz, error } = useFindQuizBySlugQuery(slug || "");
+  const data = quiz?.data;
+
+  if (!data) {
+    throw error;
+  }
+
   const schema = data.surveySchema;
   const [results, setResults] = useState<{
     answers: Record<string, string>[];
@@ -35,6 +48,9 @@ export default function Quiz() {
   }>();
   const { handleSubmit, control, watch } = useForm();
   const [addResponse] = useAddQuizResponseMutation();
+  const { data: user } = useGetAuthUserQuery();
+  const quizLiked = user?.likedQuizzes.some((quiz) => quiz.id === data.id);
+  const [likeQuiz] = useLikeQuizMutation();
 
   const [slideIndex, setSlideIndex] = useState(0);
   const formValues = watch();
@@ -67,12 +83,12 @@ export default function Quiz() {
             </Badge>
             {!!data.tags.length && " | Tags: "}
             {data.tags.map((tag, i) => (
-              <>
+              <Fragment key={tag}>
                 {i ? <span>, </span> : null}
                 <Link as={RLink} to="/">
                   <u>{tag}</u>
                 </Link>
-              </>
+              </Fragment>
             ))}
           </Box>
         </Box>
@@ -87,7 +103,18 @@ export default function Quiz() {
         <HStack>
           <Button
             variant="ghost"
-            leftIcon={<StarIcon boxSize={5} color="orange.300" />}
+            leftIcon={
+              <StarIcon
+                boxSize={5}
+                color={quizLiked ? "orange.300" : "gray.300"}
+                onClick={() => {
+                  if (user?.isAuth) {
+                    likeQuiz(data.id);
+                  }
+                  // && data.status === "ACTIVE"
+                }}
+              />
+            }
             // onClick={}
             aria-label="like"
           >
@@ -115,7 +142,7 @@ export default function Quiz() {
             Scored {results.meta.score} / {schema.questions.length}
           </Heading>
           {results.answers.map((answer) => (
-            <Box pt="5">
+            <Box key={answer.choice + answer.answer} pt="5">
               <Heading fontSize="lg" as="h2">
                 {answer.question}
               </Heading>

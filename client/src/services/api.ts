@@ -21,6 +21,7 @@ const baseAPI = createApi({
   endpoints: (builder) => ({
     getQuizzes: builder.query<QuizListResponse, number | void>({
       query: (page = 1) => `quizzes?page=${page}`,
+      providesTags: ["Quiz"]
     }),
     getAuthQuizzes: builder.query<NormalizedQuizListResponse, void>({
       query: () => "quizzes/user",
@@ -38,8 +39,9 @@ const baseAPI = createApi({
     getQuizById: builder.query<QuizType, string>({
       query: (id) => `quizzes/${id}`,
     }),
-    findQuizBySlug: builder.query<QuizType, string>({
+    findQuizBySlug: builder.query<{ data: QuizType }, string>({
       query: (slug) => `quizzes/slug/${slug}`,
+      providesTags: ["Quiz"]
     }),
     addQuiz: builder.mutation<{ data: QuizType }, QuizSchemaType>({
       query: (quizSchema) => ({
@@ -55,9 +57,16 @@ const baseAPI = createApi({
       }),
       invalidatesTags: ["User", "Quiz"],
     }),
+    likeQuiz: builder.mutation<{ data: QuizType }, EntityId>({
+      query: (quizId) => ({
+        url: `quizzes/${quizId}/likes`,
+        method: "POST",
+      }),
+      invalidatesTags: ["User", "Quiz"],
+    }),
     updateQuiz: builder.mutation<
       { data: QuizType },
-      Partial<Omit<QuizType, "id">> & { id: string | EntityId }
+      Partial<Omit<QuizType, "id">> & { id: EntityId }
     >({
       query: (field) => ({
         url: `quizzes/${field.id}`,
@@ -155,11 +164,13 @@ export const {
   useGetAuthQuizzesQuery,
   useGetAuthUserQuery,
   useGetQuizByIdQuery,
+  useFindQuizBySlugQuery,
 
   useAddQuizMutation,
   useAddQuizResponseMutation,
   useUpdateQuizMutation,
   useDeleteQuizMutation,
+  useLikeQuizMutation,
 } = baseAPI;
 
 export const selectQuizzesFromCurrentUser =

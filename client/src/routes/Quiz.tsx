@@ -107,15 +107,13 @@ export default function Quiz() {
               <StarIcon
                 boxSize={5}
                 color={quizLiked ? "orange.300" : "gray.300"}
-                onClick={() => {
-                  if (user?.isAuth) {
-                    likeQuiz(data.id);
-                  }
-                  // && data.status === "ACTIVE"
-                }}
               />
             }
-            // onClick={}
+            onClick={() => {
+              if (user?.isAuth && data.status === "ACTIVE") {
+                likeQuiz(data.id);
+              }
+            }}
             aria-label="like"
           >
             {data.likes}
@@ -243,7 +241,7 @@ const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
 function NextArrow(
   props: Partial<{
     onClick: () => void;
-    onSubmit: (args: any) => void;
+    onSubmit: () => void;
     currentSlide: number;
     slideCount: number;
     disabled: boolean;

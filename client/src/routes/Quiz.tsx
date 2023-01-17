@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as RLink, useLoaderData, useParams } from "react-router-dom";
 import { Fragment } from "react";
-import PlaceholderImage from "@/assets/quiz-img-placeholder.jpg";
+import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";

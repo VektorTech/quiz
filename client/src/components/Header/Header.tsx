@@ -16,7 +16,7 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { Link as RLink, useNavigate } from "react-router-dom";
-import Logo from "@/assets/Logo.svg";
+import Logo from "@/assets/icons/Logo.svg";
 
 import HeaderDrawer from "./HeaderDrawer";
 import SearchBox from "./SearchBox";

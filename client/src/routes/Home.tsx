@@ -12,7 +12,7 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 
-import PlaceholderImage from "@/assets/quiz-img-placeholder.jpg";
+import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 import { useGetQuizzesQuery } from "@/services/api";
 
 export default function Home() {

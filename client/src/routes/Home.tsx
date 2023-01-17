@@ -24,8 +24,8 @@ export default function Home() {
     <Container maxW="container.lg" gap="6">
       <Text mt="5">
         Welcome to the ultimate quiz site! Here, you can test your knowledge and
-        challenge your friends to see who comes out on top. With a wide variety
-        of quizzes covering topics ranging from pop culture to history, there's
+        challenge your friends to see who comes out on top. We have a wide variety
+        of quizzes covering topics ranging from pop culture to history, so there's
         something for everyone.
       </Text>
 

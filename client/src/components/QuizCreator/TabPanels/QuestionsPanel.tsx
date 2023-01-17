@@ -24,7 +24,8 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
   const [activeQuestion, setActiveQuestion] = useState<number>(-1);
   const [currentControl, setCurrentControl] = useState<string>("");
   const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
-  const allChecked = !!questions.length && checkedItems.every(Boolean);
+  const allChecked =
+    !!questions.length && !!checkedItems.length && checkedItems.every(Boolean);
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
 
   const onConfirm = (details: QuestionType) => {

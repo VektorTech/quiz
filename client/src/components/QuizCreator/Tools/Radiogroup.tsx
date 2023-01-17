@@ -16,6 +16,7 @@ import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import QuestionEditBox from "../QuestionEditBox";
 import { nanoid } from "@reduxjs/toolkit";
 import { toBase62 } from "@/libs/utils";
+import { QuestionType } from "@/features/quiz/quizSlice";
 
 const getChoiceObj = () => ({
   id: nanoid(5),
@@ -28,10 +29,10 @@ const Radiogroup = ({
   onClose,
   onConfirm,
 }: {
-  preset?: any;
+  preset?: QuestionType;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: (details: any) => void;
+  onConfirm: (details: QuestionType) => void;
 }) => {
   const [choices, setChoices] = useState<
     {
@@ -111,7 +112,7 @@ const Radiogroup = ({
                   <Input
                     size="sm"
                     onChange={(e) => {
-                      const newChoices = [...choices];
+                      const newChoices = JSON.parse(JSON.stringify(choices));
                       newChoices[index].text = e.target.value;
                       setChoices(newChoices);
                     }}

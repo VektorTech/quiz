@@ -32,6 +32,7 @@ export const BrowserRouter = createBrowserRouter(
       </Route>
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="create" element={<CreateQuiz />} />
+      <Route path="edit/:quizID" element={<CreateQuiz />} />
       <Route path="me" element={<User />} />
       <Route path="user/:userID" element={<User />} />
       <Route

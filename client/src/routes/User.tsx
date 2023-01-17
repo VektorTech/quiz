@@ -159,7 +159,7 @@ export default function User() {
                         aria-label="more actions"
                       />
                       <MenuList>
-                        <MenuItem icon={<EditIcon boxSize={4} />}>
+                        <MenuItem as={RLink} to={`/edit/${id}`} icon={<EditIcon boxSize={4} />}>
                           Edit
                         </MenuItem>
                         <MenuItem

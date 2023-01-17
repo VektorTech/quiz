@@ -3,6 +3,7 @@ import { QuizSchemaType } from "@/features/quiz/quizSlice";
 import {
   createEntityAdapter,
   createSelector,
+  EntityId,
   EntityState,
 } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
@@ -16,7 +17,7 @@ const baseAPI = createApi({
     baseUrl: "http://localhost:3001/api/",
     credentials: "include",
   }),
-  tagTypes: ["User"],
+  tagTypes: ["User", "Quiz"],
   endpoints: (builder) => ({
     getQuizzes: builder.query<QuizListResponse, number | void>({
       query: (page = 1) => `quizzes?page=${page}`,
@@ -32,6 +33,7 @@ const baseAPI = createApi({
           currentPageCount: 1,
         };
       },
+      providesTags: ["Quiz"],
     }),
     getQuizById: builder.query<QuizType, string>({
       query: (id) => `quizzes/${id}`,
@@ -51,22 +53,22 @@ const baseAPI = createApi({
           surveySchema: quizSchema,
         },
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Quiz"],
     }),
     updateQuiz: builder.mutation<
       { data: QuizType },
-      Partial<QuizType> & { id: string }
+      Partial<Omit<QuizType, "id">> & { id: string | EntityId }
     >({
       query: (field) => ({
         url: `quizzes/${field.id}`,
         method: "PATCH",
         body: field,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Quiz"],
     }),
     deleteQuiz: builder.mutation<string, string>({
       query: (id) => ({ url: `quizzes/${id}`, method: "DELETE" }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Quiz"],
     }),
 
     getAuthUser: builder.query<UserType, void>({

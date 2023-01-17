@@ -102,7 +102,9 @@ export default function Quiz() {
 
       {results ? (
         <Stack textAlign="center">
-          <Heading as="h3">Score: {results.meta.score}</Heading>
+          <Heading as="h3">
+            Scored {results.meta.score} / {schema.questions.length}
+          </Heading>
           {results.answers.map((answer) => (
             <Box pt="5">
               <Heading fontSize="lg" as="h2">
@@ -111,7 +113,7 @@ export default function Quiz() {
               <Text mt="2" color="green">
                 {answer.answer}
               </Text>
-              <Text>
+              <Text color="red.400">
                 <del>{answer.choice}</del>
               </Text>
             </Box>

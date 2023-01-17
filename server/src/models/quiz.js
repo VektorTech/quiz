@@ -60,7 +60,9 @@ const QuizSchema = new Schema(
 );
 
 QuizSchema.pre("save", function (next) {
-  this.set({ slug: `${nanoid(7)}-${toSlug(this.title)}` });
+  if (!this.slug) {
+    this.set({ slug: `${nanoid(7)}-${toSlug(this.title)}` });
+  }
   next();
 });
 

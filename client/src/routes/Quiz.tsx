@@ -14,6 +14,7 @@ import {
   Image,
   Box,
   Badge,
+  IconButton,
 } from "@chakra-ui/react";
 import { Link as RLink, useLoaderData } from "react-router-dom";
 
@@ -21,20 +22,22 @@ import PlaceholderImage from "@/assets/quiz-img-placeholder.jpg";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import { StarIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, StarIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 export default function Quiz() {
   const { data } = useLoaderData() as { data: QuizType };
   const schema = data.surveySchema;
-  const [nextActive, setNextActive] = useState(false);
   const [results, setResults] = useState<{
     answers: Record<string, string>[];
     meta: any;
   }>();
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, watch } = useForm();
   const [addResponse] = useAddQuizResponseMutation();
+
+  const [slideIndex, setSlideIndex] = useState(0);
+  const formValues = watch();
 
   return (
     <Container maxW="container.lg" pt="40px">
@@ -82,8 +85,14 @@ export default function Quiz() {
         padding="10px 0"
       >
         <HStack>
-          <StarIcon boxSize={5} color="orange.300" />
-          <Text>{data.likes}</Text>
+          <Button
+            variant="ghost"
+            leftIcon={<StarIcon boxSize={5} color="orange.300" />}
+            // onClick={}
+            aria-label="like"
+          >
+            {data.likes}
+          </Button>
           <Text>&bull;</Text>
           <Text fontWeight="bold">{schema.questions.length} Questions</Text>
           <Text>&bull;</Text>
@@ -123,11 +132,11 @@ export default function Quiz() {
         <Slider
           infinite={false}
           draggable={false}
-          afterChange={() => setNextActive(false)}
-          prevArrow={<HiddenButton />}
+          afterChange={setSlideIndex}
+          prevArrow={<PrevArrow />}
           nextArrow={
             <NextArrow
-              disabled={!nextActive}
+              disabled={!formValues[schema.questions[slideIndex].id]}
               onSubmit={handleSubmit((formData) => {
                 let score = 0;
                 let corrections: Record<string, string>[] = [];
@@ -172,7 +181,6 @@ export default function Quiz() {
                   <RadioGroup
                     value={value}
                     onChange={(nextValue) => {
-                      setNextActive(true);
                       onChange(nextValue);
                     }}
                   >
@@ -194,7 +202,16 @@ export default function Quiz() {
   );
 }
 
-const HiddenButton = (props: unknown) => <button hidden />;
+const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
+  <Button
+    mb="5"
+    variant="outline"
+    onClick={onClick}
+    leftIcon={<ChevronLeftIcon />}
+  >
+    Previous
+  </Button>
+);
 
 function NextArrow(
   props: Partial<{

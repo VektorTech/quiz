@@ -10,10 +10,10 @@ const quizRouter = Router();
 
 quizRouter.get("/", async (req, res) => {
   const LIMIT = 3;
-  const { page = 1 } = req.query;
+  const { page = 1, category } = req.query;
 
   const index = (Number(page) - 1) * LIMIT;
-  const filter = { status: "ACTIVE" };
+  const filter = { status: "ACTIVE", category };
   const total = await Quiz.count(filter);
   const pages = Math.ceil(total / LIMIT);
 

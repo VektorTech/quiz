@@ -1,5 +1,6 @@
 import { RootState } from "@/app/store";
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
+import { CATEGORIES } from "@/libs/constants";
 import {
   createEntityAdapter,
   createSelector,
@@ -19,9 +20,13 @@ const baseAPI = createApi({
   }),
   tagTypes: ["User", "Quiz"],
   endpoints: (builder) => ({
-    getQuizzes: builder.query<QuizListResponse, number | void>({
-      query: (page = 1) => `quizzes?page=${page}`,
-      providesTags: ["Quiz"]
+    getQuizzes: builder.query<
+      QuizListResponse,
+      { page?: number; category?: typeof CATEGORIES[number] } | void
+    >({
+      query: ({ page = 1, category } = { page: 1, category: undefined }) =>
+        `quizzes?page=${page}&category=${category ?? ""}`,
+      providesTags: ["Quiz"],
     }),
     getAuthQuizzes: builder.query<NormalizedQuizListResponse, void>({
       query: () => "quizzes/user",
@@ -41,7 +46,7 @@ const baseAPI = createApi({
     }),
     findQuizBySlug: builder.query<{ data: QuizType }, string>({
       query: (slug) => `quizzes/slug/${slug}`,
-      providesTags: ["Quiz"]
+      providesTags: ["Quiz"],
     }),
     addQuiz: builder.mutation<{ data: QuizType }, QuizSchemaType>({
       query: (quizSchema) => ({
@@ -155,8 +160,8 @@ interface ListResponse<T> {
   data: T[];
 }
 
-type QuizListResponse = ListResponse<QuizType>;
-type NormalizedQuizListResponse = EntityState<QuizType> &
+export type QuizListResponse = ListResponse<QuizType>;
+export type NormalizedQuizListResponse = EntityState<QuizType> &
   Omit<QuizListResponse, "data">;
 
 export const {

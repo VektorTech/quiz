@@ -161,7 +161,7 @@ export default function Quiz() {
             draggable={false}
             afterChange={setSlideIndex}
             prevArrow={<PrevArrow />}
-            nextArrow={<button hidden />}
+            nextArrow={<HiddenButton />}
             ref={sliderRef}
           >
             {schema.questions.map((question, i) => (
@@ -234,6 +234,8 @@ export default function Quiz() {
     </Container>
   );
 }
+
+const HiddenButton = () => <button hidden />;
 
 const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
   <Button

@@ -127,6 +127,7 @@ const Header = () => {
                       margin="auto 0"
                       size="sm"
                       bg="purple.500"
+                      referrerPolicy="no-referrer"
                     >
                       {data?.isAuth ? (
                         <AvatarBadge boxSize="1.1em" bg="green.300" />

@@ -4,6 +4,7 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Home from "@/routes/Home";
 import Browse from "@/routes/Browse";
@@ -52,6 +53,9 @@ function App() {
 
   return (
     <div className="App">
+      <Helmet>
+        <meta name="referrer" content="no-referrer" />
+      </Helmet>
       <RouterProvider router={BrowserRouter} />
     </div>
   );

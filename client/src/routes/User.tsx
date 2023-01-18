@@ -56,6 +56,7 @@ export default function User() {
             margin="auto 0"
             size="2xl"
             bg="purple.500"
+            referrerPolicy="no-referrer"
           />
           <Heading as="h1" size="md">
             <AtSignIcon mr="0.5" verticalAlign="bottom" />

@@ -4,13 +4,16 @@ import baseAPI from "@/services/api";
 import { LoaderFunction } from "react-router-dom";
 
 const quizzesLoader: LoaderFunction = async ({ params, request }) => {
-  const page = Number(new URL(request.url).searchParams.get("page")) ?? 1;
+  const { searchParams } = new URL(request.url);
+  const page = Number(searchParams.get("page")) ?? 1;
+  const search = searchParams.get("search") ?? "";
   const category = params.categoryID as typeof CATEGORIES[number];
 
   const response = await store.dispatch(
     baseAPI.endpoints.getQuizzes.initiate({
       page,
       category,
+      search,
     })
   );
 

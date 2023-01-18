@@ -22,10 +22,19 @@ const baseAPI = createApi({
   endpoints: (builder) => ({
     getQuizzes: builder.query<
       QuizListResponse,
-      { page?: number; category?: typeof CATEGORIES[number] } | void
+      {
+        page?: number;
+        category?: typeof CATEGORIES[number] | "";
+        search?: string;
+      } | void
     >({
-      query: ({ page = 1, category } = { page: 1, category: undefined }) =>
-        `quizzes?page=${page}&category=${category ?? ""}`,
+      query: (
+        { page, category, search } = {
+          page: 1,
+          category: "",
+          search: "",
+        }
+      ) => `quizzes?page=${page}&category=${category}&search=${search}`,
       providesTags: ["Quiz"],
     }),
     getAuthQuizzes: builder.query<NormalizedQuizListResponse, void>({

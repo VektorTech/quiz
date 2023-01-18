@@ -17,15 +17,17 @@ import ErrorPage from "@/routes/ErrorPage";
 import Layout from "@/components/Layout";
 import quizLoader from "@/loaders/quiz.loader";
 import { useGetAuthQuizzesQuery } from "./services/api";
+import quizzesLoader from "./loaders/quizzes.loader";
 
 export const BrowserRouter = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
       <Route index element={<Home />} />
       <Route path="browse">
-        <Route index element={<Browse />} />
+        <Route loader={quizzesLoader} index element={<Browse />} />
         <Route
           errorElement={<NotFound />}
+          loader={quizzesLoader}
           path=":categoryID"
           element={<Browse />}
         />

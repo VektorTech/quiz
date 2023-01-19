@@ -24,17 +24,14 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Button,
 } from "@chakra-ui/react";
 
 import {
   useDeleteQuizMutation,
-  useFollowUserMutation,
   useGetAuthUserQuery,
-  useGetUserByIdQuery,
   useUpdateQuizMutation,
 } from "@/services/api";
-import { Link as RLink, useParams, useSearchParams } from "react-router-dom";
+import { Link as RLink } from "react-router-dom";
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 import MoreVerticalIcon from "@/components/Icons/MoreVerticalIcon";
 import { AtSignIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
@@ -44,22 +41,16 @@ import PublishIcon from "@/components/Icons/PublishIcon";
 import { Helmet } from "react-helmet-async";
 
 export default function Profile() {
-  const params = useParams();
-  const { data: authUser } = useGetAuthUserQuery();
-  const { data, isLoading } = useGetUserByIdQuery(params.userID || "");
-  const user = data?.data;
-
-  const [followUser] = useFollowUserMutation();
-
+  const { data: user, isLoading } = useGetAuthUserQuery();
   const [updateQuiz] = useUpdateQuizMutation();
   const [deleteQuiz] = useDeleteQuizMutation();
 
   if (isLoading) return <Container textAlign="center">Loading...</Container>;
 
-  return user ? (
+  return user?.isAuth ? (
     <Container maxW="container.lg">
       <Helmet>
-        <title>User | {user.avatar.username}</title>
+        <title>{user.avatar.username}</title>
       </Helmet>
       <Center flexDirection="column" gap="5" marginTop="40px">
         <Stack alignItems="center">
@@ -115,33 +106,34 @@ export default function Profile() {
             </Text>
           </Stack>
         </HStack>
-
-        {authUser?.isAuth && (
-          <Button onClick={() => followUser(user.id)}>
-            {user.followers.includes(authUser.id) ? "Unfollow" : "Follow"}
-          </Button>
-        )}
-        {authUser?.followers.includes(user.id) ? "Follows You" : ""}
       </Center>
 
       <TableContainer whiteSpace="normal">
         <Divider mt="10" />
         <Table size="sm" variant="simple">
           <TableCaption fontSize="md" placement="top">
-            User Quizzes ({user.quizzes.length})
+            Your Quizzes ({user.quizzes.length})
           </TableCaption>
 
           <Thead>
             <Tr>
+              <Th>
+                <Checkbox />
+              </Th>
               <Th>Title</Th>
+              <Th>Status</Th>
               <Th>Category</Th>
               <Th>Likes</Th>
+              <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
             {user.quizzes.map(
               ({ title, image, category, id, status, likes, slug }) => (
                 <Tr key={id}>
+                  <Td>
+                    <Checkbox />
+                  </Td>
                   <Td title={title} minW="200px">
                     <Link as={RLink} to={`/${slug}`}>
                       <HStack>
@@ -158,9 +150,44 @@ export default function Profile() {
                     </Link>
                   </Td>
                   <Td>
+                    <Badge colorScheme={BadgeColor[status]}>{status}</Badge>
+                  </Td>
+                  <Td>
                     <Badge>{category.toUpperCase()}</Badge>
                   </Td>
                   <Td isNumeric>{likes}</Td>
+                  <Td>
+                    <Menu>
+                      <MenuButton
+                        as={IconButton}
+                        icon={<MoreVerticalIcon boxSize={5} />}
+                        aria-label="more actions"
+                      />
+                      <MenuList>
+                        <MenuItem as={RLink} to={`/edit/${id}`} icon={<EditIcon boxSize={4} />}>
+                          Edit
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() =>
+                            updateQuiz({
+                              status:
+                                status === "ACTIVE" ? "DRAFTED" : "ACTIVE",
+                              id,
+                            })
+                          }
+                          icon={<PublishIcon boxSize={4} />}
+                        >
+                          {status === "DRAFTED" ? "Publish" : "Pause"}
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => deleteQuiz(id)}
+                          icon={<DeleteIcon boxSize={4} />}
+                        >
+                          Delete
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </Td>
                 </Tr>
               )
             )}

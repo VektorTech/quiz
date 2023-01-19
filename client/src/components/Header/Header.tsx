@@ -24,6 +24,7 @@ import {
   FormLabel,
   InputGroup,
   InputLeftElement,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Link as RLink, useNavigate } from "react-router-dom";
 import Logo from "@/assets/icons/Logo.svg";
@@ -57,7 +58,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm();
 
   return (
     <HeaderElement>
@@ -187,63 +188,84 @@ const Header = () => {
               <Divider />
             </HStack>
 
-            <Stack gap="1">
-              <FormControl>
-                <FormLabel>Email</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<EmailIcon color="gray.300" />}
-                  />
-                  <Input type="email" {...register("username")} />
-                </InputGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel>Password</FormLabel>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<LockIcon color="gray.300" />}
-                  />
-                  <Input type="password" {...register("password")} />
-                </InputGroup>
-              </FormControl>
-              <Button
-                colorScheme="purple"
-                width="100%"
-                onClick={handleSubmit((data) => {
-                  fetch("//localhost:3001/api/auth/login/ropc", {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
+            <form
+              onSubmit={handleSubmit((data) => {
+                fetch("//localhost:3001/api/auth/login/ropc", {
+                  method: "POST",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(data),
+                })
+                  .then((res) => {
+                    if (res.ok) {
+                      navigate("/me");
+                      onClose();
+                    }
+                    console.log(res);
                   })
-                    .then((res) => {
-                      if (res.ok) {
-                        navigate("/me");
-                        onClose();
-                      }
-                      console.log(res);
-                    })
-                    .catch(console.log);
-                })}
-              >
-                Log In
-              </Button>
-              <Button
-                variant="ghost"
-                leftIcon={<EditIcon />}
-                fontSize="sm"
-                color="gray.600"
-                onClick={() => {
-                  window.location.href = "//localhost:3001/api/auth/login";
-                }}
-              >
-                Create An Account
-              </Button>
-            </Stack>
+                  .catch(console.log);
+              })}
+            >
+              <Stack gap="1">
+                <FormControl>
+                  <FormLabel>Email</FormLabel>
+                  <InputGroup>
+                    <InputLeftElement
+                      pointerEvents="none"
+                      children={<EmailIcon color="gray.300" />}
+                    />
+                    <Input
+                      type="email"
+                      {...register("username", {
+                        required: "Email is required!",
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "Invalid email address",
+                        },
+                      })}
+                    />
+                  </InputGroup>
+                  <FormErrorMessage>
+                    {formState.errors.email?.message?.toString()}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Password</FormLabel>
+                  <InputGroup>
+                    <InputLeftElement
+                      pointerEvents="none"
+                      children={<LockIcon color="gray.300" />}
+                    />
+                    <Input
+                      type="password"
+                      {...register("password", {
+                        required: true,
+                        minLength: 7,
+                      })}
+                    />
+                  </InputGroup>
+                </FormControl>
+                <Button colorScheme="purple" width="100%" type="submit">
+                  Log In
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  leftIcon={<EditIcon />}
+                  fontSize="sm"
+                  color="gray.600"
+                  type="button"
+                  onClick={() => {
+                    window.location.href = "//localhost:3001/api/auth/login";
+                  }}
+                >
+                  Create An Account
+                </Button>
+              </Stack>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>

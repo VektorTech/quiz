@@ -20,6 +20,7 @@ import {
   Image,
   Box,
   Badge,
+  Tag,
 } from "@chakra-ui/react";
 import { Link as RLink, useLoaderData, useParams } from "react-router-dom";
 import { Fragment, useRef } from "react";
@@ -86,15 +87,15 @@ export default function Quiz() {
             <Badge>
               <RLink to={`/browse/${data.category}`}>{data.category}</RLink>
             </Badge>
-            {!!data.tags.length && " | Tags: "}
-            {data.tags.map((tag, i) => (
-              <Fragment key={tag}>
-                {i ? <span>, </span> : null}
-                <Link as={RLink} to="/">
-                  <u>{tag}</u>
+            <HStack spacing="3">
+              {data.tags.map((tag, i) => (
+                <Link key={tag} as={RLink} to="/">
+                  <Tag size="sm" borderRadius="full" variant="solid">
+                    {tag}
+                  </Tag>
                 </Link>
-              </Fragment>
-            ))}
+              ))}
+            </HStack>
           </Box>
         </Box>
       </HStack>

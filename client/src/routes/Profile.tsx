@@ -41,6 +41,7 @@ import { AtSignIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import LocationIcon from "@/components/Icons/LocationIcon";
 import VerifiedIcon from "@/components/Icons/VerifiedIcon";
 import PublishIcon from "@/components/Icons/PublishIcon";
+import { Helmet } from "react-helmet-async";
 
 export default function Profile() {
   const params = useParams();
@@ -57,6 +58,9 @@ export default function Profile() {
 
   return user ? (
     <Container maxW="container.lg">
+      <Helmet>
+        <title>User | {user.avatar.username}</title>
+      </Helmet>
       <Center flexDirection="column" gap="5" marginTop="40px">
         <Stack alignItems="center">
           <Avatar

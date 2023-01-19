@@ -30,6 +30,7 @@ import "slick-carousel/slick/slick.css";
 import { ChevronLeftIcon, StarIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Helmet } from "react-helmet-async";
 
 export default function Quiz() {
   // const { data } = useLoaderData() as { data: QuizType };
@@ -58,6 +59,9 @@ export default function Quiz() {
 
   return (
     <Container maxW="container.lg" pt="40px">
+      <Helmet>
+        <title>Quiz | {data.title}</title>
+      </Helmet>
       <HStack gap="2">
         <Image
           alt={data.title}

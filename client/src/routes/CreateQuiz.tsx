@@ -1,5 +1,6 @@
 import { QuizCreator } from "@/components/QuizCreator";
 import { useGetAuthUserQuery } from "@/services/api";
+import { Helmet } from "react-helmet-async";
 import { Navigate, useParams } from "react-router-dom";
 
 export default function CreateQuizPage() {
@@ -12,6 +13,9 @@ export default function CreateQuizPage() {
     }
     return (
       <div>
+        <Helmet>
+          <title>Create Quiz</title>
+        </Helmet>
         <QuizCreator id={quizID} />
       </div>
     );

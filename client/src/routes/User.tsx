@@ -38,6 +38,7 @@ import { AtSignIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import LocationIcon from "@/components/Icons/LocationIcon";
 import VerifiedIcon from "@/components/Icons/VerifiedIcon";
 import PublishIcon from "@/components/Icons/PublishIcon";
+import { Helmet } from "react-helmet-async";
 
 export default function User() {
   const { data: user, isLoading } = useGetAuthUserQuery();
@@ -48,6 +49,9 @@ export default function User() {
 
   return user?.isAuth ? (
     <Container maxW="container.lg">
+      <Helmet>
+        <title>{user.avatar.username}</title>
+      </Helmet>
       <Center flexDirection="column" gap="5" marginTop="40px">
         <Stack alignItems="center">
           <Avatar

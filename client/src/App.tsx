@@ -56,6 +56,7 @@ function App() {
     <div className="App">
       <Helmet>
         <meta name="referrer" content="no-referrer" />
+        <title>QuizWrld</title>
       </Helmet>
       <RouterProvider router={BrowserRouter} />
     </div>

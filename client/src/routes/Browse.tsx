@@ -2,6 +2,7 @@ import { QuizListResponse } from "@/services/api";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Container } from "@chakra-ui/react";
 import styled from "@emotion/styled";
+import { Helmet } from "react-helmet-async";
 import ReactPaginate from "react-paginate";
 import { useLoaderData } from "react-router-dom";
 
@@ -19,6 +20,9 @@ export default function Browse() {
 
   return (
     <Container maxW="container.lg">
+      <Helmet>
+        <title>Quizzes</title>
+      </Helmet>
       <Paginate
         breakLabel="..."
         previousLabel={<ChevronLeftIcon boxSize="6" />}

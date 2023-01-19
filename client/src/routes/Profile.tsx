@@ -28,7 +28,7 @@ import {
 
 import {
   useDeleteQuizMutation,
-  useGetAuthUserQuery,
+  UserType,
   useUpdateQuizMutation,
 } from "@/services/api";
 import { Link as RLink } from "react-router-dom";
@@ -40,14 +40,11 @@ import VerifiedIcon from "@/components/Icons/VerifiedIcon";
 import PublishIcon from "@/components/Icons/PublishIcon";
 import { Helmet } from "react-helmet-async";
 
-export default function Profile() {
-  const { data: user, isLoading } = useGetAuthUserQuery();
+export default function Profile({ user }: { user: UserType }) {
   const [updateQuiz] = useUpdateQuizMutation();
   const [deleteQuiz] = useDeleteQuizMutation();
 
-  if (isLoading) return <Container textAlign="center">Loading...</Container>;
-
-  return user?.isAuth ? (
+  return (
     <Container maxW="container.lg">
       <Helmet>
         <title>{user.avatar.username}</title>
@@ -164,7 +161,11 @@ export default function Profile() {
                         aria-label="more actions"
                       />
                       <MenuList>
-                        <MenuItem as={RLink} to={`/edit/${id}`} icon={<EditIcon boxSize={4} />}>
+                        <MenuItem
+                          as={RLink}
+                          to={`/edit/${id}`}
+                          icon={<EditIcon boxSize={4} />}
+                        >
                           Edit
                         </MenuItem>
                         <MenuItem
@@ -195,8 +196,6 @@ export default function Profile() {
         </Table>
       </TableContainer>
     </Container>
-  ) : (
-    <div>Login</div>
   );
 }
 

@@ -20,7 +20,7 @@ import quizLoader from "@/loaders/quiz.loader";
 import { useGetAuthQuizzesQuery } from "./services/api";
 import quizzesLoader from "./loaders/quizzes.loader";
 import Profile from "./routes/Profile";
-import Protected from "./routes/Protected";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 export const BrowserRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -37,36 +37,17 @@ export const BrowserRouter = createBrowserRouter(
       </Route>
       <Route
         path="dashboard"
-        element={
-          <Protected>
-            <CreateQuiz />
-          </Protected>
-        }
+        element={<ProtectedRoute component={Dashboard} />}
       />
       <Route
         path="create"
-        element={
-          <Protected>
-            <CreateQuiz />
-          </Protected>
-        }
+        element={<ProtectedRoute component={CreateQuiz} />}
       />
       <Route
         path="edit/:quizID"
-        element={
-          <Protected>
-            <CreateQuiz />
-          </Protected>
-        }
+        element={<ProtectedRoute component={CreateQuiz} />}
       />
-      <Route
-        path="me"
-        element={
-          <Protected>
-            <Profile />
-          </Protected>
-        }
-      />
+      <Route path="me" element={<ProtectedRoute component={Profile} />} />
       <Route path="user/:userID" element={<User />} />
       <Route
         path=":slug"

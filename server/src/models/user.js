@@ -50,6 +50,13 @@ const UserSchema = new Schema(
           role: undefined
         }
       }
+    },
+    virtuals: {
+      followersCount: {
+        get() {
+          return this.followers.length;
+        }
+      }
     }
   }
 );

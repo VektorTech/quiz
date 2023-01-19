@@ -18,7 +18,7 @@ const baseAPI = createApi({
     baseUrl: "http://localhost:3001/api/",
     credentials: "include",
   }),
-  tagTypes: ["User", "Quiz"],
+  tagTypes: ["User", "Quiz", "ViewUser"],
   endpoints: (builder) => ({
     getQuizzes: builder.query<
       QuizListResponse,
@@ -98,7 +98,14 @@ const baseAPI = createApi({
       query: () => "users/me",
       providesTags: ["User"],
     }),
-
+    getUserById: builder.query<{ data: UserType }, string>({
+      query: (userId) => `users/${userId}`,
+      providesTags: ["ViewUser"],
+    }),
+    followUser: builder.mutation<string, string>({
+      query: (userId) => ({ url: `users/${userId}/follow`, method: "POST" }),
+      invalidatesTags: ["ViewUser", "User"],
+    }),
     addQuizResponse: builder.mutation<
       { data: QuizUserResponse },
       QuizUserResponse
@@ -137,6 +144,7 @@ export interface UserType {
   quizzes: QuizType[];
   likedQuizzes: QuizType[];
   followers: string[];
+  following: string[];
   isBanned: boolean;
   createdAt: string;
   updatedAt: string;
@@ -178,6 +186,7 @@ export const {
   useGetAuthQuizzesQuery,
   useGetAuthUserQuery,
   useGetQuizByIdQuery,
+  useGetUserByIdQuery,
   useFindQuizBySlugQuery,
 
   useAddQuizMutation,
@@ -185,6 +194,7 @@ export const {
   useUpdateQuizMutation,
   useDeleteQuizMutation,
   useLikeQuizMutation,
+  useFollowUserMutation,
 } = baseAPI;
 
 export const selectQuizzesFromCurrentUser =

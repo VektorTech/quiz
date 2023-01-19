@@ -4,7 +4,7 @@ import {
   RouterProvider,
   Route,
 } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet-async';
 
 import Home from "@/routes/Home";
 import Browse from "@/routes/Browse";
@@ -19,6 +19,7 @@ import Layout from "@/components/Layout";
 import quizLoader from "@/loaders/quiz.loader";
 import { useGetAuthQuizzesQuery } from "./services/api";
 import quizzesLoader from "./loaders/quizzes.loader";
+import Profile from "./routes/Profile";
 
 export const BrowserRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -37,7 +38,7 @@ export const BrowserRouter = createBrowserRouter(
       <Route path="create" element={<CreateQuiz />} />
       <Route path="edit/:quizID" element={<CreateQuiz />} />
       <Route path="me" element={<User />} />
-      <Route path="user/:userID" element={<User />} />
+      <Route path="user/:userID" element={<Profile />} />
       <Route
         path=":slug"
         element={<Quiz />}

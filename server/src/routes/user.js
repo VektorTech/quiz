@@ -10,11 +10,15 @@ userRouter.get("/me", ensureLoggedIn("/"), async (req, res) => {
     "quizzes",
     "likedQuizzes",
   ]);
+  const following = (
+    await User.find({ followers: { $eq: user.id } })
+  ).map(user => user.id);
 
-  res.json({ ...user.getUserDetails(), isAuth: true });
+  res.json({ ...user.getUserDetails(), following, isAuth: true });
 });
 
 userRouter.get("/:id", async (req, res) => {
+  const isAuth = req.params.id == req.user.id;
   const user = await User.findById(req.params.id, {
     role: 0,
     user_id: 0,
@@ -25,14 +29,33 @@ userRouter.get("/:id", async (req, res) => {
     "quizzes",
     "likedQuizzes",
   ]);
-  const isAuth = req.params.id == req.user.id;
+  const following = (
+    await User.find({ followers: { $eq: user.id } })
+  ).map(user => user.id);
 
   res.json({
     data: {
-      ...user.toObject(),
+      ...user.getUserDetails(),
+      following,
       isAuth,
     },
   });
+});
+
+userRouter.post("/:id/follow", ensureLoggedIn("/"), async (req, res) => {
+  if (req.params.id == req.user.id) {
+    res.status(401).send("Unauthorized");
+  }
+  const user = await User.findById(req.params.id);
+
+  if (user.followers.includes(req.user.id)) {
+    user = user.followers.filter(id => id != req.user.id)
+  } else {
+    user.followers.push(req.user.id);
+  }
+  user.save();
+
+  res.send("Success");
 });
 
 export default userRouter;

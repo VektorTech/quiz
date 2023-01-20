@@ -94,7 +94,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
               size="sm"
               variant="outline"
               borderRadius={0}
-              colorScheme={"green"}
+              colorScheme="brand"
               title="Radiogroup tool"
               aria-label="Add radiogroup"
               onClick={() => {

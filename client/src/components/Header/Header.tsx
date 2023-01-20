@@ -101,7 +101,7 @@ const Header = () => {
               to="/create"
               marginLeft="auto"
               marginRight="5"
-              colorScheme="purple"
+              colorScheme="brand"
               display={{ base: "none", md: "inline-flex" }}
             >
               Create A Quiz
@@ -117,7 +117,7 @@ const Header = () => {
                   isIndeterminate
                   margin="auto 0"
                   size="32px"
-                  color="purple.300"
+                  color="brand.300"
                 />
               ) : (
                 <Menu>
@@ -127,7 +127,7 @@ const Header = () => {
                       src={data?.avatar.picture_url}
                       margin="auto 0"
                       size="sm"
-                      bg="purple.500"
+                      bg="brand.500"
                       referrerPolicy="no-referrer"
                     >
                       {data?.isAuth ? (
@@ -209,7 +209,7 @@ const Header = () => {
               })}
             >
               <Stack gap="1">
-                <FormControl>
+                <FormControl isInvalid={formState.isDirty}>
                   <FormLabel>Email</FormLabel>
                   <InputGroup>
                     <InputLeftElement
@@ -248,7 +248,7 @@ const Header = () => {
                     />
                   </InputGroup>
                 </FormControl>
-                <Button colorScheme="purple" width="100%" type="submit">
+                <Button width="100%" type="submit">
                   Log In
                 </Button>
 

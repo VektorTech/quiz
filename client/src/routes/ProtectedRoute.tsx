@@ -18,7 +18,7 @@ export default function ProtectedRoute({
           thickness="4px"
           speed="0.65s"
           emptyColor="gray.200"
-          color="purple.500"
+          color="brand.500"
           size="xl"
           margin="auto"
         />

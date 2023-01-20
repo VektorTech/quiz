@@ -56,7 +56,7 @@ export default function Profile({ user }: { user: UserType }) {
             src={user.avatar.picture_url}
             margin="auto 0"
             size="2xl"
-            bg="purple.500"
+            bg="brand.500"
             referrerPolicy="no-referrer"
           />
           <Heading as="h1" size="md">

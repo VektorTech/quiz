@@ -15,7 +15,7 @@ const SearchBox = ({ full = false }) => {
       <Input
         htmlSize={full ? 0 : 12}
         width={full ? "100%" : "auto"}
-        focusBorderColor="purple.300"
+        // focusBorderColor="brand.300"
         type="search"
         placeholder="Search Quizzes"
       />

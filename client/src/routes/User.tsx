@@ -34,7 +34,12 @@ import {
   useGetUserByIdQuery,
   useUpdateQuizMutation,
 } from "@/services/api";
-import { Link as RLink, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link as RLink,
+  Navigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 import MoreVerticalIcon from "@/components/Icons/MoreVerticalIcon";
 import { AtSignIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
@@ -68,7 +73,7 @@ export default function User() {
             src={user.avatar.picture_url}
             margin="auto 0"
             size="2xl"
-            bg="purple.500"
+            bg="brand.500"
             referrerPolicy="no-referrer"
           />
           <Heading as="h1" size="md">
@@ -169,7 +174,7 @@ export default function User() {
       </TableContainer>
     </Container>
   ) : (
-    <div>Login</div>
+    <Navigate to="/" />
   );
 }
 

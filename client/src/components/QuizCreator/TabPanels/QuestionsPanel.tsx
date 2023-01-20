@@ -46,7 +46,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
       <Flex
         rowGap="1"
         flexDirection={{ base: "column", sm: "row" }}
-        justifyContent={"space-between"}
+        justifyContent="space-between"
         className="actions-bar"
       >
         <Box>
@@ -58,7 +58,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
           <Button
             leftIcon={<DeleteIcon />}
             variant="outline"
-            colorScheme={"red"}
+            colorScheme="red"
             onClick={() => {
               const _questions = questions.filter((_, i) => {
                 return !checkedItems[i];

@@ -77,13 +77,12 @@ export default function CreateQuiz({ id = "" }) {
       </Container>
 
       <Container maxW="container.md">
-        <Tabs colorScheme={"purple"}>
+        <Tabs>
           <TabList>
             <Tab>Info</Tab>
             <Tab>Questions</Tab>
             <Button
-              colorScheme={"green"}
-              borderRadius={0}
+              colorScheme="green"
               height="8"
               lineHeight="8"
               ml="auto"

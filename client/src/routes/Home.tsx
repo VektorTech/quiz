@@ -39,7 +39,7 @@ export default function Home() {
             <Link to={{ pathname: quiz.slug }}>
               <Card maxW="sm" float="left">
                 <Stack direction="row" justifyContent="flex-end">
-                  <Badge colorScheme="purple">{quiz.category}</Badge>
+                  <Badge>{quiz.category}</Badge>
                 </Stack>
                 <Image
                   objectFit="cover"

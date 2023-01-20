@@ -49,7 +49,6 @@ const HeaderDrawer = () => {
     <>
       <Button
         ref={toggleBtn}
-        colorScheme="purple"
         as={IconButton}
         icon={<HamburgerIcon />}
         onClick={onOpen}
@@ -71,7 +70,7 @@ const HeaderDrawer = () => {
                 isIndeterminate
                 margin="auto 0"
                 size="32px"
-                color="purple.300"
+                color="brand.300"
               />
             ) : (
               <RLink to="/me">
@@ -80,7 +79,7 @@ const HeaderDrawer = () => {
                   src={data?.avatar.picture_url}
                   margin="auto 0"
                   size="sm"
-                  bg="purple.500"
+                  bg="brand.500"
                   referrerPolicy="no-referrer"
                 >
                   {data?.isAuth ? (
@@ -100,13 +99,13 @@ const HeaderDrawer = () => {
                 leftIcon={<CreateIcon />}
                 as={RLink}
                 to={"/create"}
-                colorScheme="purple"
+                colorScheme="brand"
               >
                 Create A Quiz
               </Button>
             </VStack>
 
-            <VStack alignItems={"flex-start"} pt={2}>
+            <VStack alignItems="flex-start" pt={2}>
               <SearchBox full />
             </VStack>
 
@@ -184,7 +183,7 @@ const HeaderDrawer = () => {
           </DrawerBody>
 
           <DrawerFooter justifyContent={"start"}>
-            <Stack color="gray.400" spacing={0}>
+            <Stack color="gray.500" spacing={0}>
               <Text fontSize="sm">
                 &copy; {new Date().getFullYear()} QuizWrld. All Rights Reserved.
               </Text>

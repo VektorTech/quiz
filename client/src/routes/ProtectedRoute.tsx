@@ -1,15 +1,17 @@
+import { useAppDispatch } from "@/app/hooks";
+import { openModal } from "@/features/ui/uiSlice";
 import { useGetAuthUserQuery, UserType } from "@/services/api";
 import { Flex, Spinner } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
-import ErrorPage from "./ErrorPage";
 
 export default function ProtectedRoute({
   component: Render,
 }: {
   component: (props: { user: UserType }) => ReactElement;
 }) {
-  const { data: user, isLoading, isError } = useGetAuthUserQuery();
+  const { data: user, isLoading } = useGetAuthUserQuery();
+  const dispatch = useAppDispatch();
 
   if (isLoading) {
     return (
@@ -26,13 +28,10 @@ export default function ProtectedRoute({
     );
   }
 
-  if (isError) {
-    return <ErrorPage />;
-  }
-
   if (user?.isAuth) {
     return <Render user={user} />;
   }
 
-  return <Navigate to="/" />;
+  dispatch(openModal("LOGIN"));
+  return <Navigate to="/" replace />;
 }

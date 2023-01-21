@@ -13,6 +13,40 @@ const Paginate = styled(ReactPaginate)`
   justify-content: center;
   gap: 5px;
   list-style: none;
+  position: absolute;
+  bottom: 5px;
+  font-size: 16px;
+  left: 0;
+  right: 0;
+
+  & li {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    color: #999;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    &.selected {
+      background-color: var(--chakra-colors-brand-500);
+      color: #fff;
+
+      &:hover {
+        background-color: var(--chakra-colors-brand-600);
+      }
+    }
+
+    > a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
 
 export default function Browse() {
@@ -20,7 +54,7 @@ export default function Browse() {
   const navigate = useNavigate();
 
   if (!quizList.currentPageCount) {
-    return <Navigate to="/" />
+    return <Navigate to="/" />;
   }
 
   return (

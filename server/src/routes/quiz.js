@@ -5,32 +5,32 @@ import Quiz from "../models/quiz.js";
 import QuizResponse from "../models/quizResponse.js";
 import User from "../models/user.js";
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
+import { QUIZ_RESULTS_LIMIT } from "../configs/general.config.js";
 
 const quizRouter = Router();
 
 quizRouter.get("/", async (req, res) => {
-  const LIMIT = 3;
   const { page = 1, category = "", search = "" } = req.query;
 
-  const index = (Number(page) - 1) * LIMIT;
+  const index = (Number(page) - 1) * QUIZ_RESULTS_LIMIT;
   const filter = {
     status: "ACTIVE",
-    category,
+    category: new RegExp(category),
     title: new RegExp(search)
   };
   const total = await Quiz.count(filter);
-  const pages = Math.ceil(total / LIMIT);
+  const pages = Math.ceil(total / QUIZ_RESULTS_LIMIT);
 
   const quizzes = await Quiz.find(filter)
     .sort({ createdAt: -1 })
     .skip(index || 0)
-    .limit(LIMIT)
+    .limit(QUIZ_RESULTS_LIMIT)
     .populate("createdBy", "avatar");
 
   res.json({
     data: quizzes,
     count: total,
-    perPage: LIMIT,
+    perPage: QUIZ_RESULTS_LIMIT,
     numPages: pages,
     currentPage: Number(page),
     currentPageCount: quizzes.length,
@@ -38,30 +38,29 @@ quizRouter.get("/", async (req, res) => {
 });
 
 quizRouter.get("/user", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
-  const LIMIT = 3;
   const { page = 1, category = "", search = "" } = req.query;
   const user = await User.findById(req.user.id);
 
-  const index = (Number(page) - 1) * LIMIT;
+  const index = (Number(page) - 1) * QUIZ_RESULTS_LIMIT;
   const filter = {
     status: "ACTIVE",
-    category,
+    category: new RegExp(category),
     title: new RegExp(search),
     createdBy: user.id
   };
   const total = await Quiz.count(filter);
-  const pages = Math.ceil(total / LIMIT);
+  const pages = Math.ceil(total / QUIZ_RESULTS_LIMIT);
 
   const quizzes = await Quiz.find(filter)
     .sort({ createdAt: -1 })
     .skip(index || 0)
-    .limit(LIMIT)
+    .limit(QUIZ_RESULTS_LIMIT)
     .populate("createdBy", "avatar");
 
   res.json({
     data: quizzes,
     count: total,
-    perPage: LIMIT,
+    perPage: QUIZ_RESULTS_LIMIT,
     numPages: pages,
     currentPage: Number(page),
     currentPageCount: quizzes.length,

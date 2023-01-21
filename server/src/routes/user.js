@@ -19,16 +19,20 @@ userRouter.get("/me", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), 
 
 userRouter.get("/:id", async (req, res) => {
   const isAuth = req.params.id == req.user?.id;
-  const user = await User.findById(req.params.id, {
-    role: 0,
-    user_id: 0,
-    name: isAuth,
-    email: isAuth,
-    gender: isAuth,
-  }).populate([
-    "quizzes",
-    "likedQuizzes",
-  ]);
+  const user = await User.findById(req.params.id).select({
+    role: false,
+    user_id: false,
+  })
+    .select({
+      name: isAuth,
+      email: isAuth,
+      gender: isAuth,
+    })
+    .populate([
+      "quizzes",
+      "likedQuizzes",
+    ]).exec();
+
   const following = (
     await User.find({ followers: { $eq: user.id } })
   ).map(user => user.id);

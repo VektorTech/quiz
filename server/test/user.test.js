@@ -18,7 +18,8 @@ describe("GET /api/users/:id", () => {
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`);
 
     assert.strictEqual(userRes.statusCode, 200);
-    assert.strictEqual(userRes.body.data._id, USER_ID);
+    assert.strictEqual(userRes.body.data.id, USER_ID);
+    assert.ok(!userRes.body.data.role);
     assert.ok(!userRes.body.data.user_id);
   });
 });

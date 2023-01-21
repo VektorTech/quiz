@@ -32,12 +32,12 @@ describe("GET /api/quizzes", () => {
   });
 
   it("should retrieve all active quizzes within limits", async () => {
-    const response1 = await api.get("/api/quizzes?limit=2");
+    const response1 = await api.get("/api/quizzes");
     assert.strictEqual(response1.statusCode, 200);
-    assert.strictEqual(response1.body.data.length, 2);
+    assert.strictEqual(response1.body.data.length, 4);
 
-    const response2 = await api.get("/api/quizzes?skip=2&limit=2");
-    assert.strictEqual(response2.body.data.length, 2);
+    const response2 = await api.get("/api/quizzes?page=2");
+    assert.strictEqual(response2.body.data.length, 0);
   });
 });
 

@@ -63,9 +63,9 @@ export const QuizSamples = [
   {
     title: "Test Quiz 1",
     description: "A test quiz to check if things are working properly.",
-    surveySchema: JSON.stringify({
+    surveySchema: {
       type: "survey.js schema type",
-    }),
+    },
     createdBy: USER_ID,
     status: "ACTIVE",
     category: "misc",
@@ -73,9 +73,9 @@ export const QuizSamples = [
   {
     title: "Test Quiz 2",
     description: "A test quiz to check if things are working properly.",
-    surveySchema: JSON.stringify({
+    surveySchema: {
       type: "survey.js schema type",
-    }),
+    },
     createdBy: USER_ID,
     status: "ACTIVE",
     category: "misc",
@@ -83,9 +83,9 @@ export const QuizSamples = [
   {
     title: "Test Quiz 3",
     description: "A test quiz to check if things are working properly.",
-    surveySchema: JSON.stringify({
+    surveySchema: {
       type: "survey.js schema type",
-    }),
+    },
     createdBy: USER_ID,
     status: "ACTIVE",
     category: "misc",
@@ -93,18 +93,18 @@ export const QuizSamples = [
   {
     title: "Test Quiz 200",
     description: "A test quiz to check if things are working properly.",
-    surveySchema: JSON.stringify({
+    surveySchema: {
       type: "survey.js schema type",
-    }),
+    },
     createdBy: "63a733511fea2c21ed3d3715",
     category: "misc",
   },
   {
     title: "Test Quiz 200",
     description: "A test quiz to check if things are working properly.",
-    surveySchema: JSON.stringify({
+    surveySchema: {
       type: "survey.js schema type",
-    }),
+    },
     createdBy: "63a733511fea2c21ed3d3715",
     status: "ACTIVE",
     category: "misc",

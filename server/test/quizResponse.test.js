@@ -18,7 +18,7 @@ describe("POST /api/responses", () => {
     const quiz = await Quiz.findOne({ title: QuizSamples[0].title });
     const response = await api.post("/api/responses").send({
       quiz: quiz.id,
-      answers: "[{}, {}, {}]",
+      answers: [],
     });
 
     assert.strictEqual(response.statusCode, 201);
@@ -35,15 +35,15 @@ describe("GET /api/responses/:quizID", async () => {
 
     await QuizResponse.create({
       quiz: quiz.id,
-      answers: "[{1}]",
+      answers: [],
     });
     await QuizResponse.create({
       quiz: quiz.id,
-      answers: "[{2}]",
+      answers: [],
     });
     await QuizResponse.create({
       quiz: quiz.id,
-      answers: "[{3}]",
+      answers: [],
     });
 
     const responses = await api.get(`/api/responses/${quiz.id}`);

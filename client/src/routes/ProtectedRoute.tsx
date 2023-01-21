@@ -1,9 +1,9 @@
 import { useAppDispatch } from "@/app/hooks";
 import { openModal } from "@/features/ui/uiSlice";
 import { useGetAuthUserQuery, UserType } from "@/services/api";
-import { Flex, Spinner } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
+import { PageSpinner } from "@/components/PageSpinner";
 
 export default function ProtectedRoute({
   component: Render,
@@ -14,18 +14,7 @@ export default function ProtectedRoute({
   const dispatch = useAppDispatch();
 
   if (isLoading) {
-    return (
-      <Flex pt="20">
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="brand.500"
-          size="xl"
-          margin="auto"
-        />
-      </Flex>
-    );
+    return <PageSpinner />;
   }
 
   if (user?.isAuth) {

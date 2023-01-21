@@ -1,16 +1,27 @@
+import { Container, Heading, Link, Text, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link as RLink } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <section className="section">
+    <Container>
       <Helmet>
         <title>Not Found!</title>
       </Helmet>
 
-      <h2>404</h2>
-      <p>page not found</p>
-      <Link to="/">back home</Link>
-    </section>
+      <VStack
+        as="article"
+        textAlign="center"
+        gap="2"
+        pt="20"
+        justifyContent="center"
+      >
+        <Heading>404</Heading>
+        <Text>Page Not Found</Text>
+        <Link as={RLink} to="/">
+          Back home
+        </Link>
+      </VStack>
+    </Container>
   );
 }

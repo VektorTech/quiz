@@ -37,6 +37,7 @@ quizRouter.get("/", async (req, res) => {
   });
 });
 
+quizRouter.get("/user", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
   const LIMIT = 3;
   const { page = 1, category = "", search = "" } = req.query;
   const user = await User.findById(req.user.id);
@@ -91,7 +92,7 @@ quizRouter.get("/slug/:slug", async (req, res) => {
   res.status(404).send("Nothing Found");
 });
 
-quizRouter.delete("/:id", ensureLoggedIn(), async (req, res) => {
+quizRouter.delete("/:id", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
   const user = await User.findById(req.user.id);
   if (!user) return res.status(404).send("No user found with that ID");
 
@@ -108,7 +109,7 @@ quizRouter.delete("/:id", ensureLoggedIn(), async (req, res) => {
   res.status(204).send("Successfully Deleted");
 });
 
-quizRouter.patch("/:id", ensureLoggedIn(), async (req, res) => {
+quizRouter.patch("/:id", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
   const { title, description, surveySchema, category, image, status } = req.body;
   const props = { title, description, surveySchema, category, image, status };
 
@@ -132,7 +133,7 @@ quizRouter.patch("/:id", ensureLoggedIn(), async (req, res) => {
   res.status(200).json({ data: quiz });
 });
 
-quizRouter.post("/:id/likes", ensureLoggedIn(), async (req, res) => {
+quizRouter.post("/:id/likes", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
   const user = await User.findById(req.user.id);
   if (!user) return res.status(404).send("No user found with that ID");
 
@@ -154,7 +155,7 @@ quizRouter.post("/:id/likes", ensureLoggedIn(), async (req, res) => {
   res.status(200).json({ data: quiz });
 });
 
-quizRouter.post("/", ensureLoggedIn(), async (req, res) => {
+quizRouter.post("/", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
   let { title, description, surveySchema, category, image, status } = req.body;
 
   if (!CATEGORIES.includes(category)) category = "misc";

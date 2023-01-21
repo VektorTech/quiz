@@ -5,7 +5,7 @@ import User from "../models/user.js";
 
 const userRouter = Router();
 
-userRouter.get("/me", ensureLoggedIn("/"), async (req, res) => {
+userRouter.get("/me", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
   const user = await User.findById(req.user.id).populate([
     "quizzes",
     "likedQuizzes",
@@ -18,7 +18,7 @@ userRouter.get("/me", ensureLoggedIn("/"), async (req, res) => {
 });
 
 userRouter.get("/:id", async (req, res) => {
-  const isAuth = req.params.id == req.user.id;
+  const isAuth = req.params.id == req.user?.id;
   const user = await User.findById(req.params.id, {
     role: 0,
     user_id: 0,
@@ -42,7 +42,7 @@ userRouter.get("/:id", async (req, res) => {
   });
 });
 
-userRouter.post("/:id/follow", ensureLoggedIn("/"), async (req, res) => {
+userRouter.post("/:id/follow", ensureLoggedIn({ redirectTo: "http://localhost:3000/" }), async (req, res) => {
   if (req.params.id == req.user.id) {
     res.status(401).send("Unauthorized");
   }

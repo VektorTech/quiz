@@ -26,22 +26,26 @@ import {
   useLikeQuizMutation,
   useAddQuizResponseMutation,
 } from "@/services/api";
+import { PageSpinner } from "@/components/PageSpinner";
 
 export default function Quiz() {
   const { slug } = useParams();
-  const { data, error } = useFindQuizBySlugQuery(slug || "");
+  const { data, error, isLoading, isError } = useFindQuizBySlugQuery(slug || "");
+  const { data: user } = useGetAuthUserQuery();
+  const [submitResponse] = useAddQuizResponseMutation();
+  const [likeQuiz] = useLikeQuizMutation();
+
   const quiz = data?.data;
 
-  if (!quiz) {
+  if (isLoading) {
+    return <PageSpinner />
+  }
+
+  if (!quiz || isError) {
     throw error;
   }
 
   const { surveySchema } = quiz;
-  const [submitResponse] = useAddQuizResponseMutation();
-
-  const { data: user } = useGetAuthUserQuery();
-  const [likeQuiz] = useLikeQuizMutation();
-
   const quizLiked = user?.likedQuizzes.some(({ id }) => id === quiz.id);
 
   return (

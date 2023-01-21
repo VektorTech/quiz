@@ -1,11 +1,11 @@
 import store from "@/app/store";
 import { CATEGORIES } from "@/libs/constants";
 import baseAPI from "@/services/api";
-import { LoaderFunction } from "react-router-dom";
+import { LoaderFunctionArgs } from "react-router-dom";
 
-const quizzesLoader: LoaderFunction = async ({ params, request }) => {
+const quizzesLoader = async ({ params, request }: LoaderFunctionArgs) => {
   const { searchParams } = new URL(request.url);
-  const page = Number(searchParams.get("page")) ?? 1;
+  const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") ?? "";
   const category = params.categoryID as typeof CATEGORIES[number];
 
@@ -21,7 +21,9 @@ const quizzesLoader: LoaderFunction = async ({ params, request }) => {
     throw response.error;
   }
 
-  return response.data;
+  return { quizzes: response.data, search, category };
 };
+
+export type quizzesLoaderReturn = Awaited<ReturnType<typeof quizzesLoader>>;
 
 export default quizzesLoader;

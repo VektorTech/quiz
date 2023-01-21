@@ -17,7 +17,7 @@ import ErrorPage from "@/routes/ErrorPage";
 
 import Layout from "@/components/Layout";
 import { useGetAuthQuizzesQuery } from "./services/api";
-import quizzesLoader from "./loaders/quizzes.loader";
+import quizzesLoader from "./loaders/quizzesLoader";
 import Profile from "./routes/Profile";
 import ProtectedRoute from "./routes/ProtectedRoute";
 

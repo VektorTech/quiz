@@ -28,35 +28,40 @@ const baseAPI = createApi({
         search?: string;
       } | void
     >({
-      query: (
-        { page, category, search } = {
-          page: 1,
-          category: "",
-          search: "",
-        }
-      ) => `quizzes?page=${page}&category=${category}&search=${search}`,
+      query: ({ page = 1, category = "", search = "" } = {}) =>
+        `quizzes?page=${page}&category=${category}&search=${search}`,
       providesTags: ["Quiz"],
     }),
-    getAuthQuizzes: builder.query<NormalizedQuizListResponse, void>({
-      query: () => "quizzes/user",
-      transformResponse: (response: { data: QuizType[] }) => {
+
+    getAuthQuizzes: builder.query<
+      NormalizedQuizListResponse,
+      {
+        page?: number;
+        category?: typeof CATEGORIES[number] | "";
+        search?: string;
+      } | void
+    >({
+      query: ({ page = 1, category = "", search = "" } = {}) =>
+        `quizzes/user?page=${page}&category=${category}&search=${search}`,
+      transformResponse: (response: QuizListResponse) => {
         return {
           ...quizAdapter.setAll(initialState, response.data),
-          count: response.data.length,
-          numPages: 1,
-          currentPage: 1,
-          currentPageCount: 1,
+          ...response,
+          data: undefined,
         };
       },
       providesTags: ["Quiz"],
     }),
+
     getQuizById: builder.query<QuizType, string>({
       query: (id) => `quizzes/${id}`,
     }),
+
     findQuizBySlug: builder.query<{ data: QuizType }, string>({
       query: (slug) => `quizzes/slug/${slug}`,
       providesTags: ["Quiz"],
     }),
+
     addQuiz: builder.mutation<{ data: QuizType }, QuizSchemaType>({
       query: (quizSchema) => ({
         url: "quizzes",
@@ -71,6 +76,7 @@ const baseAPI = createApi({
       }),
       invalidatesTags: ["User", "Quiz"],
     }),
+
     likeQuiz: builder.mutation<{ data: QuizType }, EntityId>({
       query: (quizId) => ({
         url: `quizzes/${quizId}/likes`,
@@ -78,6 +84,7 @@ const baseAPI = createApi({
       }),
       invalidatesTags: ["User", "Quiz"],
     }),
+
     updateQuiz: builder.mutation<
       { data: QuizType },
       Partial<Omit<QuizType, "id">> & { id: EntityId }
@@ -89,6 +96,7 @@ const baseAPI = createApi({
       }),
       invalidatesTags: ["User", "Quiz"],
     }),
+
     deleteQuiz: builder.mutation<string, string>({
       query: (id) => ({ url: `quizzes/${id}`, method: "DELETE" }),
       invalidatesTags: ["User", "Quiz"],
@@ -107,14 +115,17 @@ const baseAPI = createApi({
       query: () => "users/me",
       providesTags: ["User"],
     }),
+
     getUserById: builder.query<{ data: UserType }, string>({
       query: (userId) => `users/${userId}`,
       providesTags: ["ViewUser"],
     }),
+
     followUser: builder.mutation<string, string>({
       query: (userId) => ({ url: `users/${userId}/follow`, method: "POST" }),
       invalidatesTags: ["ViewUser", "User"],
     }),
+
     addQuizResponse: builder.mutation<
       { data: QuizUserResponse },
       QuizUserResponse
@@ -133,6 +144,38 @@ const baseAPI = createApi({
 });
 
 export default baseAPI;
+
+export const {
+  useGetQuizzesQuery,
+  useGetAuthQuizzesQuery,
+  useGetAuthUserQuery,
+  useGetQuizByIdQuery,
+  useGetUserByIdQuery,
+  useFindQuizBySlugQuery,
+
+  useAddQuizMutation,
+  useAddQuizResponseMutation,
+  useUpdateQuizMutation,
+  useDeleteQuizMutation,
+  useLikeQuizMutation,
+  useFollowUserMutation,
+  useRopcLoginMutation,
+} = baseAPI;
+
+export const selectQuizzesFromCurrentUser =
+  baseAPI.endpoints.getAuthQuizzes.select();
+
+const selectCurrentUserQuizData = createSelector(
+  selectQuizzesFromCurrentUser,
+  (quizzes) => quizzes.data
+);
+
+export const {
+  selectAll: selectAllQuizzesFromCurrentUser,
+  selectById: selectQuizByIdFromCurrentUser,
+} = quizAdapter.getSelectors<RootState>(
+  (state) => selectCurrentUserQuizData(state) ?? initialState
+);
 
 interface QuizUserResponse {
   quizID: string;
@@ -179,44 +222,14 @@ export interface QuizType {
 }
 
 interface ListResponse<T> {
+  data: T[];
   count: number;
+  perPage: number;
   numPages: number;
   currentPage: number;
   currentPageCount: number;
-  data: T[];
 }
 
 export type QuizListResponse = ListResponse<QuizType>;
 export type NormalizedQuizListResponse = EntityState<QuizType> &
   Omit<QuizListResponse, "data">;
-
-export const {
-  useGetQuizzesQuery,
-  useGetAuthQuizzesQuery,
-  useGetAuthUserQuery,
-  useGetQuizByIdQuery,
-  useGetUserByIdQuery,
-  useFindQuizBySlugQuery,
-
-  useAddQuizMutation,
-  useAddQuizResponseMutation,
-  useUpdateQuizMutation,
-  useDeleteQuizMutation,
-  useLikeQuizMutation,
-  useFollowUserMutation,
-} = baseAPI;
-
-export const selectQuizzesFromCurrentUser =
-  baseAPI.endpoints.getAuthQuizzes.select();
-
-const selectCurrentUserQuizData = createSelector(
-  selectQuizzesFromCurrentUser,
-  (quizzes) => quizzes.data
-);
-
-export const {
-  selectAll: selectAllQuizzesFromCurrentUser,
-  selectById: selectQuizByIdFromCurrentUser,
-} = quizAdapter.getSelectors<RootState>(
-  (state) => selectCurrentUserQuizData(state) ?? initialState
-);

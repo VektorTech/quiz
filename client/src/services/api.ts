@@ -94,6 +94,15 @@ const baseAPI = createApi({
       invalidatesTags: ["User", "Quiz"],
     }),
 
+    ropcLogin: builder.mutation<void, { username: string; password: string; }>({
+      query: (credentials) => ({
+        url: `auth/login/ropc`,
+        method: "POST",
+        body: credentials
+      }),
+      invalidatesTags: ["User"],
+    }),
+
     getAuthUser: builder.query<UserType, void>({
       query: () => "users/me",
       providesTags: ["User"],

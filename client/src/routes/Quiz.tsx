@@ -26,20 +26,14 @@ import { Link as RLink, useLoaderData, useParams } from "react-router-dom";
 import { Fragment, useRef } from "react";
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import { ChevronLeftIcon, StarIcon } from "@chakra-ui/icons";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Helmet } from "react-helmet-async";
+  useFindQuizBySlugQuery,
 
 export default function Quiz() {
-  // const { data } = useLoaderData() as { data: QuizType };
   const { slug } = useParams();
-  const { data: quiz, error } = useFindQuizBySlugQuery(slug || "");
-  const data = quiz?.data;
+  const { data, error } = useFindQuizBySlugQuery(slug || "");
+  const quiz = data?.data;
 
-  if (!data) {
+  if (!quiz) {
     throw error;
   }
 

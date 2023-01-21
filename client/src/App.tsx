@@ -16,7 +16,6 @@ import CreateQuiz from "@/routes/CreateQuiz";
 import ErrorPage from "@/routes/ErrorPage";
 
 import Layout from "@/components/Layout";
-import quizLoader from "@/loaders/quiz.loader";
 import { useGetAuthQuizzesQuery } from "./services/api";
 import quizzesLoader from "./loaders/quizzes.loader";
 import Profile from "./routes/Profile";
@@ -49,12 +48,7 @@ export const BrowserRouter = createBrowserRouter(
       />
       <Route path="me" element={<ProtectedRoute component={Profile} />} />
       <Route path="user/:userID" element={<User />} />
-      <Route
-        path=":slug"
-        element={<Quiz />}
-        errorElement={<NotFound />}
-        loader={quizLoader}
-      />
+      <Route path=":slug" element={<Quiz />} errorElement={<NotFound />} />
     </Route>
   )
 );

@@ -139,7 +139,7 @@ authRouter.get("/login/google", passport.authenticate("openidconnect-google"));
 authRouter.post("/login/ropc", passport.authenticate("local", {
   failureRedirect: '/',
 }), (req, res) => {
-  res.send("OK");
+  res.json({ message: "OK" });
 });
 
 authRouter.get(

@@ -10,43 +10,26 @@ import {
   Container,
   Link,
   Text,
-  Heading,
-  Stack,
   Badge,
   Image,
   HStack,
-  Avatar,
   Divider,
-  Checkbox,
-  IconButton,
   Center,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Button,
 } from "@chakra-ui/react";
+import { Helmet } from "react-helmet-async";
+import { TimeIcon } from "@chakra-ui/icons";
 
 import {
-  useDeleteQuizMutation,
   useFollowUserMutation,
   useGetAuthUserQuery,
   useGetUserByIdQuery,
-  useUpdateQuizMutation,
 } from "@/services/api";
-import {
-  Link as RLink,
-  Navigate,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import { Link as RLink, Navigate, useParams } from "react-router-dom";
+import { getDateFormatted } from "@/libs/i18n";
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
-import MoreVerticalIcon from "@/components/Icons/MoreVerticalIcon";
-import { AtSignIcon, DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import LocationIcon from "@/components/Icons/LocationIcon";
-import VerifiedIcon from "@/components/Icons/VerifiedIcon";
-import PublishIcon from "@/components/Icons/PublishIcon";
-import { Helmet } from "react-helmet-async";
+import { AvatarUser, FollowsLikes } from "@/components/User";
 
 export default function User() {
   const params = useParams();
@@ -56,9 +39,6 @@ export default function User() {
 
   const [followUser] = useFollowUserMutation();
 
-  const [updateQuiz] = useUpdateQuizMutation();
-  const [deleteQuiz] = useDeleteQuizMutation();
-
   if (isLoading) return <Container textAlign="center">Loading...</Container>;
 
   return user ? (
@@ -66,24 +46,8 @@ export default function User() {
       <Helmet>
         <title>User | {user.avatar.username}</title>
       </Helmet>
-      <Center flexDirection="column" gap="5" marginTop="40px">
-        <Stack alignItems="center">
-          <Avatar
-            name={user.name}
-            src={user.avatar.picture_url}
-            margin="auto 0"
-            size="2xl"
-            bg="brand.500"
-            referrerPolicy="no-referrer"
-          />
-          <Heading as="h1" size="md">
-            <AtSignIcon mr="0.5" verticalAlign="bottom" />
-            {user.avatar.username}
-            {user.isVerified ? (
-              <VerifiedIcon boxSize={6} verticalAlign="bottom" />
-            ) : null}
-          </Heading>
-        </Stack>
+      <Center flexDirection="column" gap="5" marginTop="10">
+        <AvatarUser user={user} />
 
         <Text>{user.avatar.bio ?? "No bio yet"}</Text>
 
@@ -94,32 +58,11 @@ export default function User() {
           </Center>
           <Center fontSize="sm">
             <TimeIcon boxSize={4} mr="1" /> Joined{" "}
-            {new Intl.DateTimeFormat("en", dateFormatOptions).format(
-              new Date(user.createdAt)
-            )}
+            {getDateFormatted(user.createdAt, "standard")}
           </Center>
         </Center>
 
-        <HStack textAlign="center">
-          <Stack spacing={0}>
-            <Text>Following</Text>
-            <Text fontSize="lg" fontWeight="bold">
-              {user.following.length}
-            </Text>
-          </Stack>
-          <Stack spacing={0}>
-            <Text>Followers</Text>
-            <Text fontSize="lg" fontWeight="bold">
-              {user.followers.length}
-            </Text>
-          </Stack>
-          <Stack spacing={0}>
-            <Text>Favorites</Text>
-            <Text fontSize="lg" fontWeight="bold">
-              {user.likedQuizzes.length}
-            </Text>
-          </Stack>
-        </HStack>
+        <FollowsLikes user={user} />
 
         {authUser?.isAuth && (
           <Button onClick={() => followUser(user.id)}>
@@ -177,20 +120,3 @@ export default function User() {
     <Navigate to="/" />
   );
 }
-
-const logout = () => {
-  window.location.href = "http://localhost:3001/api/auth/logout";
-};
-
-const dateFormatOptions: Intl.DateTimeFormatOptions = {
-  weekday: "short",
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-};
-
-const BadgeColor = {
-  DRAFTED: "gray",
-  ACTIVE: "green",
-  CLOSED: "red",
-};

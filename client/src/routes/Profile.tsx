@@ -36,7 +36,6 @@ import { DeleteIcon, EditIcon, TimeIcon } from "@chakra-ui/icons";
 import LocationIcon from "@/components/Icons/LocationIcon";
 import PublishIcon from "@/components/Icons/PublishIcon";
 import { Helmet } from "react-helmet-async";
-import { BadgeColor } from "@/libs/constants";
 import { getDateFormatted } from "@/libs/i18n";
 import { AvatarUser, FollowsLikes } from "@/components/User";
 
@@ -163,3 +162,9 @@ export default function Profile({ user }: { user: UserType }) {
     </Container>
   );
 }
+
+export const BadgeColor = Object.freeze({
+  DRAFTED: "gray",
+  ACTIVE: "green",
+  CLOSED: "red",
+});

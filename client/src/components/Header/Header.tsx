@@ -7,47 +7,26 @@ import {
   Center,
   CircularProgress,
   Container,
-  Divider,
-  HStack,
   Image,
-  Input,
   Link,
   Menu,
   MenuButton,
   MenuGroup,
   MenuItem,
-  Text,
   MenuList,
-  useDisclosure,
-  Stack,
-  FormControl,
-  FormLabel,
-  InputGroup,
-  InputLeftElement,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import { Link as RLink, useNavigate } from "react-router-dom";
-import Logo from "@/assets/icons/Logo.svg";
 
+import Logo from "@/assets/icons/Logo.svg";
 import HeaderDrawer from "./HeaderDrawer";
 import SearchBox from "./SearchBox";
 import HeaderMenu from "./HeaderMenu";
 
 import { useGetAuthUserQuery } from "@/services/api";
-import CreateIcon from "../Icons/CreateIcon";
-import GoogleIcon from "../Icons/GoogleIcon";
+import CreateIcon from "@/components/Icons/CreateIcon";
 
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { EditIcon, EmailIcon, LockIcon } from "@chakra-ui/icons";
+import { openModal } from "@/features/ui/uiSlice";
+import { useAppDispatch } from "@/app/hooks";
 
 const HeaderElement = styled.header`
   height: 80px;
@@ -55,10 +34,8 @@ const HeaderElement = styled.header`
 
 const Header = () => {
   const { data, isLoading } = useGetAuthUserQuery();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const { register, handleSubmit, formState } = useForm();
 
   return (
     <HeaderElement>
@@ -151,7 +128,9 @@ const Header = () => {
                         </MenuItem>
                       </MenuGroup>
                     ) : (
-                      <MenuItem onClick={onOpen}>Login</MenuItem>
+                      <MenuItem onClick={() => dispatch(openModal("LOGIN"))}>
+                        Login
+                      </MenuItem>
                     )}
                   </MenuList>
                 </Menu>
@@ -160,115 +139,6 @@ const Header = () => {
           </Box>
         </Container>
       </Container>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent maxW="18rem">
-          <ModalHeader>Login</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Center>
-              <Button
-                width="100%"
-                onClick={() => {
-                  window.location.href =
-                    "//localhost:3001/api/auth/login/google";
-                }}
-                leftIcon={<GoogleIcon />}
-              >
-                Continue with Google
-              </Button>
-            </Center>
-
-            <HStack mt="3" mb="3">
-              <Divider />
-              <Text style={{ fontVariant: "small-caps" }} pl="1" pr="1">
-                or
-              </Text>
-              <Divider />
-            </HStack>
-
-            <form
-              onSubmit={handleSubmit((data) => {
-                fetch("//localhost:3001/api/auth/login/ropc", {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(data),
-                })
-                  .then((res) => {
-                    if (res.ok) {
-                      navigate("/me");
-                      onClose();
-                    }
-                    console.log(res);
-                  })
-                  .catch(console.log);
-              })}
-            >
-              <Stack gap="1">
-                <FormControl isInvalid={formState.isDirty}>
-                  <FormLabel>Email</FormLabel>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<EmailIcon color="gray.300" />}
-                    />
-                    <Input
-                      type="email"
-                      {...register("username", {
-                        required: "Email is required!",
-                        pattern: {
-                          value:
-                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                          message: "Invalid email address",
-                        },
-                      })}
-                    />
-                  </InputGroup>
-                  <FormErrorMessage>
-                    {formState.errors.email?.message?.toString()}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Password</FormLabel>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<LockIcon color="gray.300" />}
-                    />
-                    <Input
-                      type="password"
-                      {...register("password", {
-                        required: true,
-                        minLength: 7,
-                      })}
-                    />
-                  </InputGroup>
-                </FormControl>
-                <Button width="100%" type="submit">
-                  Log In
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  leftIcon={<EditIcon />}
-                  fontSize="sm"
-                  color="gray.600"
-                  type="button"
-                  onClick={() => {
-                    window.location.href = "//localhost:3001/api/auth/login";
-                  }}
-                >
-                  Create An Account
-                </Button>
-              </Stack>
-            </form>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
     </HeaderElement>
   );
 };

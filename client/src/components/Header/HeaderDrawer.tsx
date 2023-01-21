@@ -34,6 +34,8 @@ import SearchBox from "./SearchBox";
 import { CATEGORIES } from "@/libs/constants";
 import { useGetAuthUserQuery } from "@/services/api";
 import CreateIcon from "../Icons/CreateIcon";
+import { useAppDispatch } from "@/app/hooks";
+import { openModal } from "@/features/ui/uiSlice";
 
 const HeaderDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,6 +43,7 @@ const HeaderDrawer = () => {
   const toggleBtn = useRef(null);
 
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(onClose, [location]);
@@ -130,8 +133,10 @@ const HeaderDrawer = () => {
                         </ListItem>
                         <ListItem>
                           <Link
-                            as={RLink}
-                            to="//localhost:3001/api/auth/logout"
+                            onClick={() =>
+                              (window.location.href =
+                                "//localhost:3001/api/auth/logout")
+                            }
                           >
                             Logout
                           </Link>
@@ -141,10 +146,7 @@ const HeaderDrawer = () => {
                   ) : (
                     <List>
                       <ListItem>
-                        <Link
-                          as={RLink}
-                          to="//localhost:3001/api/auth/login"
-                        >
+                        <Link onClick={() => dispatch(openModal("LOGIN"))}>
                           Login
                         </Link>
                       </ListItem>

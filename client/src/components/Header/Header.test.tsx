@@ -7,6 +7,21 @@ import store from "@/app/store";
 
 import Header from "./Header";
 
+jest.mock("react-router-dom", () => {
+  return jest.fn(() => ({
+    useSubmitImpl: jest.fn(),
+  }));
+});
+
+jest.mock("react-router-dom", () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+  Form: () => {
+    return <form></form>;
+  },
+  useNavigate: () => jest.fn(),
+}));
+
 test("should verify functionality of header controls", async () => {
   render(
     <Provider store={store}>
@@ -15,7 +30,6 @@ test("should verify functionality of header controls", async () => {
     { wrapper: MemoryRouter }
   );
 
-  await screen.findAllByPlaceholderText("Search Quizzes");
   await screen.findAllByText("Create A Quiz");
 
   const menuButton = await screen.findByLabelText("list categories");

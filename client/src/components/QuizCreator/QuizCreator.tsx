@@ -27,6 +27,7 @@ export default function CreateQuiz({ id = "" }) {
 
   const [addQuiz] = useAddQuizMutation();
   const [updateQuiz] = useUpdateQuizMutation();
+
   const navigate = useNavigate();
 
   const { register, handleSubmit, setValue } =

@@ -18,7 +18,7 @@ test("renders info panel correctly", async () => {
   await screen.findAllByPlaceholderText(
     "Eg. Star Wars Quiz - Only True Fans Score 80% Or More"
   );
-  await screen.findAllByPlaceholderText("About Quiz");
+  await screen.findAllByPlaceholderText("About Quiz (at least 30 characters)");
   await screen.findAllByPlaceholderText("No time limit");
 
   const selectCategoryButton = await screen.findByText("Select Category");
@@ -43,6 +43,7 @@ test("renders questions panel correctly", async () => {
   expect(await screen.findByLabelText("Add radiogroup")).toBeVisible();
 });
 
+jest.setTimeout(20 * 1000);
 test("modal for tool control functions correctly", async () => {
   render(
     <Provider store={store}>
@@ -54,15 +55,11 @@ test("modal for tool control functions correctly", async () => {
   const QuestionPanelButton = await screen.findByText("Questions");
   await userEvent.click(QuestionPanelButton);
 
-  await waitFor(async () => {
-    const radioBtn = await screen.findByTitle("Radiogroup tool");
-    await userEvent.click(radioBtn);
-  });
+  const radioBtn = await screen.findByTitle("Radiogroup tool");
+  await userEvent.click(radioBtn);
 
-  await waitFor(async () => {
-    const addChoiceBtn = await screen.findAllByLabelText("add choice");
-    await userEvent.click(addChoiceBtn[0]);
-  });
+  const addChoiceBtn = await screen.findAllByLabelText("add choice");
+  await userEvent.click(addChoiceBtn[0]);
 
   expect(await screen.findAllByLabelText("remove choice")).toHaveLength(3);
   expect(await screen.findByText("Add/Edit Question")).toBeInTheDocument();

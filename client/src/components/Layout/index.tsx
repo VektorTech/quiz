@@ -9,7 +9,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Box as="main" mb="10" minH="100vh">
+      <Box as="main" mb="10" minH="100vh" position="relative">
         <Outlet />
       </Box>
       <Footer />

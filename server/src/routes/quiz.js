@@ -37,17 +37,34 @@ quizRouter.get("/", async (req, res) => {
   });
 });
 
-quizRouter.get("/user", ensureLoggedIn(), async (req, res) => {
+  const LIMIT = 3;
+  const { page = 1, category = "", search = "" } = req.query;
   const user = await User.findById(req.user.id);
 
-  if (user) {
-    const quizzes = await Quiz.find({ createdBy: user.id }, null, {
-      sort: { createdAt: -1 },
-    });
-    return res.json({ data: quizzes });
-  }
+  const index = (Number(page) - 1) * LIMIT;
+  const filter = {
+    status: "ACTIVE",
+    category,
+    title: new RegExp(search),
+    createdBy: user.id
+  };
+  const total = await Quiz.count(filter);
+  const pages = Math.ceil(total / LIMIT);
 
-  res.status(404).send("No user found with that ID");
+  const quizzes = await Quiz.find(filter)
+    .sort({ createdAt: -1 })
+    .skip(index || 0)
+    .limit(LIMIT)
+    .populate("createdBy", "avatar");
+
+  res.json({
+    data: quizzes,
+    count: total,
+    perPage: LIMIT,
+    numPages: pages,
+    currentPage: Number(page),
+    currentPageCount: quizzes.length,
+  });
 });
 
 quizRouter.get("/:id", async (req, res) => {

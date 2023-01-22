@@ -19,7 +19,7 @@ authRouter.get("/login", passport.authenticate("openidconnect"))
   .get(
     "/redirect",
     passport.authenticate("openidconnect", {
-      successRedirect: "http://localhost:3000/me",
+      successRedirect: `${process.env.CLIENT_ADDR}/me`,
       failureRedirect: "/api/auth/login",
       failureMessage: true,
     })

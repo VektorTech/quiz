@@ -122,7 +122,7 @@ export const logoutUser = function (req, res, next) {
     }
     const params = {
       client_id: process.env.AUTH0_CLIENT_ID,
-      returnTo: "http://localhost:3000/",
+      returnTo: `${process.env.CLIENT_ADDR}/`,
     };
     res.redirect(
       `${process.env.AUTH0_ISSUER_BASE_URL}/v2/logout?${qs.stringify(params)}`

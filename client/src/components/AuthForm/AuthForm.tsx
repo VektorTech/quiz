@@ -58,7 +58,7 @@ export default function AuthForm() {
             <Button
               width="100%"
               onClick={() => {
-                window.location.href = "//localhost:3001/api/auth/login/google";
+                window.location.href = `${process.env.REACT_APP_SERVER_ADDR}/api/auth/login/google`;
               }}
               leftIcon={<GoogleIcon />}
             >
@@ -145,7 +145,7 @@ export default function AuthForm() {
                 color="gray.600"
                 type="button"
                 onClick={() => {
-                  window.location.href = "//localhost:3001/api/auth/login";
+                  window.location.href = `${process.env.REACT_APP_SERVER_ADDR}/api/auth/login`;
                 }}
               >
                 Create An Account
@@ -159,4 +159,4 @@ export default function AuthForm() {
 }
 
 const emailPattern =
-  /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
+  /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;

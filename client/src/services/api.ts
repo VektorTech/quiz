@@ -15,7 +15,7 @@ const initialState = quizAdapter.getInitialState();
 const baseAPI = createApi({
   reducerPath: "appApiService",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/",
+    baseUrl: `${process.env.REACT_APP_SERVER_ADDR}/api/`,
     credentials: "include",
   }),
   tagTypes: ["User", "Quiz", "ViewUser"],

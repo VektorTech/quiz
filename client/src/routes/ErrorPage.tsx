@@ -13,7 +13,7 @@ export default function ErrorPage() {
           <Code fontWeight="bold">status: {error.status}</Code>
           <br />
           <Code textAlign="left" mt="2" color="red">
-            {error.error}
+            {error.error?.toString()}
           </Code>
         </Text>
       );

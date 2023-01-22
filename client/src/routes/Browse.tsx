@@ -69,7 +69,7 @@ export default function Browse() {
         gap="3"
       >
         {quizList.data.map((quiz) => (
-          <QuizCard quiz={quiz} />
+          <QuizCard key={quiz.id} quiz={quiz} />
         ))}
       </Grid>
 

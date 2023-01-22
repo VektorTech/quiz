@@ -49,6 +49,7 @@ export const BrowserRouter = createBrowserRouter(
       <Route path="me" element={<ProtectedRoute component={Profile} />} />
       <Route path="user/:userID" element={<User />} />
       <Route path=":slug" element={<Quiz />} errorElement={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Route>
   )
 );

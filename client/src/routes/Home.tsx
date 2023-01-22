@@ -23,7 +23,7 @@ export default function Home() {
         gap="3"
       >
         {data.data.map((quiz) => (
-          <QuizCard quiz={quiz} />
+          <QuizCard key={quiz.id} quiz={quiz} />
         ))}
       </Grid>
     </Container>

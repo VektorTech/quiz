@@ -9,6 +9,10 @@ const quizzesLoader = async ({ params, request }: LoaderFunctionArgs) => {
   const search = searchParams.get("search") ?? "";
   const category = params.categoryID as typeof CATEGORIES[number];
 
+  if (category && !CATEGORIES.includes(category)) {
+    throw new Error("Route Not Found");
+  }
+
   const response = await store.dispatch(
     baseAPI.endpoints.getQuizzes.initiate({
       page,

@@ -15,8 +15,8 @@ import { QuizType } from "@/services/api";
 
 export default function QuizCard({ quiz }: { quiz: QuizType }) {
   return (
-    <GridItem key={quiz.id} maxW="320px">
-      <Link to={{ pathname: quiz.slug }}>
+    <GridItem key={quiz.id}>
+      <Link to={`/${quiz.slug}`}>
         <Card maxW="sm" float="left">
           <Stack direction="row" justifyContent="flex-end">
             <Badge colorScheme="brand" borderBottomRadius="0">{quiz.category}</Badge>

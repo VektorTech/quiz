@@ -54,5 +54,5 @@ export const followUser = catchAsyncErrors(async (req, res) => {
   }
   user.save();
 
-  res.send("Success");
+  res.json({ success: true, message:"Success" });
 });

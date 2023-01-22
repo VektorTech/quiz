@@ -16,7 +16,7 @@ export const addQuizResponse = catchAsyncErrors(async (req, res) => {
 
     return res.status(201).json({ data: quizResponse });
   }
-  res.status(404).send("Quiz Not Found");
+  res.status(404).json({ success: false, message: "Quiz Not Found" });
 });
 
 export const getQuizResponseById = catchAsyncErrors(async (req, res) => {
@@ -26,5 +26,5 @@ export const getQuizResponseById = catchAsyncErrors(async (req, res) => {
     const responses = await QuizResponse.find({ quiz: quiz.id });
     return res.json({ data: responses });
   }
-  res.status(404).send("Quiz Not Found");
+  res.status(404).json({ success: false, message: "Quiz Not Found" });
 });

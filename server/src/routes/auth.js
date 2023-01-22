@@ -13,7 +13,7 @@ authRouter.get("/login", passport.authenticate("openidconnect"))
       failureRedirect: "/",
     }),
     (req, res) => {
-      res.json({ message: "OK" });
+      res.json({ success: true, message: "OK" });
     }
   )
   .get(

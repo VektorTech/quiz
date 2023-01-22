@@ -43,12 +43,12 @@ export const getUserById = catchAsyncErrors(async (req, res) => {
 
 export const followUser = catchAsyncErrors(async (req, res) => {
   if (req.params.id == req.user.id) {
-    res.status(401).send("Unauthorized");
+    return res.status(401).send("Unauthorized");
   }
   const user = await User.findById(req.params.id);
 
   if (user.followers.includes(req.user.id)) {
-    user = user.followers.filter((id) => id != req.user.id);
+    user.followers = user.followers.filter((id) => id != req.user.id);
   } else {
     user.followers.push(req.user.id);
   }

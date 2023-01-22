@@ -11,8 +11,8 @@ export const getQuizzes = catchAsyncErrors(async (req, res) => {
   const index = (Number(page) - 1) * QUIZ_RESULTS_LIMIT;
   const filter = {
     status: "ACTIVE",
-    category: new RegExp(category),
-    title: new RegExp(search),
+    category: new RegExp(category, "i"),
+    title: new RegExp(search, "i"),
   };
   const total = await Quiz.count(filter);
   const pages = Math.ceil(total / QUIZ_RESULTS_LIMIT);
@@ -40,8 +40,8 @@ export const getAuthUserQuizzes = catchAsyncErrors(async (req, res) => {
   const index = (Number(page) - 1) * QUIZ_RESULTS_LIMIT;
   const filter = {
     status: "ACTIVE",
-    category: new RegExp(category),
-    title: new RegExp(search),
+    category: new RegExp(category, "i"),
+    title: new RegExp(search, "i"),
     createdBy: user.id,
   };
   const total = await Quiz.count(filter);

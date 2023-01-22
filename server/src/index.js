@@ -1,5 +1,4 @@
 import "./configs/env.config.js";
-import "express-async-errors";
 
 import express from "express";
 import mongoose from "mongoose";

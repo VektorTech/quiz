@@ -128,14 +128,20 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
             }}
             renderItem={(data, index) => (
               <HStack alignItems={"stretch"}>
-                <span>{`${index + 1}. `}</span>
                 <Box
+                  _hover={{ bg: "#F5F5F5" }}
+                  transition="background-color 0.3s"
                   width="100%"
+                  pl="2"
+                  m="0"
+                  borderRadius="2px"
+                  cursor="pointer"
                   onClick={() => {
                     setActiveQuestion(index);
                     setCurrentControl("radiogroup");
                   }}
                 >
+                  <span>{`${index + 1}. `}</span>
                   {data.question}
                 </Box>
                 <Checkbox

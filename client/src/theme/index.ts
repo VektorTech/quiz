@@ -15,9 +15,9 @@ const inputSelectStyles = defineStyleConfig({
       field: {
         _focusVisible: {
           borderColor: mode("brand.500", "brand.300")(props),
-          boxShadow: `0 0 0 1px ${mode(
-            "var(--chakra-colors-brand-500)",
-            "var(--chakra-colors-brand-300)"
+          boxShadow: `0 0 0 3px ${mode(
+            "var(--chakra-colors-brand-100)",
+            "var(--chakra-colors-brand-50)"
           )(props)}`,
         },
       },
@@ -32,13 +32,29 @@ const inputSelectStyles = defineStyleConfig({
   },
 });
 
-const CheckboxRadioStyles = {
-  baseStyle: {
+const CheckboxRadioStyles = defineStyleConfig({
+  baseStyle: (props) => ({
     control: {
       borderRadius: 0,
+      _focus: {
+        borderColor: mode("brand.500", "brand.300")(props),
+        boxShadow: `0 0 0 3px ${mode(
+          "var(--chakra-colors-brand-100)",
+          "var(--chakra-colors-brand-50)"
+        )(props)}`,
+      },
+      _checked: {
+        backgroundColor: mode("brand.500", "brand.300")(props),
+        borderColor: mode("brand.500", "brand.300")(props),
+
+        _hover: {
+          borderColor: mode("brand.500", "brand.300")(props),
+          backgroundColor: mode("brand.500", "brand.300")(props),
+        },
+      },
     },
-  },
-};
+  }),
+});
 
 const components = {
   Button: {
@@ -69,7 +85,7 @@ export default extendTheme(
     colors: {
       brand: {
         50: "#F1EBFA",
-        100: "#D6E6F0",
+        100: "#D4C3F0",
         200: "#BCA2E7",
         300: "#A27DDE",
         400: "#8858D4",

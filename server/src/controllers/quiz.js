@@ -87,7 +87,10 @@ export const getQuizBySlug = catchAsyncErrors(async (req, res) => {
 
 export const deleteQuiz = catchAsyncErrors(async (req, res) => {
   const user = await User.findById(req.user.id);
-  if (!user) return res.status(404).json({ success: false, message: "No user found with that ID" });
+  if (!user)
+    return res
+      .status(404)
+      .json({ success: false, message: "No user found with that ID" });
 
   const quiz = await Quiz.findOneAndDelete({
     _id: req.params.id,
@@ -108,7 +111,10 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
   const props = { title, description, surveySchema, category, image, status };
 
   const user = await User.findById(req.user.id);
-  if (!user) return res.status(404).json({ success: false, message: "No user found with that ID" });
+  if (!user)
+    return res
+      .status(404)
+      .json({ success: false, message: "No user found with that ID" });
 
   const quiz = await Quiz.findOne({
     _id: req.params.id,
@@ -129,7 +135,10 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
 
 export const likeQuiz = catchAsyncErrors(async (req, res) => {
   const user = await User.findById(req.user.id);
-  if (!user) return res.status(404).json({ success: false, message: "No user found with that ID" });
+  if (!user)
+    return res
+      .status(404)
+      .json({ success: false, message: "No user found with that ID" });
 
   const quiz = await Quiz.findOne({
     _id: req.params.id,
@@ -173,5 +182,7 @@ export const addQuiz = catchAsyncErrors(async (req, res) => {
     return res.status(201).json({ data: quiz });
   }
 
-  res.status(404).json({ success: false, message: "No user found with that ID" });
+  res
+    .status(404)
+    .json({ success: false, message: "No user found with that ID" });
 });

@@ -8,7 +8,8 @@ import { isAuth } from "../middlewares/isAuth.js";
 
 const userRouter = Router();
 
-userRouter.get("/me", isAuth, getUserProfile)
+userRouter
+  .get("/me", isAuth, getUserProfile)
   .get("/:id", getUserById)
   .post("/:id/follow", isAuth, followUser);
 

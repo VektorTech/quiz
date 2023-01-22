@@ -5,7 +5,8 @@ import { logoutUser } from "../controllers/auth.js";
 
 const authRouter = Router();
 
-authRouter.get("/login", passport.authenticate("openidconnect"))
+authRouter
+  .get("/login", passport.authenticate("openidconnect"))
   .get("/login/google", passport.authenticate("openidconnect-google"))
   .post(
     "/login/ropc",

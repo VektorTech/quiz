@@ -14,7 +14,8 @@ import { isAuth } from "../middlewares/isAuth.js";
 
 const quizRouter = Router();
 
-quizRouter.get("/", getQuizzes)
+quizRouter
+  .get("/", getQuizzes)
   .get("/user", isAuth, getAuthUserQuizzes)
   .get("/:id", getUserQuizzes)
   .get("/slug/:slug", getQuizBySlug)

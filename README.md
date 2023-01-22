@@ -2,54 +2,54 @@
 A MERN Stack Application for creating, sharing and playing quizzes.
 
 ## Features
-* Create quizzes & save them to draft
-* Publish quizzes to website
-* Assign title, description & category to quiz
-* Multiple choice questions
-* Ability to reorder questions or choices through draggable list
-* Star favorite quizzes
-* Search quizzes
-* View quizzes by category
-* Login / Sign Up feature to access the quiz creator
-* Mark answer among choices
-* Update previously created quizzes
-* Logged in users can follow / unfollow other users
+- Create quizzes & save them to draft
+- Publish quizzes to website
+- Assign title, description & category to quiz
+- Multiple choice questions
+- Ability to reorder questions or choices through draggable list
+- Star favorite quizzes
+- Search quizzes
+- View quizzes by category
+- Login / Sign Up feature to access the quiz creator
+- Mark answer among choices
+- Update previously created quizzes
+- Logged in users can follow / unfollow other users
 
 ## TODO
-[ ] View quiz stats (graphical representations of survey results)
-[ ] Multi-answer questions
-[ ] UI animations
-[ ] Timed quizzes
-[ ] Cancel quiz creation prompt
-[ ] Assign quiz tags
-[ ] Quiz image feature
-[ ] Ability to edit profile
+- [ ] View quiz stats (graphical representations of survey results)
+- [ ] Multi-answer questions
+- [ ] UI animations
+- [ ] Timed quizzes
+- [ ] Cancel quiz creation prompt
+- [ ] Assign quiz tags
+- [ ] Quiz image feature
+- [ ] Ability to edit profile
 
 ## Tech Used
 ### Client
-* TypeScript
-* React v18
-* Redux Toolkit & RTK Query
-* React Hook Form
-* React Router v6
-* Chakra UI
-* React Helmet
-* Framer Motion
-* Emotion Styled
-* CRACO
-* Testing: React Testing Library, Jest
-* etc.
+- TypeScript
+- React v18
+- Redux Toolkit & RTK Query
+- React Hook Form
+- React Router v6
+- Chakra UI
+- React Helmet
+- Framer Motion
+- Emotion Styled
+- CRACO
+- Testing: React Testing Library, Jest
+- etc.
 
 ### Server
-* Express
-* Passport &mdash; Local, OpenID Connect
-* Mongo DB &mdash; Mongoose, Connect Mongo (Sessions)
-* Validator
-* Testing: Mocha, Supertest
-* etc.
+- Express
+- Passport &mdash; Local, OpenID Connect
+- Mongo DB &mdash; Mongoose, Connect Mongo (Sessions)
+- Validator
+- Testing: Mocha, Supertest
+- etc.
 
-### Others
-* Auth0
+### Other
+- Auth0
 
 ## ENV
 ### Client

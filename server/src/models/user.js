@@ -47,17 +47,17 @@ const UserSchema = new Schema(
           user_id: undefined,
           _id: undefined,
           __v: undefined,
-          role: undefined
-        }
-      }
+          role: undefined,
+        };
+      },
     },
     virtuals: {
       followersCount: {
         get() {
           return this.followers.length;
-        }
-      }
-    }
+        },
+      },
+    },
   }
 );
 

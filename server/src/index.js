@@ -13,6 +13,7 @@ import authRouter from "./routes/auth.js";
 import quizRouter from "./routes/quiz.js";
 import quizResponseRouter from "./routes/quizResponse.js";
 import userRouter from "./routes/user.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const PORT = process.env.PORT || 3001;
 const MONGODB_URL =
@@ -34,7 +35,7 @@ export const sessionStore = MongoStore.create({
 
 const app = express();
 
-app.use(cors({ origin: ['http://localhost:3000'], credentials: true }));
+app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -53,6 +54,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/quizzes", quizRouter);
 app.use("/api/responses", quizResponseRouter);
 app.use("/api/users", userRouter);
+
+app.use(errorHandler);
 
 if (process.env.NODE_ENV != "test") {
   app.listen(PORT, () => {

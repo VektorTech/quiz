@@ -44,7 +44,7 @@ const QuizSchema = new Schema(
       required: [true, "Please select a category"],
     },
     tags: [String],
-    slug: String
+    slug: String,
   },
   {
     timestamps: true,

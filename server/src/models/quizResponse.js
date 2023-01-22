@@ -10,8 +10,8 @@ const QuizResponseSchema = new Schema(
     },
     meta: {
       type: Map,
-      of: String
-    }
+      of: String,
+    },
   },
   {
     timestamps: true,

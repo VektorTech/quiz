@@ -72,7 +72,7 @@ describe("GET /api/quizzes/user", () => {
 describe("POST /api/quizzes", () => {
   it("blocks unauthenticated users", async () => {
     const response = await api.post("/api/quizzes");
-    assert.strictEqual(response.statusCode, 302);
+    assert.strictEqual(response.statusCode, 401);
   });
 
   it("should create a quiz for auth users", async () => {

@@ -1,7 +1,7 @@
-export const toSlug = str =>
+export const toSlug = (str) =>
   str
-	.toLowerCase()
-	.trim()
-	.replace(/[^\w\s-]/g, '')
-	.replace(/[\s_-]+/g, '-')
-	.replace(/^-+|-+$/g, '');
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");

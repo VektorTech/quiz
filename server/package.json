@@ -13,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "base62": "^2.0.1",
-    "connect-ensure-login": "^0.1.1",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "cookie-signature": "^1.2.0",

@@ -70,3 +70,6 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 	AUTH0_BASE_URL=
 	AUTH0_ISSUER_BASE_URL=
 	```
+
+## License
+[MIT](./LICENSE.md)

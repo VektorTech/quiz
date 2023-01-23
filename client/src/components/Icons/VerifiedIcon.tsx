@@ -1,9 +1,6 @@
 import { Icon } from "@chakra-ui/react";
 
-const VerifiedIcon: CustomIcon = ({
-  fillColor = "#00D566",
-  ...props
-}) => {
+const VerifiedIcon: CustomIcon = ({ fillColor = "#00D566", ...props }) => {
   return (
     <Icon {...props} viewBox="0 0 120 120">
       <g>

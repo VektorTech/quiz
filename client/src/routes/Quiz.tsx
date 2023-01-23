@@ -30,7 +30,9 @@ import { PageSpinner } from "@/components/PageSpinner";
 
 export default function Quiz() {
   const { slug } = useParams();
-  const { data, error, isLoading, isError } = useFindQuizBySlugQuery(slug || "");
+  const { data, error, isLoading, isError } = useFindQuizBySlugQuery(
+    slug || ""
+  );
   const { data: user } = useGetAuthUserQuery();
   const [submitResponse] = useAddQuizResponseMutation();
   const [likeQuiz] = useLikeQuizMutation();
@@ -38,7 +40,7 @@ export default function Quiz() {
   const quiz = data?.data;
 
   if (isLoading) {
-    return <PageSpinner />
+    return <PageSpinner />;
   }
 
   if (!quiz || isError) {

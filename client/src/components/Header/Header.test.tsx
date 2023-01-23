@@ -15,7 +15,7 @@ jest.mock("react-router-dom", () => {
 
 jest.mock("react-router-dom", () => ({
   __esModule: true,
-  ...jest.requireActual('react-router-dom'),
+  ...jest.requireActual("react-router-dom"),
   Form: () => {
     return <form></form>;
   },

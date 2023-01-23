@@ -9,7 +9,7 @@ const store = configureStore({
   reducer: {
     [baseAPI.reducerPath]: baseAPI.reducer,
     quizzes: quizReducer,
-    uiState: uiReducer
+    uiState: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseAPI.middleware),

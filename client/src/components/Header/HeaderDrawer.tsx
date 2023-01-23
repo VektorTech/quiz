@@ -134,8 +134,7 @@ const HeaderDrawer = () => {
                         <ListItem>
                           <Link
                             onClick={() =>
-                              (window.location.href =
-                                `${process.env.REACT_APP_SERVER_ADDR}/api/auth/logout` )
+                              (window.location.href = `${process.env.REACT_APP_SERVER_ADDR}/api/auth/logout`)
                             }
                           >
                             Logout

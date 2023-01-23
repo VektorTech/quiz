@@ -81,7 +81,10 @@ describe("POST /api/quizzes", () => {
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
       .set("Content-Type", `multipart/form-data`)
       .field("title", "Test Quiz Final")
-      .field("description", "A test quiz to check if things are working properly.")
+      .field(
+        "description",
+        "A test quiz to check if things are working properly."
+      )
       .field("surveySchema", `{ "type": "survey.js schema type" }`)
       .field("status", "ACTIVE")
       .field("category", "misc");
@@ -89,8 +92,14 @@ describe("POST /api/quizzes", () => {
     assert.strictEqual(response.statusCode, 201);
 
     assert.strictEqual(response.body.data.title, "Test Quiz Final");
-    assert.strictEqual(response.body.data.description, "A test quiz to check if things are working properly.");
-    assert.strictEqual(JSON.stringify(response.body.data.surveySchema), `{"type":"survey.js schema type"}`);
+    assert.strictEqual(
+      response.body.data.description,
+      "A test quiz to check if things are working properly."
+    );
+    assert.strictEqual(
+      JSON.stringify(response.body.data.surveySchema),
+      `{"type":"survey.js schema type"}`
+    );
     assert.strictEqual(response.body.data.category, "misc");
 
     const user = await User.findById(USER_ID);
@@ -132,7 +141,10 @@ describe("PATCH /api/quizzes/:id", () => {
       .set("Content-Type", `multipart/form-data`)
       .field("title", "Test Quiz The First")
       .field("image", "https://site.com/logo.png")
-      .field("surveySchema", `{"elements":["radio",[{"label":"Name","value":"name"}]]}`);
+      .field(
+        "surveySchema",
+        `{"elements":["radio",[{"label":"Name","value":"name"}]]}`
+      );
     quiz = await Quiz.findOne({ _id: quiz.id });
 
     assert.strictEqual(response.statusCode, 200);
@@ -140,8 +152,14 @@ describe("PATCH /api/quizzes/:id", () => {
     assert.strictEqual(quiz.title, "Test Quiz The First");
     assert.strictEqual(response.body.data.image, "https://site.com/logo.png");
     assert.strictEqual(quiz.image, "https://site.com/logo.png");
-    assert.strictEqual(JSON.stringify(response.body.data.surveySchema), `{"elements":["radio",[{"label":"Name","value":"name"}]]}`);
-    assert.strictEqual(JSON.stringify(quiz.surveySchema), `{"elements":["radio",[{"label":"Name","value":"name"}]]}`);
+    assert.strictEqual(
+      JSON.stringify(response.body.data.surveySchema),
+      `{"elements":["radio",[{"label":"Name","value":"name"}]]}`
+    );
+    assert.strictEqual(
+      JSON.stringify(quiz.surveySchema),
+      `{"elements":["radio",[{"label":"Name","value":"name"}]]}`
+    );
 
     assert.strictEqual(quiz.status, "ACTIVE");
     assert.strictEqual(quiz.category, "misc");

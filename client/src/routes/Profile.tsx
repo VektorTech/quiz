@@ -49,7 +49,9 @@ export default function Profile({ user }: { user: UserType }) {
         <title>{user.avatar.username}</title>
       </Helmet>
       <Center flexDirection="column" gap="5" marginTop="10">
-        <Heading mb="5" as="h1">Profile</Heading>
+        <Heading mb="5" as="h1">
+          Profile
+        </Heading>
 
         <AvatarUser user={user} />
 

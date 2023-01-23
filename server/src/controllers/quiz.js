@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 import Quiz from "../models/quiz.js";
 import QuizResponse from "../models/quizResponse.js";
 import User from "../models/user.js";
@@ -109,11 +109,21 @@ export const deleteQuiz = catchAsyncErrors(async (req, res) => {
 export const updateQuiz = catchAsyncErrors(async (req, res) => {
   const { title, description, surveySchema, category, image, status, time } =
     req.body;
-  const props = { title, description, surveySchema, category, image, status, time };
+  const props = {
+    title,
+    description,
+    surveySchema,
+    category,
+    image,
+    status,
+    time,
+  };
 
   const _image = req.files[0];
   if (_image && _image.mimetype.startsWith("image/")) {
-    const uploadResponse = await cloudinary.uploader.upload(_image.path, { filename_override: _image.originalname });
+    const uploadResponse = await cloudinary.uploader.upload(_image.path, {
+      filename_override: _image.originalname,
+    });
     props.image = uploadResponse.secure_url;
   }
 
@@ -133,9 +143,9 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
       if (key == "status" && !QUIZ_STATUSES.includes(value)) return;
 
       if (key == "surveySchema") {
-        return quiz[key] = JSON.parse(value);
+        return (quiz[key] = JSON.parse(value));
       } else if (key == "time") {
-        return quiz[key] = Number(time) || 0;
+        return (quiz[key] = Number(time) || 0);
       }
 
       quiz[key] = value;
@@ -148,11 +158,14 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
 });
 
 export const addQuiz = catchAsyncErrors(async (req, res) => {
-  let { title, description, surveySchema, category, image, status, time } = req.body;
+  let { title, description, surveySchema, category, image, status, time } =
+    req.body;
 
   const _image = req.files[0];
   if (_image && _image.mimetype.startsWith("image/")) {
-    const uploadResponse = await cloudinary.uploader.upload(_image.path, { filename_override: _image.originalname });
+    const uploadResponse = await cloudinary.uploader.upload(_image.path, {
+      filename_override: _image.originalname,
+    });
     image = uploadResponse.secure_url;
   }
 

@@ -41,7 +41,9 @@ test("should verify AuthForm renders correctly", async () => {
   await userEvent.click(emailInput);
 
   expect(await screen.findByText("Invalid email address")).toBeVisible();
-  expect(await screen.findByText("Must be at least 7 characters")).toBeVisible();
+  expect(
+    await screen.findByText("Must be at least 7 characters")
+  ).toBeVisible();
 
   expect(logInButton).toBeVisible();
   expect(googleButton).toBeVisible();

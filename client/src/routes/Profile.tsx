@@ -116,7 +116,7 @@ export default function Profile({ user }: { user: UserType }) {
                   <Td>
                     <Badge>{category.toUpperCase()}</Badge>
                   </Td>
-                  <Td isNumeric>{likes}</Td>
+                  <Td>{likes}</Td>
                   <Td>
                     <Menu>
                       <MenuButton

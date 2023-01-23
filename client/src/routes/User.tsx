@@ -108,7 +108,7 @@ export default function User() {
                   <Td>
                     <Badge>{category.toUpperCase()}</Badge>
                   </Td>
-                  <Td isNumeric>{likes}</Td>
+                  <Td>{likes}</Td>
                 </Tr>
               )
             )}

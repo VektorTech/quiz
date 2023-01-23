@@ -1,7 +1,7 @@
 {
   "name": "quiz-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST server for quiz application",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/",
@@ -9,8 +9,8 @@
     "test": "cross-env NODE_ENV=test mocha --require ./test/fixtures.js ./test --exit"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Kenny Sutherland",
+  "license": "MIT",
   "dependencies": {
     "cloudinary": "^1.33.0",
     "connect-mongo": "^4.6.0",

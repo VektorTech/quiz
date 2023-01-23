@@ -19,6 +19,7 @@ import { UseFormRegister } from "react-hook-form";
 import { CATEGORIES } from "@/libs/constants";
 
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
+import { FileDropZone } from "@/components/FileDropZone";
 
 const InfoPanel = ({
   register,
@@ -46,16 +47,7 @@ const InfoPanel = ({
           />
         </FormControl>
 
-        <FormControl>
-          <FormLabel>Select Image</FormLabel>
-          <input
-            type="file"
-            id=""
-            accept="image/*"
-            placeholder="Upload Preview Image"
-            // {...register("image")}
-          />
-        </FormControl>
+        <FileDropZone inputProps={register("image")} />
 
         <FormControl>
           <FormLabel>Quiz Timer</FormLabel>

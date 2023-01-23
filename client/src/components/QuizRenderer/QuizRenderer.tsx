@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Button,
   Heading,
@@ -11,11 +11,16 @@ import {
 } from "@chakra-ui/react";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import { Controller, useForm } from "react-hook-form";
+import prettyMilliseconds from "pretty-ms";
+
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
+import useSetInterval from "@/hooks/useSetInterval";
 
 export default function QuizRenderer({
   quizSchema,
@@ -38,10 +43,49 @@ export default function QuizRenderer({
     answers: Record<string, string>[];
     meta: { score: number };
   }>();
-
+  const [quizStart, setQuizStart] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
   const formValues = watch();
   const sliderRef = useRef<Slider>(null);
+
+  const submitQuiz = handleSubmit((formData) => {
+    let score = 0;
+    let corrections: Record<string, string>[] = [];
+    const responses = quizSchema.questions.reduce<Record<string, string>>(
+      (obj, current) => {
+        obj[current.question] = formData[current.id];
+        const correct = Number(formData[current.id] === current.answer);
+        score += correct;
+        if (!correct) {
+          corrections.push({
+            question: current.question,
+            answer: current.answer,
+            choice: formData[current.id],
+          });
+        }
+        return obj;
+      },
+      {}
+    );
+    onQuizComplete({
+      answers: responses,
+      meta: { score },
+    });
+    setResults({ answers: corrections, meta: { score } });
+  });
+
+  if (!quizStart) {
+    return (
+      <Stack maxW="300px" m="auto" textAlign="center">
+        <Button colorScheme="green" onClick={() => setQuizStart(true)}>
+          Start Quiz
+        </Button>
+        <Text fontSize="lg" fontWeight="bold">
+          {quizSchema.time ? `${quizSchema.time} mins` : "No time limit"}
+        </Text>
+      </Stack>
+    );
+  }
 
   return results ? (
     <Stack textAlign="center">
@@ -64,6 +108,12 @@ export default function QuizRenderer({
     </Stack>
   ) : (
     <>
+      {quizSchema.time ? (
+        <CountDown
+          time={Number(quizSchema.time) * 1000 * 60}
+          onComplete={submitQuiz}
+        />
+      ) : null}
       <Slider
         infinite={false}
         draggable={false}
@@ -107,31 +157,7 @@ export default function QuizRenderer({
         currentSlide={slideIndex}
         slideCount={quizSchema.questions.length}
         disabled={!formValues[quizSchema.questions[slideIndex].id]}
-        onSubmit={handleSubmit((formData) => {
-          let score = 0;
-          let corrections: Record<string, string>[] = [];
-          const responses = quizSchema.questions.reduce<Record<string, string>>(
-            (obj, current) => {
-              obj[current.question] = formData[current.id];
-              const correct = Number(formData[current.id] === current.answer);
-              score += correct;
-              if (!correct) {
-                corrections.push({
-                  question: current.question,
-                  answer: current.answer,
-                  choice: formData[current.id],
-                });
-              }
-              return obj;
-            },
-            {}
-          );
-          onQuizComplete({
-            answers: responses,
-            meta: { score },
-          });
-          setResults({ answers: corrections, meta: { score } });
-        })}
+        onSubmit={submitQuiz}
       />
     </>
   );
@@ -175,3 +201,44 @@ function NextArrow(
     </Button>
   );
 }
+
+const CountDown = ({
+  time,
+  onComplete,
+}: {
+  time: number;
+  onComplete: () => void;
+}) => {
+  const [step, setStep] = useState(0);
+  const [stop, setStop] = useState(false);
+
+  useEffect(() => {
+    if (step === time) {
+      setStop(true);
+      onComplete();
+    }
+  }, [step, time]);
+
+  useSetInterval(
+    () => {
+      setStep((step) => step + 1000);
+    },
+    1000,
+    stop
+  );
+
+  return (
+    <Box width="20" height="20" m="auto" mb="2" color="brand.500">
+      <CircularProgressbar
+        strokeWidth={5}
+        styles={buildStyles({
+          pathColor: "currentColor",
+          textColor: "currentColor",
+          textSize: "25px",
+        })}
+        value={100 - (step / time) * 100}
+        text={`${prettyMilliseconds(time - step, { colonNotation: true })}`}
+      />
+    </Box>
+  );
+};

@@ -21,7 +21,7 @@ export interface QuizSchemaType {
   id: string | EntityId;
   name: string;
   description: string;
-  image?: string;
+  image?: string | FileList;
   time: number;
   category: typeof CATEGORIES[number] | "";
   questions: QuestionType[];

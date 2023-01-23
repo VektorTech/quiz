@@ -63,17 +63,33 @@ const baseAPI = createApi({
     }),
 
     addQuiz: builder.mutation<{ data: QuizType }, QuizSchemaType>({
-      query: (quizSchema) => ({
-        url: "quizzes",
-        method: "POST",
-        body: {
+      query: (quizSchema) => {
+        const formData = new FormData();
+
+        const updatedSchema = {
           title: quizSchema.name,
           description: quizSchema.description,
           image: quizSchema.image,
           category: quizSchema.category,
           surveySchema: quizSchema,
-        },
-      }),
+        };
+
+        Object.entries(updatedSchema).forEach(([key, value]) => {
+          if (value instanceof FileList) {
+            formData.append(key, value[0]);
+          } else if (typeof value == "object") {
+            formData.append(key, JSON.stringify(value));
+          } else if (value) {
+            formData.append(key, value.toString());
+          }
+        });
+
+        return {
+          url: "quizzes",
+          method: "POST",
+          body: formData,
+        };
+      },
       invalidatesTags: ["User", "Quiz"],
     }),
 
@@ -87,13 +103,27 @@ const baseAPI = createApi({
 
     updateQuiz: builder.mutation<
       { data: QuizType },
-      Partial<Omit<QuizType, "id">> & { id: EntityId }
+      Partial<Omit<QuizType<FileList>, "id">> & { id: EntityId }
     >({
-      query: (field) => ({
-        url: `quizzes/${field.id}`,
-        method: "PATCH",
-        body: field,
-      }),
+      query: (field) => {
+        const formData = new FormData();
+
+        Object.entries(field).forEach(([key, value]) => {
+          if (value instanceof FileList) {
+            formData.append(key, value[0]);
+          } else if (typeof value == "object") {
+            formData.append(key, JSON.stringify(value));
+          } else if (value) {
+            formData.append(key, value.toString());
+          }
+        });
+
+        return {
+          url: `quizzes/${field.id}`,
+          method: "PATCH",
+          body: formData,
+        };
+      },
       invalidatesTags: ["User", "Quiz"],
     }),
 
@@ -102,11 +132,11 @@ const baseAPI = createApi({
       invalidatesTags: ["User", "Quiz"],
     }),
 
-    ropcLogin: builder.mutation<void, { username: string; password: string; }>({
+    ropcLogin: builder.mutation<void, { username: string; password: string }>({
       query: (credentials) => ({
         url: `auth/login/ropc`,
         method: "POST",
-        body: credentials
+        body: credentials,
       }),
       invalidatesTags: ["User"],
     }),
@@ -206,11 +236,11 @@ export interface UserType {
   _id: string;
 }
 
-export interface QuizType {
+export interface QuizType<IT = void> {
   title: string;
   id: string;
   description: string;
-  image: string;
+  image: IT extends void ? string : string | FileList;
   surveySchema: QuizSchemaType;
   createdBy: UserType;
   likes: number;

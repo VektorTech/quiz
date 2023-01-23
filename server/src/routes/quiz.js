@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import multer from "multer";
 import {
   addQuiz,
   deleteQuiz,
@@ -14,14 +14,15 @@ import { isAuth } from "../middlewares/isAuth.js";
 
 const quizRouter = Router();
 
+const upload = multer({ dest: "/uploads" });
 quizRouter
   .get("/", getQuizzes)
   .get("/user", isAuth, getAuthUserQuizzes)
   .get("/:id", getUserQuizzes)
   .get("/slug/:slug", getQuizBySlug)
   .delete("/:id", isAuth, deleteQuiz)
-  .patch("/:id", isAuth, updateQuiz)
-  .post("/:id/likes", isAuth, likeQuiz)
-  .post("/", isAuth, addQuiz);
+  .patch("/:id", isAuth, upload.any(), updateQuiz)
+  .post("/", isAuth, upload.any(), addQuiz)
+  .post("/:id/likes", isAuth, likeQuiz);
 
 export default quizRouter;

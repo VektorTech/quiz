@@ -76,26 +76,22 @@ describe("POST /api/quizzes", () => {
   });
 
   it("should create a quiz for auth users", async () => {
-    const payload = {
-      title: "Test Quiz Final",
-      description: "A test quiz to check if things are working properly.",
-      surveySchema: JSON.stringify({
-        type: "survey.js schema type",
-      }),
-      status: "ACTIVE",
-      category: "misc",
-    };
     const response = await api
       .post("/api/quizzes")
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
-      .send(payload);
+      .set("Content-Type", `multipart/form-data`)
+      .field("title", "Test Quiz Final")
+      .field("description", "A test quiz to check if things are working properly.")
+      .field("surveySchema", `{ "type": "survey.js schema type" }`)
+      .field("status", "ACTIVE")
+      .field("category", "misc");
 
     assert.strictEqual(response.statusCode, 201);
 
-    assert.strictEqual(response.body.data.title, payload.title);
-    assert.strictEqual(response.body.data.description, payload.description);
-    assert.strictEqual(response.body.data.surveySchema, payload.surveySchema);
-    assert.strictEqual(response.body.data.category, payload.category);
+    assert.strictEqual(response.body.data.title, "Test Quiz Final");
+    assert.strictEqual(response.body.data.description, "A test quiz to check if things are working properly.");
+    assert.strictEqual(JSON.stringify(response.body.data.surveySchema), `{"type":"survey.js schema type"}`);
+    assert.strictEqual(response.body.data.category, "misc");
 
     const user = await User.findById(USER_ID);
     assert.strictEqual(user.quizzes.length, 4);
@@ -130,24 +126,22 @@ describe("POST /api/quizzes/:id/likes", () => {
 describe("PATCH /api/quizzes/:id", () => {
   it("should modify a quiz with related :id", async () => {
     let quiz = await Quiz.findOne({ title: QuizSamples[0].title });
-    const payload = {
-      title: "Test Quiz The First",
-      image: "https://site.com/logo.png",
-      surveySchema: "{ elements: [ radio: [{label: 'Name', value: 'name'}] ] }",
-    };
     const response = await api
       .patch(`/api/quizzes/${quiz.id}`)
       .set("Cookie", `connect.sid=${SESSION_COOKIE}`)
-      .send(payload);
+      .set("Content-Type", `multipart/form-data`)
+      .field("title", "Test Quiz The First")
+      .field("image", "https://site.com/logo.png")
+      .field("surveySchema", `{"elements":["radio",[{"label":"Name","value":"name"}]]}`);
     quiz = await Quiz.findOne({ _id: quiz.id });
 
     assert.strictEqual(response.statusCode, 200);
-    assert.strictEqual(response.body.data.title, payload.title);
-    assert.strictEqual(quiz.title, payload.title);
-    assert.strictEqual(response.body.data.image, payload.image);
-    assert.strictEqual(quiz.image, payload.image);
-    assert.strictEqual(response.body.data.surveySchema, payload.surveySchema);
-    assert.strictEqual(quiz.surveySchema, payload.surveySchema);
+    assert.strictEqual(response.body.data.title, "Test Quiz The First");
+    assert.strictEqual(quiz.title, "Test Quiz The First");
+    assert.strictEqual(response.body.data.image, "https://site.com/logo.png");
+    assert.strictEqual(quiz.image, "https://site.com/logo.png");
+    assert.strictEqual(JSON.stringify(response.body.data.surveySchema), `{"elements":["radio",[{"label":"Name","value":"name"}]]}`);
+    assert.strictEqual(JSON.stringify(quiz.surveySchema), `{"elements":["radio",[{"label":"Name","value":"name"}]]}`);
 
     assert.strictEqual(quiz.status, "ACTIVE");
     assert.strictEqual(quiz.category, "misc");

@@ -1,3 +1,4 @@
+import { v2 as cloudinary } from 'cloudinary';
 import Quiz from "../models/quiz.js";
 import QuizResponse from "../models/quizResponse.js";
 import User from "../models/user.js";
@@ -106,9 +107,15 @@ export const deleteQuiz = catchAsyncErrors(async (req, res) => {
 });
 
 export const updateQuiz = catchAsyncErrors(async (req, res) => {
-  const { title, description, surveySchema, category, image, status } =
+  const { title, description, surveySchema, category, image, status, time } =
     req.body;
-  const props = { title, description, surveySchema, category, image, status };
+  const props = { title, description, surveySchema, category, image, status, time };
+
+  const _image = req.files[0];
+  if (_image && _image.mimetype.startsWith("image/")) {
+    const uploadResponse = await cloudinary.uploader.upload(_image.path, { filename_override: _image.originalname });
+    props.image = uploadResponse.secure_url;
+  }
 
   const user = await User.findById(req.user.id);
   if (!user)
@@ -120,17 +127,60 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
     _id: req.params.id,
     createdBy: user.id,
   });
-  Object.keys(props).forEach((prop) => {
-    if (props[prop]) {
-      if (prop == "category" && !CATEGORIES.includes(props[prop])) return;
-      if (prop == "status" && !QUIZ_STATUSES.includes(props[prop])) return;
+  Object.entries(props).forEach(([key, value]) => {
+    if (value) {
+      if (key == "category" && !CATEGORIES.includes(value)) return;
+      if (key == "status" && !QUIZ_STATUSES.includes(value)) return;
 
-      quiz[prop] = props[prop];
+      if (key == "surveySchema") {
+        return quiz[key] = JSON.parse(value);
+      } else if (key == "time") {
+        return quiz[key] = Number(time) || 0;
+      }
+
+      quiz[key] = value;
     }
   });
+
   await quiz.save();
 
   res.status(200).json({ data: quiz });
+});
+
+export const addQuiz = catchAsyncErrors(async (req, res) => {
+  let { title, description, surveySchema, category, image, status, time } = req.body;
+
+  const _image = req.files[0];
+  if (_image && _image.mimetype.startsWith("image/")) {
+    const uploadResponse = await cloudinary.uploader.upload(_image.path, { filename_override: _image.originalname });
+    image = uploadResponse.secure_url;
+  }
+
+  if (!CATEGORIES.includes(category)) category = "misc";
+  if (!QUIZ_STATUSES.includes(status)) status = "drafted";
+
+  const newQuiz = new Quiz({
+    title,
+    description,
+    surveySchema: JSON.parse(surveySchema),
+    image,
+    status: status.toUpperCase(),
+    category,
+    time: Number(time) || 0,
+    createdBy: req.user.id,
+  });
+  const user = await User.findById(req.user.id);
+  const quiz = await newQuiz.save();
+
+  if (user) {
+    user.quizzes.push(quiz.id);
+    await user.save();
+    return res.status(201).json({ data: quiz });
+  }
+
+  res
+    .status(404)
+    .json({ success: false, message: "No user found with that ID" });
 });
 
 export const likeQuiz = catchAsyncErrors(async (req, res) => {
@@ -156,33 +206,4 @@ export const likeQuiz = catchAsyncErrors(async (req, res) => {
   await quiz.save();
 
   res.status(200).json({ data: quiz });
-});
-
-export const addQuiz = catchAsyncErrors(async (req, res) => {
-  let { title, description, surveySchema, category, image, status } = req.body;
-
-  if (!CATEGORIES.includes(category)) category = "misc";
-  if (!QUIZ_STATUSES.includes(status)) status = "drafted";
-
-  const newQuiz = new Quiz({
-    title,
-    description,
-    surveySchema,
-    image,
-    status: status.toUpperCase(),
-    category,
-    createdBy: req.user.id,
-  });
-  const user = await User.findById(req.user.id);
-  const quiz = await newQuiz.save();
-
-  if (user) {
-    user.quizzes.push(quiz.id);
-    await user.save();
-    return res.status(201).json({ data: quiz });
-  }
-
-  res
-    .status(404)
-    .json({ success: false, message: "No user found with that ID" });
 });

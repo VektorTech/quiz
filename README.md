@@ -22,8 +22,9 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 - [ ] Timed quizzes
 - [ ] Cancel quiz creation prompt
 - [ ] Assign quiz tags
-- [ ] Quiz image feature
+- [x] Upload quiz image thumbnail feature
 - [ ] Ability to edit profile
+- [ ] Toast notifications & indicators
 
 ## Tech Used
 ### Client
@@ -50,6 +51,7 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 
 ### Other
 - Auth0
+- Cloudinary
 
 ## ENV
 ### Client
@@ -69,6 +71,8 @@ AUTH0_CLIENT_SECRET=
 AUTH0_CLIENT_ID=
 AUTH0_BASE_URL=
 AUTH0_ISSUER_BASE_URL=
+
+CLOUDINARY_URL=
 ```
 
 ## License

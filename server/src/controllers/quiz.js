@@ -143,12 +143,14 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
       if (key == "status" && !QUIZ_STATUSES.includes(value)) return;
 
       if (key == "surveySchema") {
-        return (quiz[key] = JSON.parse(value));
+        quiz[key] = JSON.parse(value);
+        return;
       } else if (key == "time") {
-        return (quiz[key] = Number(time) || 0);
+        quiz[key] = Number(time) || 0;
+        return;
+      } else if (value) {
+        quiz[key] = value;
       }
-
-      quiz[key] = value;
     }
   });
 

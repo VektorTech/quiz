@@ -52,6 +52,7 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 ### Other
 - Auth0
 - Cloudinary
+- SVGRepo
 
 ## ENV
 ### Client

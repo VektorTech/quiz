@@ -24,7 +24,7 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 - [ ] Assign quiz tags
 - [x] Upload quiz image thumbnail feature
 - [ ] Ability to edit profile
-- [ ] Toast notifications & indicators
+- [-] Toast notifications & indicators
 
 ## Tech Used
 ### Client

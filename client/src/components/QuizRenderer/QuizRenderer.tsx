@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Button,
   Heading,
@@ -20,7 +20,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
-import useSetInterval from "@/hooks/useSetInterval";
+import useInterval from "@/hooks/useInterval";
 
 export default function QuizRenderer({
   quizSchema,
@@ -48,31 +48,35 @@ export default function QuizRenderer({
   const formValues = watch();
   const sliderRef = useRef<Slider>(null);
 
-  const submitQuiz = handleSubmit((formData) => {
-    let score = 0;
-    let corrections: Record<string, string>[] = [];
-    const responses = quizSchema.questions.reduce<Record<string, string>>(
-      (obj, current) => {
-        obj[current.question] = formData[current.id];
-        const correct = Number(formData[current.id] === current.answer);
-        score += correct;
-        if (!correct) {
-          corrections.push({
-            question: current.question,
-            answer: current.answer,
-            choice: formData[current.id],
-          });
-        }
-        return obj;
-      },
-      {}
-    );
-    onQuizComplete({
-      answers: responses,
-      meta: { score },
-    });
-    setResults({ answers: corrections, meta: { score } });
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const submitQuiz = useCallback(
+    handleSubmit((formData) => {
+      let score = 0;
+      let corrections: Record<string, string>[] = [];
+      const responses = quizSchema.questions.reduce<Record<string, string>>(
+        (obj, current) => {
+          obj[current.question] = formData[current.id];
+          const correct = Number(formData[current.id] === current.answer);
+          score += correct;
+          if (!correct) {
+            corrections.push({
+              question: current.question,
+              answer: current.answer,
+              choice: formData[current.id],
+            });
+          }
+          return obj;
+        },
+        {}
+      );
+      onQuizComplete({
+        answers: responses,
+        meta: { score },
+      });
+      setResults({ answers: corrections, meta: { score } });
+    }),
+    [onQuizComplete, quizSchema.questions]
+  );
 
   if (!quizStart) {
     return (
@@ -209,23 +213,19 @@ const CountDown = ({
   time: number;
   onComplete: () => void;
 }) => {
-  const [step, setStep] = useState(0);
-  const [stop, setStop] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+  const [delay, setDelay] = useState<number | null>(1000);
 
   useEffect(() => {
-    if (step === time) {
-      setStop(true);
+    if (elapsed === time) {
+      setDelay(null);
       onComplete();
     }
-  }, [step, time]);
+  }, [onComplete, elapsed, time]);
 
-  useSetInterval(
-    () => {
-      setStep((step) => step + 1000);
-    },
-    1000,
-    stop
-  );
+  useInterval(() => {
+    setElapsed(elapsed => elapsed + 1000);
+  }, delay);
 
   return (
     <Box width="20" height="20" m="auto" mb="2" color="brand.500">
@@ -236,8 +236,8 @@ const CountDown = ({
           textColor: "currentColor",
           textSize: "25px",
         })}
-        value={100 - (step / time) * 100}
-        text={`${prettyMilliseconds(time - step, { colonNotation: true })}`}
+        value={100 - (elapsed / time) * 100}
+        text={`${prettyMilliseconds(time - elapsed, { colonNotation: true })}`}
       />
     </Box>
   );

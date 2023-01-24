@@ -21,6 +21,7 @@ import InfoPanel from "./TabPanels/InfoPanel";
 import QuestionPanel from "./TabPanels/QuestionsPanel";
 import { useAddQuizMutation, useUpdateQuizMutation } from "@/services/api";
 import { useAppSelector } from "@/app/hooks";
+import SaveIcon from "../Icons/SaveIcon";
 
 export default function CreateQuiz({ id = "" }) {
   const quizSchema = useAppSelector((state) => selectQuizById(state, id));

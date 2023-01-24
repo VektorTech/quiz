@@ -1,5 +1,5 @@
+import { verifyError, verifyFBQError } from "@/libs/utils";
 import { Code, Container, Heading, Text, VStack } from "@chakra-ui/react";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { Helmet } from "react-helmet-async";
 import { useRouteError } from "react-router-dom";
 
@@ -7,7 +7,7 @@ export default function ErrorPage() {
   const error = useRouteError();
 
   const ErrorMessage = (() => {
-    if (validateFBQError(error)) {
+    if (verifyFBQError(error)) {
       return (
         <Text>
           <Code fontWeight="bold">status: {error.status}</Code>
@@ -17,7 +17,7 @@ export default function ErrorPage() {
           </Code>
         </Text>
       );
-    } else if (validateError(error)) {
+    } else if (verifyError(error)) {
       return (
         <Text>
           <Code textAlign="left" color="red">
@@ -48,19 +48,4 @@ export default function ErrorPage() {
       </VStack>
     </Container>
   );
-}
-
-function validateFBQError(
-  error: unknown
-): error is FetchBaseQueryError & { error?: string } {
-  return (
-    typeof error == "object" &&
-    error != null &&
-    "status" in error &&
-    "error" in error
-  );
-}
-
-function validateError(error: unknown): error is Error {
-  return typeof error == "object" && error != null && "message" in error;
 }

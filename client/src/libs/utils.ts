@@ -1,3 +1,5 @@
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+
 export function* range(start: number, end: number) {
   const dir = Math.sign(end - start);
   for (let i = start; i < end; i += dir) yield i;
@@ -25,3 +27,18 @@ export const toBase62 = (data: number | string) => {
 
   return encoded;
 };
+
+export function verifyFBQError(
+  error: unknown
+): error is FetchBaseQueryError & { error?: string } {
+  return (
+    typeof error == "object" &&
+    error != null &&
+    "status" in error &&
+    "error" in error
+  );
+}
+
+export function verifyError(error: unknown): error is Error {
+  return typeof error == "object" && error != null && "message" in error;
+}

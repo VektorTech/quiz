@@ -51,9 +51,9 @@ const InfoPanel = ({
 
         <FormControl>
           <FormLabel>Quiz Timer</FormLabel>
-          <NumberInput maxW="15rem" step={5} min={5} max={60}>
+          <NumberInput maxW="15rem" step={3} min={3} max={60}>
             <NumberInputField
-              {...register("time", { valueAsNumber: true })}
+              {...register("time")}
               placeholder="No time limit"
             />
             <NumberInputStepper>
@@ -62,7 +62,7 @@ const InfoPanel = ({
             </NumberInputStepper>
           </NumberInput>
           <FormHelperText>
-            Specify quiz time limit in minutes. Ranges between 5 - 60 mins.
+            Specify quiz time limit in minutes. Ranges between 3 - 60 mins.
           </FormHelperText>
         </FormControl>
 

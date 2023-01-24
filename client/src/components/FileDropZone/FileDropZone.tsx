@@ -7,11 +7,13 @@ import {
   Button,
   Image,
   Text,
+  IconButton,
 } from "@chakra-ui/react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import prettyBytes from "pretty-bytes";
 
-import cloudUploadImage from "@/assets/images/cloud-upload.png";
+import { DeleteIcon } from "@chakra-ui/icons";
+import CloudUploadIcon from "../Icons/CloudUploadIcon";
 
 export default function FileDropZone({
   inputProps,
@@ -24,17 +26,45 @@ export default function FileDropZone({
   return (
     <FormControl>
       <FormLabel cursor="pointer">Upload Image</FormLabel>
+
+      {imgFile && (
+        <IconButton
+          icon={<DeleteIcon />}
+          position="absolute"
+          zIndex="1"
+          variant="outline"
+          colorScheme="red"
+          mt="2"
+          ml="2"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (fileInput.current?.files) {
+              fileInput.current.value = "";
+              fileInput.current.files = null;
+              inputProps.onChange({ target: fileInput.current });
+              setImgFile(null);
+            }
+          }}
+          aria-label="remove image"
+        />
+      )}
+
       <Button
         as="div"
         role="button"
         overflow="hidden"
+        variant="ghost"
         display="flex"
         justifyContent="center"
-        gap="5"
+        gap="3"
         width="100%"
         border="2px dashed"
         borderColor="gray.600"
         tabIndex={0}
+        _focusVisible={{
+          borderColor: "brand.400",
+          color: "brand.400",
+        }}
         onClick={() => fileInput.current?.click()}
         sx={{
           "&.drag-hover": {
@@ -43,18 +73,18 @@ export default function FileDropZone({
           },
         }}
         onDragEnter={(e) => {
-          if (e.target instanceof HTMLButtonElement)
+          if (e.target instanceof HTMLElement)
             e.target.classList.add("drag-hover");
         }}
         onDragLeave={(e) => {
-          if (e.target instanceof HTMLButtonElement)
+          if (e.target instanceof HTMLElement)
             e.target.classList.remove("drag-hover");
         }}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
           e.preventDefault();
 
-          if (e.target instanceof HTMLButtonElement)
+          if (e.target instanceof HTMLElement)
             e.target.classList.remove("drag-hover");
 
           if (fileInput.current && e.dataTransfer.files.length) {
@@ -65,40 +95,19 @@ export default function FileDropZone({
         }}
         height="140px"
       >
-        <VStack spacing="0">
+        {imgFile ? (
           <Image
             m="0"
-            width="100px"
-            height="100px"
+            width="120px"
+            height="120px"
             objectFit="contain"
-            src={imgFile ? URL.createObjectURL(imgFile) : cloudUploadImage}
             pointerEvents="none"
+            src={URL.createObjectURL(imgFile)}
             alt=""
           />
-          {imgFile && (
-            <Text
-              onClick={(e) => {
-                e.stopPropagation();
-                if (fileInput.current?.files) {
-                  fileInput.current.value = "";
-                  fileInput.current.files = null;
-                  inputProps.onChange({ target: fileInput.current });
-                  setImgFile(null);
-                }
-              }}
-              tabIndex={0}
-              as="span"
-              display="block"
-              fontSize="sm"
-              textDecor="underline"
-              aria-label="remove image"
-              role="button"
-              mt="0"
-            >
-              {`(Remove)`}
-            </Text>
-          )}
-        </VStack>
+        ) : (
+          <CloudUploadIcon pointerEvents="none" boxSize="10" />
+        )}
 
         {imgFile ? (
           <VStack
@@ -111,7 +120,6 @@ export default function FileDropZone({
               pt="2"
               as="span"
               display="block"
-              color="brand.500"
               width="36ch"
               overflow="hidden"
               textOverflow="ellipsis"

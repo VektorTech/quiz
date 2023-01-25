@@ -33,7 +33,7 @@ This is a personal project to further aid my learning about the react ecosystem.
 ### Client
 - TypeScript
 - React v18
-- Redux Toolkit & RTK Query
+- Redux + Redux Toolkit & RTK Query
 - React Hook Form
 - React Router v6
 - Chakra UI
@@ -95,4 +95,4 @@ CLOUDINARY_URL=
 ```
 
 ## License
-[MIT](./LICENSE.md)
+This application is [MIT Licensed](./LICENSE.md)

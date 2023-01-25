@@ -1,5 +1,5 @@
 import { RootState } from "@/app/store";
-import { CATEGORIES } from "@/libs/constants";
+import { CATEGORIES } from "@/utils/constants";
 import baseAPI from "@/services/api";
 
 import {

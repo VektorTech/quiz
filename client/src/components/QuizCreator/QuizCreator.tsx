@@ -17,10 +17,10 @@ import { QuizSchemaType, selectQuizById } from "@/features/quiz/quizSlice";
 import InfoPanel from "./TabPanels/InfoPanel";
 import QuestionPanel from "./TabPanels/QuestionsPanel";
 
-import SaveIcon from "../Icons/SaveIcon";
+import SaveIcon from "@/components/Icons/SaveIcon";
 import { useAddQuizMutation, useUpdateQuizMutation } from "@/services/api";
 import { useAppSelector } from "@/app/hooks";
-import { verifyFBQError } from "@/libs/utils";
+import { verifyFBQError } from "@/utils";
 import useQuizForm from "@/hooks/useQuizForm";
 
 export default forwardRef<

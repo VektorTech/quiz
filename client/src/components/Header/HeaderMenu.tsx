@@ -10,7 +10,7 @@ import {
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Link as RLink } from "react-router-dom";
 
-import { CATEGORIES } from "@/libs/constants";
+import { CATEGORIES } from "@/utils/constants";
 
 const HeaderMenu = () => {
   const firstThird = Math.ceil(CATEGORIES.length / 3);

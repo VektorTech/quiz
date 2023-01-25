@@ -1,5 +1,5 @@
 import store from "@/app/store";
-import { CATEGORIES } from "@/libs/constants";
+import { CATEGORIES } from "@/utils/constants";
 import baseAPI from "@/services/api";
 import { LoaderFunctionArgs } from "react-router-dom";
 

@@ -26,7 +26,7 @@ import {
   useGetUserByIdQuery,
 } from "@/services/api";
 import { Link as RLink, Navigate, useParams } from "react-router-dom";
-import { getDateFormatted } from "@/libs/i18n";
+import { getDateFormatted } from "@/utils/i18n";
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 import LocationIcon from "@/components/Icons/LocationIcon";
 import { AvatarUser, FollowsLikes } from "@/components/User";

@@ -29,11 +29,11 @@ import {
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Link as RLink, useLocation } from "react-router-dom";
 
-import SearchBox from "./SearchBox";
+import { SearchBox } from "@/components/SearchBox";
 
-import { CATEGORIES } from "@/libs/constants";
+import { CATEGORIES } from "@/utils/constants";
 import { useGetAuthUserQuery } from "@/services/api";
-import CreateIcon from "../Icons/CreateIcon";
+import CreateIcon from "@/components/Icons/CreateIcon";
 import { useAppDispatch } from "@/app/hooks";
 import { openModal } from "@/features/ui/uiSlice";
 

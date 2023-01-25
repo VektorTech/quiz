@@ -18,8 +18,8 @@ import {
 import { Link as RLink, useNavigate } from "react-router-dom";
 
 import Logo from "@/assets/icons/Logo.svg";
-import HeaderDrawer from "./HeaderDrawer";
-import SearchBox from "./SearchBox";
+import { HeaderDrawer } from "@/components/HeaderDrawer";
+import SearchBox from "../SearchBox/SearchBox";
 import HeaderMenu from "./HeaderMenu";
 
 import { useGetAuthUserQuery } from "@/services/api";

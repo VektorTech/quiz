@@ -1,4 +1,4 @@
-import { verifyError, verifyFBQError } from "@/libs/utils";
+import { verifyError, verifyFBQError } from "@/utils";
 import { Code, Container, Heading, Text, VStack } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { useRouteError } from "react-router-dom";

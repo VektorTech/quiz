@@ -15,7 +15,7 @@ import { SmallAddIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 import QuestionEditBox from "../QuestionEditBox";
 import { nanoid } from "@reduxjs/toolkit";
-import { toBase62 } from "@/libs/utils";
+import { toBase62 } from "@/utils";
 import { QuestionType } from "@/features/quiz/quizSlice";
 
 const getChoiceObj = () => ({

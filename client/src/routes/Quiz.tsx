@@ -19,7 +19,7 @@ import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 
-import { getDateFormatted } from "@/libs/i18n";
+import { getDateFormatted } from "@/utils/i18n";
 import { QuizRenderer } from "@/components/QuizRenderer";
 import {
   useFindQuizBySlugQuery,

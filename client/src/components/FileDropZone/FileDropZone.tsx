@@ -13,7 +13,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import prettyBytes from "pretty-bytes";
 
 import { DeleteIcon } from "@chakra-ui/icons";
-import CloudUploadIcon from "../Icons/CloudUploadIcon";
+import CloudUploadIcon from "@/components/Icons/CloudUploadIcon";
 
 export default function FileDropZone({
   inputProps,

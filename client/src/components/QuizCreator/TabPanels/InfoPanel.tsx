@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { UseFormRegister } from "react-hook-form";
 
-import { CATEGORIES } from "@/libs/constants";
+import { CATEGORIES } from "@/utils/constants";
 
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
 import { FileDropZone } from "@/components/FileDropZone";

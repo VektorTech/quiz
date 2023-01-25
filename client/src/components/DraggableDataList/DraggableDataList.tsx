@@ -3,7 +3,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { DragHandleIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
 
-import { range } from "@/libs/utils";
+import { range } from "@/utils";
 
 const DraggableDataList = <T extends unknown>({
   data,

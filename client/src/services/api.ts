@@ -1,6 +1,6 @@
 import { RootState } from "@/app/store";
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
-import { CATEGORIES } from "@/libs/constants";
+import { CATEGORIES } from "@/utils/constants";
 import {
   createEntityAdapter,
   createSelector,

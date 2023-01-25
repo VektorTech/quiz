@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import {
   Button,
   Container,
@@ -7,51 +7,45 @@ import {
   Tabs,
   TabList,
   TabPanels,
+  useToast,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import {
-  QuestionType,
-  QuizSchemaType,
-  selectQuizById,
-} from "@/features/quiz/quizSlice";
+import { QuizSchemaType, selectQuizById } from "@/features/quiz/quizSlice";
 
 import InfoPanel from "./TabPanels/InfoPanel";
 import QuestionPanel from "./TabPanels/QuestionsPanel";
+
+import SaveIcon from "../Icons/SaveIcon";
 import { useAddQuizMutation, useUpdateQuizMutation } from "@/services/api";
 import { useAppSelector } from "@/app/hooks";
-import SaveIcon from "../Icons/SaveIcon";
+import { verifyFBQError } from "@/libs/utils";
+import useQuizForm from "@/hooks/useQuizForm";
 
-export default function CreateQuiz({ id = "" }) {
+export default forwardRef<
+  { getCreatorState: Function; setCreatorState: Function },
+  { id?: string }
+>(function CreateQuiz({ id = "" }, fRef) {
   const quizSchema = useAppSelector((state) => selectQuizById(state, id));
+  const toast = useToast();
 
   const [addQuiz] = useAddQuizMutation();
   const [updateQuiz] = useUpdateQuizMutation();
 
   const navigate = useNavigate();
 
-  const { register, handleSubmit, setValue } =
-    useForm<Omit<QuizSchemaType, "questions">>();
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
+  const { register, handleSubmit, setFormValues, control } = useQuizForm({
+    defaultValue: quizSchema,
+  });
 
-  useEffect(() => {
-    if (quizSchema) {
-      const { name, description, image, time, category, questions } =
-        quizSchema;
-      setValue("name", name);
-      setValue("description", description);
-      setValue("image", image);
-      setValue("time", time);
-      setValue("category", category);
-      setQuestions(questions);
-    }
-  }, [quizSchema, setValue]);
-
-  const saveHandler = handleSubmit(async (data) => {
-    const _quizSchema = { ...data, questions, time: data.time || 0 };
-
+  const saveHandler = handleSubmit(async (_quizSchema) => {
     try {
+      toast({
+        title: "Processing...",
+        status: "loading",
+        duration: 1000,
+      });
       if (quizSchema?.id) {
         await updateQuiz({
           id: quizSchema.id,
@@ -65,16 +59,28 @@ export default function CreateQuiz({ id = "" }) {
         await addQuiz(_quizSchema).unwrap();
       }
       navigate("/me");
-    } catch (err) {
-      console.log("Error", err);
+    } catch (error: unknown) {
+      if (verifyFBQError(error))
+        toast({
+          title: "Something went wrong.",
+          description: error.error?.toString(),
+          status: "error",
+          duration: 3000,
+        });
     }
   });
+
+  useImperativeHandle(fRef, () => ({
+    getCreatorState: (callback: SubmitHandler<QuizSchemaType>) =>
+      handleSubmit(callback),
+    setCreatorState: (state: QuizSchemaType) => setFormValues(state),
+  }));
 
   return (
     <>
       <Container maxW="container.lg">
         <Heading textAlign="center" mb="3" mt="3">
-          Create Quiz
+          {quizSchema?.id ? "Update" : "Create"} Quiz
         </Heading>
       </Container>
 
@@ -84,6 +90,7 @@ export default function CreateQuiz({ id = "" }) {
             <Tab>Info</Tab>
             <Tab>Questions</Tab>
             <Button
+              leftIcon={<SaveIcon />}
               colorScheme="green"
               height="8"
               lineHeight="8"
@@ -96,10 +103,10 @@ export default function CreateQuiz({ id = "" }) {
 
           <TabPanels>
             <InfoPanel register={register} />
-            <QuestionPanel questions={questions} setQuestions={setQuestions} />
+            <QuestionPanel control={control} />
           </TabPanels>
         </Tabs>
       </Container>
     </>
   );
-}
+});

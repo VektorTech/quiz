@@ -16,13 +16,24 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { DraggableDataList } from "../../DraggableDataList";
 import Radiogroup from "../Tools/Radiogroup";
 
-import { QuestionType } from "@/features/quiz/quizSlice";
+import { QuestionType, QuizSchemaType } from "@/features/quiz/quizSlice";
 import RadioButtonIcon from "@/components/Icons/RadioButtonIcon";
+import { Control, useController } from "react-hook-form";
 
-const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
+const QuestionPanel: FC<QuestionPanelProps> = ({ control }) => {
+  const controller = useController({ name: "questions", control });
+
+  const questions = controller.field.value ?? [];
+  const setQuestions = (_questions: QuestionType[]) =>
+    controller.field.onChange({ target: { value: _questions } });
+
   const selectAllId = useId();
+
   const [activeQuestion, setActiveQuestion] = useState<number>(-1);
-  const [currentControl, setCurrentControl] = useState<string>("");
+  const [currentControl, setCurrentControl] = useState<"radiogroup" | null>(
+    null
+  );
+
   const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
   const allChecked =
     !!questions.length && !!checkedItems.length && checkedItems.every(Boolean);
@@ -38,7 +49,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
       setQuestions([...questions, details]);
       setCheckedItems(checkedItems.concat(false));
     }
-    setCurrentControl("");
+    setCurrentControl(null);
   };
 
   return (
@@ -117,7 +128,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
             keyExtractor={(item) => item.id}
             onDragEnd={(items) => {
               setCheckedItems(
-                items.map((item, index) => {
+                items.map((item) => {
                   const qIndex = questions.findIndex(
                     (question) => item.id === question.id
                   );
@@ -160,7 +171,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
 
       <Radiogroup
         onConfirm={onConfirm}
-        onClose={() => setCurrentControl("")}
+        onClose={() => setCurrentControl(null)}
         isOpen={currentControl === "radiogroup"}
         preset={questions[activeQuestion]}
       />
@@ -171,6 +182,5 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ questions, setQuestions }) => {
 export default QuestionPanel;
 
 interface QuestionPanelProps {
-  questions: QuestionType[];
-  setQuestions: (questions: QuestionType[]) => void;
+  control: Control<QuizSchemaType, any>;
 }

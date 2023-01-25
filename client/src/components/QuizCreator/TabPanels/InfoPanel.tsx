@@ -24,7 +24,7 @@ import { FileDropZone } from "@/components/FileDropZone";
 const InfoPanel = ({
   register,
 }: {
-  register: UseFormRegister<Omit<QuizSchemaType, "questions">>;
+  register: UseFormRegister<QuizSchemaType>;
 }) => {
   return (
     <TabPanel>

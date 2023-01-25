@@ -40,7 +40,6 @@ export const getAuthUserQuizzes = catchAsyncErrors(async (req, res) => {
 
   const index = (Number(page) - 1) * QUIZ_RESULTS_LIMIT;
   const filter = {
-    status: "ACTIVE",
     category: new RegExp(category, "i"),
     title: new RegExp(search, "i"),
     createdBy: user.id,

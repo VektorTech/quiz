@@ -1,6 +1,9 @@
 # Quiz App (WIP)
 A MERN Stack Application for creating, sharing and playing quizzes.
 
+## About
+This is a personal project to further aid my learning about the react ecosystem.
+
 ## Features
 - Create quizzes & save them to draft
 - Publish quizzes to website
@@ -20,7 +23,7 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 - [ ] Multi-answer questions
 - [ ] UI animations
 - [x] Timed quizzes
-- [ ] Cancel quiz creation w/ prompt
+- [ ] Prompt user before navigating away from quiz creator
 - [ ] Assign quiz tags
 - [x] Upload quiz image thumbnail feature
 - [ ] Ability to edit profile
@@ -53,6 +56,21 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 - Auth0
 - Cloudinary
 - SVGRepo
+
+## Things I've Learned
+- Working with the Drag and Drop API
+- Global state management with Redux
+- Form state management with react hook form
+- Interfacing with server through RTK Query
+- Authentication flows using Auth0 (working w/ JWT)
+- Mocking data & functions for testing
+
+## Notes
+- My initial attempt to implement the draggable list using the Drag and Drop (DnD) API came with some inconveniences, so I eventually had to switch to the Pointer/Touch APIs. The DnD API showed a ghost image of the dragged element without any way to style it and also affected the cursor icon when hovering dragged items around the page. It was difficult, if not impossible, to restrict the dragged element to the bounds of the list container and to disable the list item from being dragged along the x-axis. The DnD API also has very little support on mobile browsers. Switching to the Pointer/Touch APIs required more code, but the result was much more favourable.
+- RTK Query doesn't currently have a normalized cache, so duplicates of an object can exist simultaneously in different endpoints. All endpoints for a mutual API server have to be defined in the same API slice to allow each endpoint to invalidate the cache of another endpoint.
+- Because I wanted to include an embedded email/password login form, the application currently relies on Auth0's Resource Owner Password flow (access token in this application is fetched from the server) which isn't recommended. But the standard redirect flow is still available.
+- Loading user profile images from google requires a "no-referrer" policy to be specified.
+- I'm somehow unable to display a prompt when a user is navigating away from a page.
 
 ## ENV
 ### Client

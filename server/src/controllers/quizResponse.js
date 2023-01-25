@@ -28,3 +28,13 @@ export const getQuizResponseById = catchAsyncErrors(async (req, res) => {
   }
   res.status(404).json({ success: false, message: "Quiz Not Found" });
 });
+
+export const getQuizResponseCountById = catchAsyncErrors(async (req, res) => {
+  const quiz = await Quiz.findById(req.params.quizID);
+
+  if (quiz) {
+    const count = await QuizResponse.count({ quiz: quiz.id });
+    return res.json({ count });
+  }
+  res.status(404).json({ success: false, message: "Quiz Not Found" });
+});

@@ -170,6 +170,10 @@ const baseAPI = createApi({
         },
       }),
     }),
+
+    getQuizResponseCountById: builder.query<{ count: number }, EntityId>({
+      query: (quizId) => `responses/${quizId}/count`,
+    })
   }),
 });
 
@@ -182,6 +186,7 @@ export const {
   useGetQuizByIdQuery,
   useGetUserByIdQuery,
   useFindQuizBySlugQuery,
+  useGetQuizResponseCountByIdQuery,
 
   useAddQuizMutation,
   useAddQuizResponseMutation,

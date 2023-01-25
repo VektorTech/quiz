@@ -15,6 +15,7 @@ import {
 import { Link as RLink, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { StarIcon } from "@chakra-ui/icons";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
 
@@ -25,6 +26,7 @@ import {
   useGetAuthUserQuery,
   useLikeQuizMutation,
   useAddQuizResponseMutation,
+  useGetQuizResponseCountByIdQuery,
 } from "@/services/api";
 import { PageSpinner } from "@/components/PageSpinner";
 
@@ -33,11 +35,14 @@ export default function Quiz() {
   const { data, error, isLoading, isError } = useFindQuizBySlugQuery(
     slug || ""
   );
+  const quiz = data?.data;
   const { data: user } = useGetAuthUserQuery();
   const [submitResponse] = useAddQuizResponseMutation();
   const [likeQuiz] = useLikeQuizMutation();
 
-  const quiz = data?.data;
+  const { data: responseCount } = useGetQuizResponseCountByIdQuery(
+    quiz?.id ?? skipToken
+  );
 
   if (isLoading) {
     return <PageSpinner />;
@@ -116,14 +121,16 @@ export default function Quiz() {
           >
             {quiz.likes}
           </Button>
-          <Text>&bull;</Text>
-          <Text fontWeight="bold">
-            {surveySchema.questions.length} Questions
-          </Text>
+          <Text fontSize="14">{surveySchema.questions.length} Questions</Text>
           <Text>&bull;</Text>
           <Text fontSize="14">
             Created{" "}
             {getDateFormatted(quiz.createdAt, "numeric").replaceAll("/", ".")}
+          </Text>
+          <Text>&bull;</Text>
+          <Text fontSize="14">
+            {typeof responseCount?.count == "number" &&
+              `${responseCount.count} Plays`}
           </Text>
         </HStack>
       </Stack>

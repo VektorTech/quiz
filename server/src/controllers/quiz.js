@@ -1,66 +1,30 @@
 import { v2 as cloudinary } from "cloudinary";
+
 import Quiz from "../models/quiz.js";
 import QuizResponse from "../models/quizResponse.js";
 import User from "../models/user.js";
+
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
-import { QUIZ_RESULTS_LIMIT } from "../configs/general.config.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
+import ResultsFormatter from "../utils/ResultsFormatter.js";
 
 export const getQuizzes = catchAsyncErrors(async (req, res) => {
-  const { page = 1, category = "", search = "" } = req.query;
-
-  const index = (Number(page) - 1) * QUIZ_RESULTS_LIMIT;
-  const filter = {
-    status: "ACTIVE",
-    category: new RegExp(category, "i"),
-    title: new RegExp(search, "i"),
-  };
-  const total = await Quiz.count(filter);
-  const pages = Math.ceil(total / QUIZ_RESULTS_LIMIT);
-
-  const quizzes = await Quiz.find(filter)
-    .sort({ createdAt: -1 })
-    .skip(index || 0)
-    .limit(QUIZ_RESULTS_LIMIT)
-    .populate("createdBy", "avatar");
-
-  res.json({
-    data: quizzes,
-    count: total,
-    perPage: QUIZ_RESULTS_LIMIT,
-    numPages: pages,
-    currentPage: Number(page),
-    currentPageCount: quizzes.length,
-  });
+  await new ResultsFormatter(Quiz.find(), req.query)
+    .sortByDate()
+    .search()
+    .filter()
+    .paginate()
+    .onlyActive()
+    .exec(res);
 });
 
 export const getAuthUserQuizzes = catchAsyncErrors(async (req, res) => {
-  const user = await User.findById(req.user.id);
-  const { page = 1, category = "", search = "" } = req.query;
-
-  const index = (Number(page) - 1) * QUIZ_RESULTS_LIMIT;
-  const filter = {
-    category: new RegExp(category, "i"),
-    title: new RegExp(search, "i"),
-    createdBy: user.id,
-  };
-  const total = await Quiz.count(filter);
-  const pages = Math.ceil(total / QUIZ_RESULTS_LIMIT);
-
-  const quizzes = await Quiz.find(filter)
-    .sort({ createdAt: -1 })
-    .skip(index || 0)
-    .limit(QUIZ_RESULTS_LIMIT)
-    .populate("createdBy", "avatar");
-
-  res.json({
-    data: quizzes,
-    count: total,
-    perPage: QUIZ_RESULTS_LIMIT,
-    numPages: pages,
-    currentPage: Number(page),
-    currentPageCount: quizzes.length,
-  });
+  await new ResultsFormatter(Quiz.find(), req.query)
+    .sortByDate()
+    .search()
+    .filter()
+    .paginate()
+    .exec(res);
 });
 
 export const getUserQuizzes = catchAsyncErrors(async (req, res) => {
@@ -71,6 +35,7 @@ export const getUserQuizzes = catchAsyncErrors(async (req, res) => {
   if (quiz) {
     return res.json({ data: quiz });
   }
+
   res.status(404).json({ success: false, message: "Nothing Found" });
 });
 

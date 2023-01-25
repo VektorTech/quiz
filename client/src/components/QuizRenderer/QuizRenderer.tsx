@@ -224,7 +224,7 @@ const CountDown = ({
   }, [onComplete, elapsed, time]);
 
   useInterval(() => {
-    setElapsed(elapsed => elapsed + 1000);
+    setElapsed((elapsed) => elapsed + 1000);
   }, delay);
 
   return (

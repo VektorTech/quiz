@@ -20,7 +20,7 @@ A MERN Stack Application for creating, sharing and playing quizzes.
 - [ ] Multi-answer questions
 - [ ] UI animations
 - [x] Timed quizzes
-- [ ] Cancel quiz creation prompt
+- [ ] Cancel quiz creation w/ prompt
 - [ ] Assign quiz tags
 - [x] Upload quiz image thumbnail feature
 - [ ] Ability to edit profile

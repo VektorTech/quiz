@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Navigate, useParams } from "react-router-dom";
 
-import { QuizCreator } from "@/components/QuizCreator";
+import QuizCreator from "@/features/quiz/components/QuizCreator";
 import { UserType } from "@/services/api";
 
 export default function CreateQuizPage({ user }: { user: UserType }) {

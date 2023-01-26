@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
-import { DraggableDataList } from "../../DraggableDataList";
+import { DraggableDataList } from "@/components/DraggableDataList";
 import Radiogroup from "../Tools/Radiogroup";
 
 import { QuestionType, QuizSchemaType } from "@/features/quiz/quizSlice";

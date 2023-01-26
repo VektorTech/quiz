@@ -39,8 +39,8 @@ export default class ResultsFormatter {
 
   exec = async function (res) {
     const { page = 1 } = this.queryString;
+    const total = await this.query.clone().count();
     const results = await this.query.populate("createdBy", "avatar");
-    const total = await Quiz.count();
     const pages = Math.ceil(total / QUIZ_RESULTS_LIMIT);
 
     res.json({

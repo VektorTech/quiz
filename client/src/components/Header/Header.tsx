@@ -29,7 +29,7 @@ import { openModal } from "@/features/ui/uiSlice";
 import { useAppDispatch } from "@/app/hooks";
 
 const HeaderElement = styled.header`
-  height: 80px;
+  height: 70px;
 `;
 
 const Header = () => {

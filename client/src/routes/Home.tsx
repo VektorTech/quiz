@@ -9,8 +9,8 @@ export default function Home() {
   if (!data) return null;
 
   return (
-    <Container maxW="container.lg" gap="6">
-      <Text mt="5">
+    <Container maxW="container.lg" gap="6" pt="5">
+      <Text>
         Welcome to the ultimate quiz site! Here, you can test your knowledge and
         challenge your friends to see who comes out on top. We have a wide
         variety of quizzes covering topics ranging from pop culture to history,

@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet-async";
 import { QuizCard } from "@/components/QuizCard";
 import { quizzesLoaderReturn } from "@/loaders/quizzesLoader";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { Container, Grid } from "@chakra-ui/react";
+import { Container, Grid, Heading } from "@chakra-ui/react";
 
 const Paginate = styled(ReactPaginate)`
   display: flex;
@@ -50,7 +50,11 @@ const Paginate = styled(ReactPaginate)`
 `;
 
 export default function Browse() {
-  const { quizzes: quizList } = useLoaderData() as quizzesLoaderReturn;
+  const {
+    quizzes: quizList,
+    category,
+    search,
+  } = useLoaderData() as quizzesLoaderReturn;
   const navigate = useNavigate();
 
   if (!quizList.currentPageCount) {
@@ -58,13 +62,17 @@ export default function Browse() {
   }
 
   return (
-    <Container maxW="container.lg">
+    <Container maxW="container.lg" pt="10">
       <Helmet>
-        <title>Quizzes</title>
+        <title>Quizzes - {category || `"${search}"`}</title>
       </Helmet>
 
+      <Heading textAlign="center" as="h1" fontSize="3xl" textTransform="capitalize">
+        {category ? `${category}` : `"${search}"`}
+      </Heading>
+
       <Grid
-        mt="10"
+        mt="12"
         templateColumns="repeat(auto-fit, minmax(220px, 1fr))"
         gap="3"
       >

@@ -46,7 +46,7 @@ export default function User() {
       <Helmet>
         <title>User | {user.avatar.username}</title>
       </Helmet>
-      <Center flexDirection="column" gap="5" marginTop="10">
+      <Center flexDirection="column" gap="5" pt="10">
         <AvatarUser user={user} />
 
         <Text>{user.avatar.bio ?? "No bio yet"}</Text>

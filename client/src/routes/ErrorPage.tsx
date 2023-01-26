@@ -41,7 +41,7 @@ export default function ErrorPage() {
         h="100vh"
         justifyContent="center"
       >
-        <Heading>Oops!</Heading>
+        <Heading as="h1">Oops!</Heading>
         <Text>Sorry, an unexpected error has occurred.</Text>
 
         {ErrorMessage}

@@ -56,11 +56,11 @@ export default function Quiz() {
   const quizLiked = user?.likedQuizzes.some(({ id }) => id === quiz.id);
 
   return (
-    <Container maxW="container.lg" pt="40px">
+    <Container maxW="container.lg" pt="10">
       <Helmet>
         <title>Quiz | {quiz.title}</title>
       </Helmet>
-      <HStack gap="2">
+      <HStack gap="2" alignItems="start">
         <Image
           alt={quiz.title}
           objectFit="cover"
@@ -69,8 +69,8 @@ export default function Quiz() {
           display={{ base: "none", sm: "block" }}
           src={quiz.image ?? PlaceholderImage}
         />
-        <Box>
-          <Heading as="h1" fontSize={{ base: "24", sm: "28", md: "36" }}>
+        <Box pt="2">
+          <Heading as="h1" fontSize={{ base: "24", sm: "28", md: "34" }}>
             {quiz.title}
           </Heading>
           <Text>

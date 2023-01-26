@@ -16,8 +16,8 @@ export default function NotFound() {
         pt="20"
         justifyContent="center"
       >
-        <Heading>404</Heading>
-        <Text>Page Not Found</Text>
+        <Heading as="h1">404</Heading>
+        <Text as="h2">Page Not Found</Text>
         <Link as={RLink} to="/">
           Back home
         </Link>

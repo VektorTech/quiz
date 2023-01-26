@@ -32,7 +32,7 @@ const InfoPanel = ({
         <FormControl>
           <FormLabel>Quiz Name</FormLabel>
           <Input
-            {...register("name", { required: true })}
+            {...register("name", { required: true, maxLength: 60 })}
             placeholder="Eg. Star Wars Quiz - Only True Fans Score 80% Or More"
           />
           <FormHelperText>Title of this quiz</FormHelperText>

@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 
 import Quiz from "../models/quiz.js";
-import QuizResponse from "../models/quizResponse.js";
 import User from "../models/user.js";
 
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
@@ -64,7 +63,6 @@ export const deleteQuiz = catchAsyncErrors(async (req, res) => {
 
   if (quiz) {
     user.quizzes = user.quizzes.filter((_id) => quiz.id != _id);
-    await QuizResponse.deleteMany({ quiz: quiz.id });
     await user.save();
   }
   res.status(204).json({ success: true, message: "Successfully Deleted" });

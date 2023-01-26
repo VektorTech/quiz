@@ -67,7 +67,7 @@ export default function Quiz() {
           width="140px"
           height="140px"
           display={{ base: "none", sm: "block" }}
-          src={quiz.image ?? PlaceholderImage}
+          src={quiz.image || PlaceholderImage}
         />
         <Box pt="2">
           <Heading as="h1" fontSize={{ base: "24", sm: "28", md: "34" }}>

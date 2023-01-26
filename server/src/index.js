@@ -54,6 +54,12 @@ app.use("/api/quizzes", quizRouter);
 app.use("/api/responses", quizResponseRouter);
 app.use("/api/users", userRouter);
 
+app.all("*", (req, res, next) => {
+  const err = new Error(`${req.originalUrl} Not Found!`);
+  err.status = 404;
+  next(err);
+});
+
 app.use(errorHandler);
 
 if (process.env.NODE_ENV != "test") {

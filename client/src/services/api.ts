@@ -76,7 +76,7 @@ const baseAPI = createApi({
 
         Object.entries(updatedSchema).forEach(([key, value]) => {
           if (value instanceof FileList) {
-            formData.append(key, value[0]);
+            formData.append(key, value[0] ?? "");
           } else if (typeof value == "object") {
             formData.append(key, JSON.stringify(value));
           } else if (value) {
@@ -110,7 +110,7 @@ const baseAPI = createApi({
 
         Object.entries(field).forEach(([key, value]) => {
           if (value instanceof FileList) {
-            formData.append(key, value[0]);
+            formData.append(key, value[0] ?? "");
           } else if (typeof value == "object") {
             formData.append(key, JSON.stringify(value));
           } else if (value) {

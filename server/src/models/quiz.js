@@ -1,5 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 import validator from "validator";
+import QuizResponse from "./quizResponse.js";
 
 import { CATEGORIES, QUIZ_STATUSES } from "../utils/constants.js";
 import { nanoid } from "nanoid";
@@ -21,7 +22,10 @@ const QuizSchema = new Schema(
     },
     image: {
       type: String,
-      validate: [validator.isURL, "Image must point to a valid URL"],
+      validate: [
+        (url, options) => !url || validator.isURL(url, options),
+        "Image must point to a valid URL",
+      ],
     },
     surveySchema: {
       type: Object,
@@ -65,5 +69,15 @@ QuizSchema.pre("save", function (next) {
   }
   next();
 });
+
+QuizSchema.pre(
+  "findOneAndDelete",
+  { document: false, query: true },
+  async function (next) {
+    const doc = await this.model.findOne(this.getFilter());
+    await QuizResponse.deleteMany({ quiz: doc._id });
+    next();
+  }
+);
 
 export default model("Quiz", QuizSchema);

@@ -98,7 +98,7 @@ export default function Profile({ user }: { user: UserType }) {
                     <Link as={RLink} to={`/${slug}`}>
                       <HStack>
                         <Image
-                          src={image ?? PlaceholderImage}
+                          src={image || PlaceholderImage}
                           width="45px"
                           height="45px"
                           objectFit="cover"

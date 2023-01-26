@@ -30,12 +30,15 @@ export const toBase62 = (data: number | string) => {
 
 export function verifyFBQError(
   error: unknown
-): error is FetchBaseQueryError & { error?: string } {
+): error is FetchBaseQueryError & {
+  error?: string;
+  data: { message: string };
+} {
   return (
     typeof error == "object" &&
     error != null &&
     "status" in error &&
-    "error" in error
+    ("error" in error || "data" in error)
   );
 }
 

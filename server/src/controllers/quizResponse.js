@@ -9,7 +9,7 @@ export const addQuizResponse = catchAsyncErrors(async (req, res) => {
   if (quiz && quiz.status == "ACTIVE") {
     const quizResponse = new QuizResponse({
       quiz: quiz.id,
-      answers,
+      answers: JSON.stringify(answers),
       meta,
     });
     await quizResponse.save();
@@ -24,7 +24,9 @@ export const getQuizResponseById = catchAsyncErrors(async (req, res) => {
 
   if (quiz) {
     const responses = await QuizResponse.find({ quiz: quiz.id });
-    return res.json({ data: responses });
+    return res.json({
+      data: { ...responses, answers: JSON.parse(responses.answers) },
+    });
   }
   res.status(404).json({ success: false, message: "Quiz Not Found" });
 });

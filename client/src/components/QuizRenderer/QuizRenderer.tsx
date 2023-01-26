@@ -56,7 +56,7 @@ export default function QuizRenderer({
       const responses = quizSchema.questions.reduce<Record<string, string>>(
         (obj, current) => {
           obj[current.question] = formData[current.id];
-          const correct = Number(formData[current.id] === current.answer);
+          const correct = !!current.answer ? Number(formData[current.id] === current.answer) : 1;
           score += correct;
           if (!correct) {
             corrections.push({

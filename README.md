@@ -26,7 +26,10 @@ This is a personal project to further aid my learning about the react ecosystem.
 - [ ] Prompt user before navigating away from quiz creator
 - [ ] Assign quiz tags
 - [x] Upload quiz image thumbnail feature
+- [ ] Integrate rich text editor
+- [ ] Email users notifications
 - [ ] Ability to edit profile
+- [ ] Award users with badges for various accomplishments
 - [-] Toast notifications & indicators
 
 ## Tech Used

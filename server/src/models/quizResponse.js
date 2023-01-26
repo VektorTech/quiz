@@ -4,8 +4,7 @@ const QuizResponseSchema = new Schema(
   {
     quiz: { type: Types.ObjectId, ref: "Quiz", required: true },
     answers: {
-      type: Map,
-      of: String,
+      type: String,
       required: [true, "No answers provided in response"],
     },
     meta: {

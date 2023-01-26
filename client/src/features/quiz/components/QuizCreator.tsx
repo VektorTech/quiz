@@ -63,7 +63,7 @@ export default forwardRef<
       if (verifyFBQError(error))
         toast({
           title: "Something went wrong.",
-          description: error.error?.toString(),
+          description: error.error?.toString() || error.data?.message,
           status: "error",
           duration: 3000,
         });

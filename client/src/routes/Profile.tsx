@@ -110,7 +110,11 @@ export default function Profile({ user }: { user: UserType }) {
                     </Link>
                   </Td>
                   <Td>
-                    <Link as={RLink} to={`/dashboard/${id}`}>
+                    <Link
+                      whiteSpace="nowrap"
+                      as={RLink}
+                      to={`/dashboard/${id}`}
+                    >
                       📈 View Stats
                     </Link>
                   </Td>

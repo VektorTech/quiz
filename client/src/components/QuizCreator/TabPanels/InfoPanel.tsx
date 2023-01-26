@@ -32,7 +32,7 @@ const InfoPanel = ({
         <FormControl>
           <FormLabel>Quiz Name</FormLabel>
           <Input
-            {...register("name")}
+            {...register("name", { required: true })}
             placeholder="Eg. Star Wars Quiz - Only True Fans Score 80% Or More"
           />
           <FormHelperText>Title of this quiz</FormHelperText>
@@ -41,7 +41,7 @@ const InfoPanel = ({
         <FormControl>
           <FormLabel>Description</FormLabel>
           <Textarea
-            {...register("description")}
+            {...register("description", { required: true, minLength: 30 })}
             maxLength={1000}
             placeholder="About Quiz (at least 30 characters)"
           />
@@ -68,7 +68,11 @@ const InfoPanel = ({
 
         <FormControl>
           <FormLabel>Primary Category</FormLabel>
-          <Select {...register("category")} placeholder="Select Category">
+          <Select
+            {...register("category", { value: "misc" })}
+            placeholder="Select Category"
+            textTransform="capitalize"
+          >
             {CATEGORIES.map((category) => (
               <option key={"option:" + category} value={category}>
                 {category}

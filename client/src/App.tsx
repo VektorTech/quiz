@@ -35,7 +35,7 @@ export const BrowserRouter = createBrowserRouter(
         />
       </Route>
       <Route
-        path="dashboard"
+        path="dashboard/:quizID"
         element={<ProtectedRoute component={Dashboard} />}
       />
       <Route

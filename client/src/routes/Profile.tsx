@@ -80,6 +80,7 @@ export default function Profile({ user }: { user: UserType }) {
                 <Checkbox />
               </Th>
               <Th>Title</Th>
+              <Th></Th>
               <Th>Status</Th>
               <Th>Category</Th>
               <Th>Likes</Th>
@@ -93,7 +94,7 @@ export default function Profile({ user }: { user: UserType }) {
                   <Td>
                     <Checkbox />
                   </Td>
-                  <Td title={title} minW="200px">
+                  <Td title={title} minW="150px">
                     <Link as={RLink} to={`/${slug}`}>
                       <HStack>
                         <Image
@@ -106,6 +107,11 @@ export default function Profile({ user }: { user: UserType }) {
                         />
                         <Text fontWeight="bold">{title}</Text>
                       </HStack>
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link as={RLink} to={`/dashboard/${id}`}>
+                      📈 View Stats
                     </Link>
                   </Td>
                   <Td>

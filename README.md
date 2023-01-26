@@ -30,7 +30,7 @@ This is a personal project to further aid my learning about the react ecosystem.
 - [ ] Email users notifications
 - [ ] Ability to edit profile
 - [ ] Award users with badges for various accomplishments
-- [-] Toast notifications & indicators
+- [ ] Toast notifications & indicators
 
 ## Tech Used
 ### Client

@@ -66,7 +66,7 @@ export default function AuthForm() {
             </Button>
           </Center>
 
-          <HStack mt="3" mb="3">
+          <HStack my="3">
             <Divider />
             <Text style={{ fontVariant: "small-caps" }} pl="1" pr="1">
               or

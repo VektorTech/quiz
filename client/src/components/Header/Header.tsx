@@ -76,8 +76,8 @@ const Header = () => {
               as={RLink}
               leftIcon={<CreateIcon />}
               to="/create"
-              marginLeft="auto"
-              marginRight="5"
+              ml="auto"
+              mr="5"
               colorScheme="brand"
               display={{ base: "none", md: "inline-flex" }}
             >

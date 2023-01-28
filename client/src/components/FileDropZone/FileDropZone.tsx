@@ -134,7 +134,7 @@ export default function FileDropZone({
           </VStack>
         ) : (
           <Text as="span" pointerEvents="none">
-            <strong>Choose an image</strong> or drag it here.
+            <strong>Choose an image</strong><wbr/> or drag it here.
           </Text>
         )}
       </Button>

@@ -137,7 +137,7 @@ export default function Quiz() {
 
       <Text mt="10px">{quiz.description}</Text>
 
-      <Divider mt="20px" mb="20px" />
+      <Divider my="20px" />
 
       <QuizRenderer
         quizSchema={surveySchema}

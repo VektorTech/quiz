@@ -56,15 +56,10 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ control }) => {
     <TabPanel>
       <Flex
         rowGap="1"
-        flexDirection={{ base: "column", sm: "row" }}
-        justifyContent="space-between"
+        flexDirection="row"
+        justifyContent="end"
         className="actions-bar"
       >
-        <Box>
-          {/* <Button leftIcon={<DownloadIcon transform="rotate(180deg)" />}>
-			  Import Schema
-			</Button> */}
-        </Box>
         <HStack gap="1">
           <Button
             leftIcon={<DeleteIcon />}
@@ -98,7 +93,7 @@ const QuestionPanel: FC<QuestionPanelProps> = ({ control }) => {
         </HStack>
       </Flex>
 
-      <Flex pt="5" gap="5">
+      <Flex pt="5" gap="5" minH="200">
         <VStack flexBasis="32px" className="toolbar">
           <Tooltip label="Add Radiogroup">
             <IconButton

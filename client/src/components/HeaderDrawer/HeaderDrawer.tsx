@@ -40,7 +40,7 @@ import { openModal } from "@/features/ui/uiSlice";
 const HeaderDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading } = useGetAuthUserQuery();
-  const toggleBtn = useRef(null);
+  const toggleBtn = useRef<HTMLButtonElement>(null);
 
   const location = useLocation();
   const dispatch = useAppDispatch();

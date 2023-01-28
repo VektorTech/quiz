@@ -8,6 +8,7 @@ import {
   TabList,
   TabPanels,
   useToast,
+  HStack,
 } from "@chakra-ui/react";
 import { SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -79,7 +80,7 @@ export default forwardRef<
   return (
     <>
       <Container maxW="container.lg">
-        <Heading textAlign="center" mb="3" mt="3">
+        <Heading textAlign="center" my="3">
           {quizSchema?.id ? "Update" : "Create"} Quiz
         </Heading>
       </Container>
@@ -89,22 +90,34 @@ export default forwardRef<
           <TabList>
             <Tab>Info</Tab>
             <Tab>Questions</Tab>
-            <Button
-              leftIcon={<SaveIcon />}
-              colorScheme="green"
-              height="8"
-              lineHeight="8"
-              ml="auto"
-              onClick={saveHandler}
-            >
-              Save
-            </Button>
           </TabList>
 
           <TabPanels>
             <InfoPanel register={register} />
             <QuestionPanel control={control} />
           </TabPanels>
+
+          <HStack pr="4">
+            <Button
+              variant="outline"
+              height="8"
+              lineHeight="8"
+              ml="auto"
+              mr="1"
+              onClick={() => navigate("..")}
+            >
+              Cancel
+            </Button>
+            <Button
+              leftIcon={<SaveIcon />}
+              colorScheme="green"
+              height="8"
+              lineHeight="8"
+              onClick={saveHandler}
+            >
+              Save
+            </Button>
+          </HStack>
         </Tabs>
       </Container>
     </>

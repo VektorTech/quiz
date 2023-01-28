@@ -103,8 +103,7 @@ const DraggableDataList = <T extends unknown>({
         <Flex
           key={keyExtractor(item)}
           ref={(ref) => ref && (listItemNodes.current[i] = ref)}
-          pb="3px"
-          pt="3px"
+          py="3px"
           bgColor="white"
           position="relative"
         >

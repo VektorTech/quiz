@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import { HelmetProvider } from "react-helmet-async";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
 import "./index.css";
 
@@ -10,6 +11,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./app/store";
 import theme from "./theme";
+
+if (process.env.NODE_ENV === "production") disableReactDevTools();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

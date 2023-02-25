@@ -8,6 +8,6 @@ export const openIDOptions = {
   userInfoURL: `${process.env.AUTH0_ISSUER_BASE_URL}/userinfo`,
   clientID: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
-  callbackURL: "/api/auth/redirect",
+  callbackURL: `${process.env.AUTH0_BASE_URL}/api/auth/redirect`,
   scope: ["profile", "email"],
 };

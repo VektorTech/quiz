@@ -47,11 +47,9 @@ app.use(
     saveUninitialized: false,
     store: sessionStore,
     cookie: {
-      secure: true,
-      sameSite: "none",
+      sameSite: app.get('env') === 'production' ? "none" : false,
       maxAge: 24 * 60 * 60 * 1000,
       secure: app.get('env') === 'production',
-      httpOnly: true
     }
   })
 );

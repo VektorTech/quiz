@@ -45,12 +45,6 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    cookie: {
-      sameSite: "none",
-      secure: true,
-      domain: process.env.CLIENT_ADDR,
-      httpOnly: true
-    }
   })
 );
 app.use(passport.authenticate("session"));

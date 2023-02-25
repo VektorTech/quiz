@@ -21,8 +21,8 @@ quizRouter
   .get("/:id", getUserQuizzes)
   .get("/slug/:slug", getQuizBySlug)
   .delete("/:id", isAuth, deleteQuiz)
-  .patch("/:id", isAuth, upload.single("file"), updateQuiz)
-  .post("/", isAuth, upload.single("file"), addQuiz)
+  .patch("/:id", isAuth, upload.single("image"), updateQuiz)
+  .post("/", isAuth, upload.single("image"), addQuiz)
   .post("/:id/likes", isAuth, likeQuiz);
 
 export default quizRouter;

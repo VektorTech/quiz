@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import DatauriParser from 'datauri/parser';
+import DataUri from 'datauri';
 import path from 'path';
 
 import Quiz from "../models/quiz.js";
@@ -85,7 +85,7 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
 
   const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const { content } = new DatauriParser().format(path.extname(_image.originalname).toString(), _image.buffer);
+    const { content } = new DataUri().format(path.extname(_image.originalname).toString(), _image.buffer);
     const uploadResponse = await cloudinary.uploader.upload(content, {
       filename_override: _image.originalname,
     });
@@ -130,7 +130,7 @@ export const addQuiz = catchAsyncErrors(async (req, res) => {
 
   const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const { content } = new DatauriParser().format(path.extname(_image.originalname).toString(), _image.buffer);
+    const { content } = new DataUri().format(path.extname(_image.originalname).toString(), _image.buffer);
     const uploadResponse = await cloudinary.uploader.upload(content, {
       filename_override: _image.originalname,
     });

@@ -83,7 +83,7 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
 
   const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const uploadResponse = await cloudinary.uploader.upload(_image.buffer, {
+    const uploadResponse = await cloudinary.uploader.upload(_image.buffer.toString('base64'), {
       filename_override: _image.originalname,
     });
     props.image = uploadResponse.secure_url;
@@ -127,7 +127,7 @@ export const addQuiz = catchAsyncErrors(async (req, res) => {
 
   const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const uploadResponse = await cloudinary.uploader.upload(_image.buffer, {
+    const uploadResponse = await cloudinary.uploader.upload(_image.buffer.toString('base64'), {
       filename_override: _image.originalname,
     });
     image = uploadResponse.secure_url;

@@ -85,7 +85,7 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
 
   const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const content = new DatauriParser().format(path.extname(_image.originalname).toString(), _image.buffer);
+    const { content } = new DatauriParser().format(path.extname(_image.originalname).toString(), _image.buffer);
     const uploadResponse = await cloudinary.uploader.upload(content, {
       filename_override: _image.originalname,
     });
@@ -130,7 +130,7 @@ export const addQuiz = catchAsyncErrors(async (req, res) => {
 
   const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const content = new DatauriParser().format(path.extname(_image.originalname).toString(), _image.buffer);
+    const { content } = new DatauriParser().format(path.extname(_image.originalname).toString(), _image.buffer);
     const uploadResponse = await cloudinary.uploader.upload(content, {
       filename_override: _image.originalname,
     });

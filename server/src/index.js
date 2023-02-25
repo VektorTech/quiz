@@ -47,7 +47,9 @@ app.use(
     store: sessionStore,
     cookie: {
       sameSite: "none",
-      secure: true
+      secure: true,
+      domain: process.env.CLIENT_ADDR,
+      httpOnly: true
     }
   })
 );

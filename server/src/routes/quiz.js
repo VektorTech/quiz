@@ -14,15 +14,15 @@ import { isAuth } from "../middlewares/isAuth.js";
 
 const quizRouter = Router();
 
-const upload = multer({ dest: "/uploads" });
+const upload = multer({ storage: multer.memoryStorage() });
 quizRouter
   .get("/", getQuizzes)
   .get("/user", isAuth, getAuthUserQuizzes)
   .get("/:id", getUserQuizzes)
   .get("/slug/:slug", getQuizBySlug)
   .delete("/:id", isAuth, deleteQuiz)
-  .patch("/:id", isAuth, upload.any(), updateQuiz)
-  .post("/", isAuth, upload.any(), addQuiz)
+  .patch("/:id", isAuth, upload.single("file"), updateQuiz)
+  .post("/", isAuth, upload.single("file"), addQuiz)
   .post("/:id/likes", isAuth, likeQuiz);
 
 export default quizRouter;

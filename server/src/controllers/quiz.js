@@ -81,9 +81,9 @@ export const updateQuiz = catchAsyncErrors(async (req, res) => {
     time,
   };
 
-  const _image = req.files[0];
+  const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const uploadResponse = await cloudinary.uploader.upload(_image.path, {
+    const uploadResponse = await cloudinary.uploader.upload(_image.buffer, {
       filename_override: _image.originalname,
     });
     props.image = uploadResponse.secure_url;
@@ -125,9 +125,9 @@ export const addQuiz = catchAsyncErrors(async (req, res) => {
   let { title, description, surveySchema, category, image, status, time } =
     req.body;
 
-  const _image = req.files[0];
+  const _image = req.file;
   if (_image && _image.mimetype.startsWith("image/")) {
-    const uploadResponse = await cloudinary.uploader.upload(_image.path, {
+    const uploadResponse = await cloudinary.uploader.upload(_image.buffer, {
       filename_override: _image.originalname,
     });
     image = uploadResponse.secure_url;

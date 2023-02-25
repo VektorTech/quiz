@@ -21,7 +21,7 @@ authRouter
     "/redirect",
     passport.authenticate("openidconnect", {
       successRedirect: `${process.env.CLIENT_ADDR}/me`,
-      failureRedirect: "/api/auth/login",
+      failureRedirect: `${process.env.CLIENT_ADDR}/me`,
       failureMessage: true,
     })
   )

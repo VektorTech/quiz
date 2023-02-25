@@ -34,6 +34,7 @@ export const sessionStore = MongoStore.create({
 
 const app = express();
 
+app.set('trust proxy', 1);
 app.use(cors({ origin: [process.env.CLIENT_ADDR], credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -46,8 +47,11 @@ app.use(
     saveUninitialized: false,
     store: sessionStore,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
-      sameSite: false,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: app.get('env') === 'production',
+      httpOnly: true
     }
   })
 );

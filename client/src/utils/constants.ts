@@ -30,3 +30,8 @@ export const CATEGORIES = Object.freeze([
   "tech",
   "television",
 ] as const);
+
+export const SERVER_ADDRESS =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_SERVER_ADDR
+    : process.env.REACT_APP_SERVER_ADDR_DEV;

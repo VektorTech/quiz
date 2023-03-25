@@ -27,6 +27,7 @@ import CreateIcon from "@/components/Icons/CreateIcon";
 
 import { openModal } from "@/features/ui/uiSlice";
 import { useAppDispatch } from "@/app/hooks";
+import { SERVER_ADDRESS } from "@/utils/constants";
 
 const HeaderElement = styled.header`
   height: 70px;
@@ -120,7 +121,7 @@ const Header = () => {
                         </MenuItem>
                         <MenuItem
                           onClick={() =>
-                            (window.location.href = `${process.env.REACT_APP_SERVER_ADDR}/api/auth/logout`)
+                            (window.location.href = `${SERVER_ADDRESS}/api/auth/logout`)
                           }
                         >
                           Logout

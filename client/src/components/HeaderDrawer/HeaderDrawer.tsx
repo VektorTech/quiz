@@ -31,7 +31,7 @@ import { Link as RLink, useLocation } from "react-router-dom";
 
 import { SearchBox } from "@/components/SearchBox";
 
-import { CATEGORIES } from "@/utils/constants";
+import { CATEGORIES, SERVER_ADDRESS } from "@/utils/constants";
 import { useGetAuthUserQuery } from "@/services/api";
 import CreateIcon from "@/components/Icons/CreateIcon";
 import { useAppDispatch } from "@/app/hooks";
@@ -134,7 +134,7 @@ const HeaderDrawer = () => {
                         <ListItem>
                           <Link
                             onClick={() =>
-                              (window.location.href = `${process.env.REACT_APP_SERVER_ADDR}/api/auth/logout`)
+                              (window.location.href = `${SERVER_ADDRESS}/api/auth/logout`)
                             }
                           >
                             Logout

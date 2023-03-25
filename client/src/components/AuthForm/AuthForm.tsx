@@ -26,6 +26,7 @@ import GoogleIcon from "@/components/Icons/GoogleIcon";
 import { closeModal, selectModalState } from "@/features/ui/uiSlice";
 import { useAppSelector, useAppDispatch } from "@/app/hooks";
 import { useRopcLoginMutation } from "@/services/api";
+import { SERVER_ADDRESS } from "@/utils/constants";
 
 export default function AuthForm() {
   const {
@@ -58,7 +59,7 @@ export default function AuthForm() {
             <Button
               width="100%"
               onClick={() => {
-                window.location.href = `${process.env.REACT_APP_SERVER_ADDR}/api/auth/login/google`;
+                window.location.href = `${SERVER_ADDRESS}/api/auth/login/google`;
               }}
               leftIcon={<GoogleIcon />}
             >
@@ -129,12 +130,7 @@ export default function AuthForm() {
                 </FormErrorMessage>
               </FormControl>
 
-              <Button
-                isLoading={isSubmitting}
-                width="100%"
-                type="submit"
-                colorScheme="brand"
-              >
+              <Button isLoading={isSubmitting} width="100%" type="submit">
                 Log In
               </Button>
 
@@ -145,7 +141,7 @@ export default function AuthForm() {
                 color="gray.600"
                 type="button"
                 onClick={() => {
-                  window.location.href = `${process.env.REACT_APP_SERVER_ADDR}/api/auth/login`;
+                  window.location.href = `${SERVER_ADDRESS}/api/auth/login`;
                 }}
               >
                 Create An Account

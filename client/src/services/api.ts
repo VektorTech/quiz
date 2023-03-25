@@ -1,6 +1,6 @@
 import { RootState } from "@/app/store";
 import { QuizSchemaType } from "@/features/quiz/quizSlice";
-import { CATEGORIES } from "@/utils/constants";
+import { CATEGORIES, SERVER_ADDRESS } from "@/utils/constants";
 import {
   createEntityAdapter,
   createSelector,
@@ -18,7 +18,7 @@ const baseAPI = createApi({
     baseUrl: `${SERVER_ADDRESS}/api/`,
     credentials: "include",
   }),
-  tagTypes: ["User", "Quiz", "ViewUser"],
+  tagTypes: ["User", "Quiz", "ViewUser", "ResponsesCount"],
   endpoints: (builder) => ({
     getQuizzes: builder.query<
       QuizListResponse,
@@ -169,10 +169,12 @@ const baseAPI = createApi({
           meta,
         },
       }),
+      invalidatesTags: ["ResponsesCount"]
     }),
 
     getQuizResponseCountById: builder.query<{ count: number }, EntityId>({
       query: (quizId) => `responses/${quizId}/count`,
+      providesTags: ["ResponsesCount"]
     }),
   }),
 });

@@ -15,6 +15,7 @@ import {
   Link,
   Image,
   VStack,
+  AspectRatio,
 } from "@chakra-ui/react";
 
 import {
@@ -144,7 +145,9 @@ const Likes = ({ quiz }: { quiz: QuizType }) => {
         to={`/${quiz.id}`}
       >
         <HStack>
-          <Image w="16" src={quiz.image} />
+          <AspectRatio ratio={1} w="32">
+            <Image src={quiz.image} alt={`${quiz.title} poster`} />
+          </AspectRatio>
           <VStack overflow="hidden" alignItems="start">
             <Text
               fontWeight="bold"

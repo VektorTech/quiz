@@ -25,6 +25,9 @@ import {
   Text,
   useDisclosure,
   VStack,
+  HStack,
+  Switch,
+  useColorMode,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Link as RLink, useLocation } from "react-router-dom";
@@ -41,6 +44,7 @@ const HeaderDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, isLoading } = useGetAuthUserQuery();
   const toggleBtn = useRef<HTMLButtonElement>(null);
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -93,6 +97,13 @@ const HeaderDrawer = () => {
                 <Text>{data?.avatar.username}</Text>
               </RLink>
             )}
+            <HStack>
+              <Switch
+                isChecked={colorMode === "dark"}
+                onChange={toggleColorMode}
+              />
+              <Text fontSize="sm">Dark</Text>
+            </HStack>
           </DrawerHeader>
 
           <DrawerBody>
@@ -102,7 +113,6 @@ const HeaderDrawer = () => {
                 leftIcon={<CreateIcon />}
                 as={RLink}
                 to={"/create"}
-                colorScheme="brand"
               >
                 Create A Quiz
               </Button>

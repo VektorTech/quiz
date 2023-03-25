@@ -7,6 +7,7 @@ import {
   Center,
   CircularProgress,
   Container,
+  HStack,
   Image,
   Link,
   Menu,
@@ -14,6 +15,9 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
+  Switch,
+  Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Link as RLink, useNavigate } from "react-router-dom";
 
@@ -37,6 +41,7 @@ const Header = () => {
   const { data, isLoading } = useGetAuthUserQuery();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <HeaderElement>
@@ -48,7 +53,6 @@ const Header = () => {
         zIndex="10"
         borderBottom="1px solid"
         borderColor="gray.300"
-        background="#fff"
       >
         <Container maxW="container.lg">
           <Box
@@ -73,13 +77,22 @@ const Header = () => {
               </Link>
             </Center>
 
+            <HStack display={{ base: "none", md: "inline-flex" }}>
+              <Switch
+                isChecked={colorMode === "dark"}
+                onChange={toggleColorMode}
+              />
+              <Text fontWeight="medium" fontSize="sm">
+                Dark
+              </Text>
+            </HStack>
+
             <Button
               as={RLink}
               leftIcon={<CreateIcon />}
               to="/create"
               ml="auto"
               mr="5"
-              colorScheme="brand"
               display={{ base: "none", md: "inline-flex" }}
             >
               Create A Quiz
@@ -105,7 +118,6 @@ const Header = () => {
                       src={data?.avatar.picture_url}
                       margin="auto 0"
                       size="sm"
-                      bg="brand.500"
                       referrerPolicy="no-referrer"
                     >
                       {data?.isAuth ? (

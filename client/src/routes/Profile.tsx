@@ -21,7 +21,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Heading,
 } from "@chakra-ui/react";
 
 import {

@@ -18,6 +18,7 @@ import {
   Switch,
   Text,
   useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Link as RLink, useNavigate } from "react-router-dom";
 
@@ -42,6 +43,8 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
+  const headerBg = useColorModeValue("white", "gray.800");
+  const headerBorder = useColorModeValue("gray.300", "gray.700");
 
   return (
     <HeaderElement>
@@ -52,7 +55,8 @@ const Header = () => {
         position="fixed"
         zIndex="10"
         borderBottom="1px solid"
-        borderColor="gray.300"
+        borderColor={headerBorder}
+        bgColor={headerBg}
       >
         <Container maxW="container.lg">
           <Box

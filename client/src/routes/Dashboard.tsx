@@ -69,9 +69,11 @@ export default function Dashboard({ user }: { user: UserType }) {
         .attr("width", (q) => (q[1] / responses.data.length) * 250)
         .attr("height", 7)
         .attr("y", (d, i) => 25 + i * 40);
+
       innerGroups
         .append("rect")
         .attr("stroke", colorMode === "dark" ? "#ddd" : "#333")
+        .attr("stroke-width", 0.5)
         .attr("fill", "none")
         .attr("width", 250)
         .attr("height", 7)

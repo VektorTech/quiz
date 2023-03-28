@@ -176,6 +176,10 @@ const baseAPI = createApi({
       query: (quizId) => `responses/${quizId}/count`,
       providesTags: ["ResponsesCount"]
     }),
+
+    getQuizResponsesById: builder.query<{ data: QuizResponsesResponse[] }, EntityId>({
+      query: (quizId) => `responses/${quizId}`
+    })
   }),
 });
 
@@ -189,6 +193,7 @@ export const {
   useGetUserByIdQuery,
   useFindQuizBySlugQuery,
   useGetQuizResponseCountByIdQuery,
+  useGetQuizResponsesByIdQuery,
 
   useAddQuizMutation,
   useAddQuizResponseMutation,
@@ -217,6 +222,15 @@ export const {
 interface QuizUserResponse {
   quizID: string;
   answers: object;
+  meta: object;
+}
+
+interface QuizResponsesResponse {
+  id: string;
+  quiz: string;
+  answers: object;
+  createdAt: string;
+  updatedAt: string;
   meta: object;
 }
 

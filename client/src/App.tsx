@@ -20,6 +20,7 @@ import { useGetAuthQuizzesQuery } from "./services/api";
 import quizzesLoader from "./loaders/quizzesLoader";
 import Profile from "./routes/Profile";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import responsesLoader from "./loaders/responsesLoader";
 
 export const BrowserRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ export const BrowserRouter = createBrowserRouter(
       </Route>
       <Route
         path="dashboard/:quizID"
+        loader={responsesLoader}
         element={<ProtectedRoute component={Dashboard} />}
       />
       <Route

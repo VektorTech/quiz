@@ -1,6 +1,7 @@
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import Quiz from "../models/quiz.js";
 import QuizResponse from "../models/quizResponse.js";
+import User from "../models/user.js";
 
 export const addQuizResponse = catchAsyncErrors(async (req, res) => {
   const { quiz: quizID, answers, meta = {} } = req.body;
@@ -19,15 +20,21 @@ export const addQuizResponse = catchAsyncErrors(async (req, res) => {
   res.status(404).json({ success: false, message: "Quiz Not Found" });
 });
 
-export const getQuizResponseById = catchAsyncErrors(async (req, res) => {
+export const getQuizResponsesById = catchAsyncErrors(async (req, res) => {
   const quiz = await Quiz.findById(req.params.quizID);
+  const user = await User.findById(req.user.id);
 
-  if (quiz) {
+  if (quiz && user.quizzes.includes(quiz.id)) {
     const responses = await QuizResponse.find({ quiz: quiz.id });
+
     return res.json({
-      data: { ...responses, answers: JSON.parse(responses.answers) },
+      data: responses.map(response => ({
+        ...response.toJSON(),
+        answers: JSON.parse(response.answers)
+      })),
     });
   }
+
   res.status(404).json({ success: false, message: "Quiz Not Found" });
 });
 

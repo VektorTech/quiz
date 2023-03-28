@@ -100,6 +100,5 @@ export default extendTheme(
   },
   withDefaultColorScheme({
     colorScheme: "brand",
-    components: ["Tabs", "Table"],
-  })
+  }),
 );

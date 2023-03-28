@@ -1,15 +1,16 @@
 import { Router } from "express";
 import {
   addQuizResponse,
-  getQuizResponseById,
+  getQuizResponsesById,
   getQuizResponseCountById,
 } from "../controllers/quizResponse.js";
+import { isAuth } from "../middlewares/isAuth.js";
 
 const quizResponseRouter = Router();
 
 quizResponseRouter
   .post("/", addQuizResponse)
-  .get("/:quizID", getQuizResponseById)
+  .get("/:quizID", isAuth, getQuizResponsesById)
   .get("/:quizID/count", getQuizResponseCountById);
 
 export default quizResponseRouter;

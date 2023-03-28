@@ -19,7 +19,7 @@ This is a personal project to further aid my learning about the react ecosystem.
 - Logged in users can follow / unfollow other users
 
 ## TODO
-- [ ] View quiz stats (graphical representations of survey results i.e. stack bar chart)
+- [x] View quiz stats (graphical representations of survey results i.e. bar chart)
 - [ ] Multi-answer questions
 - [ ] UI animations
 - [x] Timed quizzes

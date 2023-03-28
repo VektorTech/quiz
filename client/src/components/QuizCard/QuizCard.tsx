@@ -18,18 +18,15 @@ export default function QuizCard({ quiz }: { quiz: QuizType }) {
     <GridItem key={quiz.id}>
       <Link to={`/${quiz.slug}`}>
         <Card maxW="sm" float="left">
-          <Stack direction="row" justifyContent="flex-end">
-            <Badge colorScheme="brand" borderBottomRadius="0">
-              {quiz.category}
-            </Badge>
-          </Stack>
           <Image
             objectFit="cover"
             width="100%"
+            maxH="13.7rem"
             src={quiz.image || PlaceholderImage}
             alt={quiz.title}
           />
           <CardBody>
+            <Badge float="right">{quiz.category}</Badge>
             <Stack spacing="3">
               <Heading size="md">{quiz.title}</Heading>
               <Text>{quiz.description}</Text>

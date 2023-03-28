@@ -97,6 +97,12 @@ export default extendTheme(
       },
     },
     components,
+    sizes: {
+      container: {
+        lg: "860px",
+        xl: "1024"
+      }
+    }
   },
   withDefaultColorScheme({
     colorScheme: "brand",

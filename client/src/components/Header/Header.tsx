@@ -58,7 +58,7 @@ const Header = () => {
         borderColor={headerBorder}
         bgColor={headerBg}
       >
-        <Container maxW="container.lg">
+        <Container maxW="container.xl">
           <Box
             maxH="70px"
             padding="15px 0"

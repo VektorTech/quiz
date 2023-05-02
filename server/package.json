@@ -4,7 +4,8 @@
   "description": "REST server for quiz application",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/",
+    "start": "node src/",
+    "dev": "nodemon src/",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
     "test": "cross-env NODE_ENV=test mocha --require ./test/fixtures.js ./test --exit"
   },

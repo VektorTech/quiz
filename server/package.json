@@ -2,10 +2,10 @@
   "name": "quiz-server",
   "version": "1.0.0",
   "description": "REST server for quiz application",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/",
+    "start": "node index.js",
+    "dev": "nodemon",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
     "test": "cross-env NODE_ENV=test mocha --require ./test/fixtures.js ./test --exit"
   },

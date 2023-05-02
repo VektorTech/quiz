@@ -14,7 +14,6 @@ import quizResponseRouter from "./routes/quizResponse.js";
 import userRouter from "./routes/user.js";
 import errorHandler from "./middlewares/errorHandler.js";
 
-const PORT = process.env.PORT || 3001;
 const MONGODB_URL =
   process.env.NODE_ENV == "test"
     ? process.env.MONGODB_TEST_URL
@@ -67,11 +66,5 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(errorHandler);
-
-if (process.env.NODE_ENV != "test") {
-  app.listen(PORT, () => {
-    console.log(`Listening on PORT: ${PORT}`);
-  });
-}
 
 export default app;

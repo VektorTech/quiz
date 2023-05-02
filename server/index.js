@@ -1,7 +1,9 @@
-import app from "./src/index.js";
+import app, { mongooseClient } from "./src/index.js";
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
-  console.log(`Listening on PORT: ${PORT}`);
+mongooseClient.then(() => {
+  app.listen(PORT, () => {
+    console.log(`Listening on PORT: ${PORT}`);
+  });
 });

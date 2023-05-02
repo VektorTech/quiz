@@ -20,7 +20,8 @@ const MONGODB_URL =
     : process.env.MONGODB_URL;
 
 mongoose.set("strictQuery", true);
-mongoose
+
+export const mongooseClient = mongoose
   .connect(MONGODB_URL)
   .then((data) =>
     console.log(`Mongo DB is connected to server: ${data.connection.host}`)

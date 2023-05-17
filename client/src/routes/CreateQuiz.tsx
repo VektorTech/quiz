@@ -17,7 +17,7 @@ export default function CreateQuizPage({ user }: { user: UserType }) {
         <title>Create Quiz</title>
       </Helmet>
 
-      <QuizCreator id={quizID} />
+      <QuizCreator key={quizID} id={quizID} />
     </div>
   );
 }

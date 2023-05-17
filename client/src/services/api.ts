@@ -138,7 +138,7 @@ const baseAPI = createApi({
         method: "POST",
         body: credentials,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Quiz"],
     }),
 
     getAuthUser: builder.query<UserType, void>({

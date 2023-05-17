@@ -22,6 +22,7 @@ This is a personal project to further aid my learning about the react ecosystem.
 - [x] View quiz stats (graphical representations of survey results i.e. bar chart)
 - [ ] Multi-answer questions
 - [ ] UI animations
+- [ ] Optimistic UI Updates
 - [x] Timed quizzes
 - [ ] Prompt user before navigating away from quiz creator
 - [ ] Assign quiz tags

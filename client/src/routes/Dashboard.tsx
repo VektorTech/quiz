@@ -84,7 +84,7 @@ export default function Dashboard({ user }: { user: UserType }) {
   return (
     <Container maxW="container.lg">
       <Helmet>
-        <title>Response Stats for {quiz?.name}</title>
+        <title>{quiz ? `Response Stats for ${quiz.name}` : ""}</title>
       </Helmet>
 
       <Stack pt="10">

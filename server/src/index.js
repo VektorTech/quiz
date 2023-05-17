@@ -55,6 +55,14 @@ app.use(
 );
 app.use(passport.authenticate("session"));
 
+app.get("/", (req, res) => {
+  res.send(`
+    Quiz API Server Is Live
+    <br>
+    Built by Kenny Sutherland
+    <a target='_blank' href='https://github.com/VektorTech'>@VektorTech</a>
+  `);
+});
 app.use("/api/auth", authRouter);
 app.use("/api/quizzes", quizRouter);
 app.use("/api/responses", quizResponseRouter);

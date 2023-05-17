@@ -29,8 +29,8 @@ export const getQuizResponsesById = catchAsyncErrors(async (req, res) => {
 
     return res.json({
       data: responses.map(response => ({
-        ...(response?.toJSON() ?? {}),
-        answers: JSON.parse(response.answers)
+        ...response.toJSON(),
+        answers: JSON.parse(response.answers ?? {})
       })),
     });
   }

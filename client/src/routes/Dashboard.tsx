@@ -66,7 +66,7 @@ export default function Dashboard({ user }: { user: UserType }) {
       innerGroups
         .append("rect")
         .attr("fill", colorMode === "dark" ? "#ddd" : "#333")
-        .attr("width", (q) => (q[1] / responses.data.length) * 250)
+        .attr("width", (q) => (q[1] / (responses.data.length || 1)) * 250)
         .attr("height", 7)
         .attr("y", (d, i) => 25 + i * 40);
 

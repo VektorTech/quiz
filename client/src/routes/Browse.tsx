@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet-async";
 import { QuizCard } from "@/components/QuizCard";
 import { quizzesLoaderReturn } from "@/loaders/quizzesLoader";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { Container, Grid, Heading } from "@chakra-ui/react";
+import { Container, Box, Heading } from "@chakra-ui/react";
 
 const Paginate = styled(ReactPaginate)`
   display: flex;
@@ -71,15 +71,14 @@ export default function Browse() {
         {category ? `${category}` : `"${search}"`}
       </Heading>
 
-      <Grid
+      <Box
         mt="12"
-        templateColumns="repeat(auto-fit, minmax(220px, 1fr))"
-        gap="3"
+        sx={{ columnCount: [1, 2, 3], columnGap: "3" }}
       >
         {quizList.data.map((quiz) => (
           <QuizCard key={quiz.id} quiz={quiz} />
         ))}
-      </Grid>
+      </Box>
 
       <Paginate
         breakLabel="..."

@@ -7,7 +7,7 @@ import {
   Image,
   Stack,
   Text,
-  GridItem,
+  Box
 } from "@chakra-ui/react";
 
 import PlaceholderImage from "@/assets/images/quiz-img-placeholder.jpg";
@@ -15,9 +15,9 @@ import { QuizType } from "@/services/api";
 
 export default function QuizCard({ quiz }: { quiz: QuizType }) {
   return (
-    <GridItem key={quiz.id}>
-      <Link to={`/${quiz.slug}`}>
-        <Card maxW="sm" float="left">
+    <Box key={quiz.id} mb="3">
+      <Link to={`/${quiz.slug}`} style={{ display: "inline-block" }}>
+        <Card maxW="sm" float="left" sx={{ breakInside: "avoid-column" }}>
           <Image
             objectFit="cover"
             width="100%"
@@ -34,6 +34,6 @@ export default function QuizCard({ quiz }: { quiz: QuizType }) {
           </CardBody>
         </Card>
       </Link>
-    </GridItem>
+    </Box>
   );
 }

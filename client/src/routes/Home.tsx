@@ -1,4 +1,4 @@
-import { Text, Container, Grid } from "@chakra-ui/react";
+import { Text, Container, Box } from "@chakra-ui/react";
 
 import { useGetQuizzesQuery } from "@/services/api";
 import { QuizCard } from "@/components/QuizCard";
@@ -17,15 +17,14 @@ export default function Home() {
         so there's something for everyone.
       </Text>
 
-      <Grid
+      <Box
         mt="10"
-        templateColumns="repeat(auto-fit, minmax(220px, 1fr))"
-        gap="3"
-      >
+        sx={{ columnCount: [1, 2, 3], columnGap: "3" }}
+        >
         {data.data.map((quiz) => (
           <QuizCard key={quiz.id} quiz={quiz} />
         ))}
-      </Grid>
+      </Box>
     </Container>
   );
 }

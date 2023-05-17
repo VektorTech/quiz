@@ -7,7 +7,7 @@ import {
   Center,
   CircularProgress,
   Container,
-  HStack,
+  VStack,
   Image,
   Link,
   Menu,
@@ -81,15 +81,15 @@ const Header = () => {
               </Link>
             </Center>
 
-            <HStack display={{ base: "none", md: "inline-flex" }}>
+            <VStack spacing={0.5} display={{ base: "none", md: "inline-flex" }}>
+              <Text fontWeight="medium" fontSize="xs">
+                Dark Mode
+              </Text>
               <Switch
                 isChecked={colorMode === "dark"}
                 onChange={toggleColorMode}
               />
-              <Text fontWeight="medium" fontSize="sm">
-                Dark
-              </Text>
-            </HStack>
+            </VStack>
 
             <Button
               as={RLink}

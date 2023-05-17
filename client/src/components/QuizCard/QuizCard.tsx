@@ -26,7 +26,7 @@ export default function QuizCard({ quiz }: { quiz: QuizType }) {
             alt={quiz.title}
           />
           <CardBody>
-            <Badge float="right">{quiz.category}</Badge>
+            <Badge display="table" ml="auto" mb="1">{quiz.category}</Badge>
             <Stack spacing="3">
               <Heading size="md">{quiz.title}</Heading>
               <Text>{quiz.description}</Text>
